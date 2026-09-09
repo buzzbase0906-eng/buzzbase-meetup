@@ -789,6 +789,36 @@ form.entry{display:flex;flex-direction:column;gap:32px}
 .partners img{display:block;max-height:70px;width:auto;margin:14px auto 0}
 .partners .pt-link img{max-height:150px}
 
+/* ---------- スマホでの見え方の調整 ----------
+   1) 文字が乗った要素を拡大縮小すると輪郭がにじむ（＝文字のブレ）ので、
+      スマホでは拡大縮小と流れる装飾を止める。
+   2) 小さすぎる文字を読める大きさに上げる。
+   3) 指で押せる大きさを確保する。 */
+@media(max-width:899px){
+  /* 1) ヒーローのスクロール拡縮を無効化（文字のにじみの主因） */
+  [data-heroscale]{transform:none !important;will-change:auto;backface-visibility:visible}
+  .bigdrift span{transform:none !important;will-change:auto}
+  .marquee .track{animation:none}
+
+  /* 2) 小さすぎる文字 */
+  .classbox{font-size:11px;letter-spacing:.18em;line-height:1.9;padding:9px 14px}
+  .hero .presents{font-size:11px;letter-spacing:.18em}
+  .crew .ph .code{font-size:11px;letter-spacing:.16em;padding:5px 10px}
+
+  /* 3) 指で押せる大きさ */
+  footer.site ul{gap:4px}
+  footer.site ul a{padding:10px 0;align-items:center}
+  footer.site .bot a{display:inline-block;padding:8px 0}
+  .lead-n a,.lead-p a,.note a,.bio a,.cb-ja a{display:inline-block;padding:7px 0}
+  .crew-ig{padding:11px 16px}
+  .partners .pt-link{padding:6px 0}
+  .filelist a,.files a{min-height:44px}
+  .reg .sns{padding:8px 0}
+  .side a.out{padding:9px 0}
+  .legal a{display:inline-block;padding:7px 0}
+  .phototype .cap{font-size:11px;letter-spacing:.16em}
+}
+
 /* ---------- 日本語の改行 ----------
    スマホでは語句の途中で折り返さないようにし、
    PC 向けに入れた改行（.brw）は狭い画面では無効にする。 */
@@ -3137,7 +3167,7 @@ const Motion = (() => {
 
     for (const d of drifts){
       const x = d.base + (d.top - current) * d.speed;
-      d.span.style.transform = `translate3d(${x.toFixed(1)}px,0,0)`;
+      d.span.style.transform = `translate3d(${Math.round(x)}px,0,0)`;
     }
 
     // 主役ビジュアルがスクロールで少し縮む（画面内のときだけ）
@@ -3149,7 +3179,7 @@ const Motion = (() => {
 
     if (marquee && marquee.half > 0){
       const x = -((current * .28) % marquee.half);
-      marquee.el.style.transform = `translate3d(${x.toFixed(1)}px,0,0)`;
+      marquee.el.style.transform = `translate3d(${Math.round(x)}px,0,0)`;
     }
   }
 
