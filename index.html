@@ -3523,13 +3523,19 @@ function startOpening(){
   op.addEventListener("click", end);
   document.addEventListener("keydown", onKey);
 
-  // 画面を一度描いてから走らせる。初期化の重さで冒頭がカクつかないように。
-  requestAnimationFrame(() => requestAnimationFrame(() => {
+  // どんな場合でも必ず消えるようにする最終手段（裏のタブ・描画停止など）
+  const hardStop = setTimeout(end, 7000);
+
+  let started = false;
+  const start = () => {
+    if (started || closed) return; started = true;
     op.classList.add("run");
-    const t = setTimeout(end, 2400);
-    // 万一アニメーションが動かない環境でも、必ず消えるようにする
-    setTimeout(() => { clearTimeout(t); end(); }, 5200);
-  }));
+    setTimeout(() => { clearTimeout(hardStop); end(); }, 2400);
+  };
+  // 画面を一度描いてから走らせる（初期化の重さで冒頭がカクつかないように）。
+  // 裏のタブでは requestAnimationFrame が動かないので、タイマーでも必ず開始する。
+  requestAnimationFrame(() => requestAnimationFrame(start));
+  setTimeout(start, 400);
 }
 
 render();
