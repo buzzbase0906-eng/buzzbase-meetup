@@ -323,11 +323,16 @@ section:not(.hero) .wrap{position:relative;z-index:1}
 .hero .cta .line:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
 .hero .charslot{position:absolute;right:2%;bottom:0;height:88%;width:auto;pointer-events:none;z-index:3}
 .hero .charslot img{display:block;height:100%;width:auto;filter:drop-shadow(0 26px 50px rgba(51,51,62,.3))}
-/* スマホでは本文にかからないよう、右下に小さめで置く */
-@media(max-width:899px){.hero .charslot{right:-5%;bottom:0;height:34%}
-  /* キャラクターとボタンが重ならないよう、ボタンは縦に積む */
-  .hero .cta{max-width:60%}}
-@media(max-width:520px){.hero .charslot{right:-7%;height:30%}}
+/* スマホでは本文にかからないよう、右下に置く。
+   right を負の値にすると画面の外にはみ出してキャラが見切れるので、
+   かならず 0 以上にしてください。 */
+@media(max-width:899px){.hero .charslot{right:6px;bottom:0;height:40%}
+  /* 日付とボタンがキャラクターの下に潜り込まないよう、幅を止める */
+  .hero .cta{max-width:62%}
+  .hero .cta a{white-space:nowrap}
+  .hero .copy .sub{max-width:62%}}
+@media(max-width:520px){.hero .charslot{right:4px;height:36%}}
+@media(max-width:360px){.hero .charslot{right:2px;height:30%}}
 
 /* ---------- news band ---------- */
 .newsband{position:relative;max-width:1320px;margin:0 auto;padding:0 20px}
@@ -1023,8 +1028,10 @@ p,li,dd{text-wrap:pretty}
 @media(max-width:899px){
   /* 狭い画面では絵を下、文字を上に分ける */
   .charband{min-height:0;display:block}
-  .cb-bg{position:relative;inset:auto;height:270px}
-  .cb-bg img{object-position:58% 34%}
+  /* 高さを固定すると横が切られてキャラクターが見切れるので、
+     画像そのものの縦横比（1600:893）に合わせる */
+  .cb-bg{position:relative;inset:auto;height:auto;aspect-ratio:1600/893}
+  .cb-bg img{height:auto;object-fit:contain;object-position:center}
   .cb-bg::after{background:linear-gradient(#0B0B0E 0%,rgba(11,11,14,.15) 34%,rgba(11,11,14,.1) 70%,#0B0B0E 100%)}
   .cb-copy{padding:34px 0 52px;max-width:none}}
 @media(min-width:900px){.charband{min-height:520px}}
@@ -1999,8 +2006,10 @@ const SITE = {
 };
 const EVENT = {
   date:"2026.09.25 FRI", time:"21:00 – 23:00",
-  venue:"7CLOVER Shibuya",
-  venueNote:"東京・渋谷。詳しい住所と入館方法は、ご招待者様へ個別にご案内いたします。",
+  /* 会場名はサイトに出しません。エリア（東京・渋谷）までの表記にとどめ、
+     具体的な場所は招待が確定した方へ個別にご案内します。 */
+  venue:"東京・渋谷",
+  venueNote:"詳しい住所・フロア・入館方法は、ご招待が確定した方へ個別にご案内いたします。",
   guests:"約100名", access:"INVITATION ONLY"
 };
 const LINKS = {
@@ -2141,7 +2150,6 @@ const TICKET_NOTES = [
 const ACCESS_ROWS = [
   {k:"Date",ja:"開催日",v:"2026.09.25 FRI"},
   {k:"Time",ja:"時間",v:"21:00 – 23:00（20:45 受付開始）"},
-  {k:"Venue",ja:"会場",v:"7CLOVER Shibuya"},
   {k:"Area",ja:"エリア",v:"東京・渋谷"},
   {k:"Guests",ja:"定員",v:"約100名（招待制）"},
   {k:"Dress Code",ja:"ドレスコード",v:"BLACK / RED を一点"}
@@ -2178,7 +2186,7 @@ const FAQ = [
   {q:"招待がなくても申し込めますか？",
    a:"ご応募自体はどなたでも可能です。ただし本イベントは完全招待制のため、いただいた内容を運営で確認し、ご招待が確定した方にのみ招待コードをお送りします。一般販売は行っておりません。"},
   {q:"会場はどこですか？",
-   a:"東京・渋谷の 7CLOVER Shibuya です。詳しい住所・フロア・入館方法は、ご招待が確定した方へ開催3日前を目安にメールでお知らせします。"},
+   a:"東京・渋谷です。会場名・詳しい住所・フロア・入館方法は、ご招待が確定した方へ開催3日前を目安にメールでお知らせします。"},
   {q:"一人で参加しても大丈夫ですか？",
    a:"多くの方がお一人でいらっしゃいます。運営クルーが紹介に入りますので、はじめての方もご安心ください。"},
   {q:"同伴者を連れて行けますか？",
@@ -2720,8 +2728,8 @@ ${pageHero("05","Ticket","参加費",[
 
 PAGES["/access"] = () => `
 ${pageHero("06","Access","開催概要",[
-  "会場は東京・渋谷の 7CLOVER Shibuya です。",
-  "詳しい住所・フロア・入館方法は、ご招待が確定した方へ開催前に個別でご案内いたします。"])}
+  "会場は東京・渋谷です。",
+  "会場名・詳しい住所・フロア・入館方法は、ご招待が確定した方へ開催前に個別でご案内いたします。"])}
 ${shot(SHOT_ACCESS,"夜景に面した会場のフロア")}
 <section class="pad" aria-label="開催概要">
   <div class="wrap">
@@ -2732,7 +2740,7 @@ ${shot(SHOT_ACCESS,"夜景に面した会場のフロア")}
     </ul>
     <div class="callout rv" style="margin-top:34px">
       <span style="flex:none;color:var(--rose-deep)">${ICON.lock}</span>
-      <p>${esc(EVENT.venueNote)}ご招待者様には、開催3日前を目安にメールにてお知らせします。</p>
+      <p>${esc(EVENT.venueNote)}開催3日前を目安に、メールにてお送りします。</p>
     </div>
   </div>
 </section>
