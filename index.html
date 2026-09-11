@@ -891,6 +891,19 @@ html.op-on,body.op-on{overflow:hidden}
   #op,#op *{animation:none !important;transition:none !important}
   #op{display:none}}
 
+/* ---------- 会社概要 ---------- */
+.co-tag{margin:26px 0 0;font-family:var(--jp);font-weight:500;
+  font-size:clamp(1.15rem,4.4vw,1.7rem);line-height:1.7;letter-spacing:.02em;color:var(--ink)}
+.cowork{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.cowork li{display:flex;gap:18px;align-items:flex-start;background:#fff;
+  border:1px solid var(--line);border-radius:5px;padding:24px 22px}
+.cowork .no{flex:none;font-family:var(--display);font-weight:500;font-size:13px;
+  letter-spacing:.2em;color:var(--red);padding-top:3px}
+.cowork h3{margin:6px 0 10px;font-family:var(--jp);font-weight:500;font-size:16px;letter-spacing:.02em;color:var(--ink)}
+.cowork .label{margin:0;color:var(--ink-faint)}
+.cowork p{margin:0;font-size:13px;line-height:2.05;color:var(--ink-soft)}
+@media(max-width:520px){.cowork li{gap:14px;padding:20px 18px}}
+
 /* ---------- カウントダウン ---------- */
 .cdband{background:#0B0B0E;color:#fff;padding:26px 0}
 .cd-in{display:grid;justify-items:center;gap:10px;text-align:center}
@@ -981,6 +994,7 @@ footer.site .bot{padding:20px 0 30px}
   .reg .sns{padding:8px 0}
   .side a.out{padding:9px 0}
   .legal a{display:inline-block;padding:7px 0}
+  .rows .v a{display:inline-block;padding:8px 0}
   .phototype .cap{font-size:11px;letter-spacing:.16em}
 }
 
@@ -2015,7 +2029,7 @@ const NAV = [
   {href:"/crew",    label:"Crew",     ja:"主催・運営メンバー",  file:"04"},
   {href:"/ticket",  label:"Ticket",   ja:"参加費",             file:"05"},
   {href:"/access",  label:"Access",   ja:"開催概要",           file:"06"},
-  {href:"/guests",  label:"Guests",   ja:"参加者一覧",          file:"07"},
+  {href:"/company", label:"Company",  ja:"会社概要",           file:"07"},
   {href:"/entry",   label:"Entry",    ja:"参加申込",           file:"08"}
 ];
 const FILES = [
@@ -2025,7 +2039,7 @@ const FILES = [
   {file:"04",title:"Crew",ja:"主催・運営メンバー",href:"/crew",sum:"この場をつくる主催者と運営チームを、担当ごとにご紹介します。"},
   {file:"05",title:"Ticket",ja:"参加費",href:"/ticket",sum:"招待区分ごとの参加費と、お申込み前にご確認いただきたいこと。"},
   {file:"06",title:"Access",ja:"開催概要",href:"/access",sum:"開催日時と、会場のご案内方法・当日のお願いをまとめました。"},
-  {file:"07",title:"Guests",ja:"参加者一覧",href:"/guests",sum:"これまでの回にお越しいただいた方を、掲載のご了承をいただいた順にご紹介します。"}
+  {file:"07",title:"Company",ja:"会社概要",href:"/company",sum:"この夜をかたちにしている事業体について。紹継のなりたちと三つの事業をご紹介します。"}
 ];
 const STATS = [
   {label:"Total Followers",ja:"総フォロワー",value:5000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
@@ -2092,6 +2106,26 @@ const CREW = [
 /* 実際にサイトへ出すメンバー。show:false を外せばすぐ戻ります。 */
 const CREW_ON = CREW.filter(m => m.show !== false);
 /* 公式クレジット。ロゴ画像が届いたら logo にデータ URI を入れてください。 */
+/* 会社概要。紹継の公式サイト（shokei.me）に載っている内容に合わせています。
+   法人化されたら status と名称表記を更新してください。 */
+const COMPANY = {
+  name:"紹継", kana:"しょうけい", en:"SHŌKEI",
+  tagline:"日本の美を、次の時代へ。",
+  lead:"紹継は、人と技に宿る価値を見つけ、伝わる物語へ変え、未来へつなぐ事業体です。映像・デザイン・販売・体験を通して、日本文化が仕事として続いていく仕組みをつくります。",
+  rows:[
+    {k:"Name",    ja:"名称",         v:"紹継（しょうけい）／SHŌKEI"},
+    {k:"Founder", ja:"代表",         v:"乾 颯汰"},
+    {k:"Base",    ja:"所在地",       v:"東京都文京区"},
+    {k:"Status",  ja:"法人格",       v:"法人設立準備中"},
+    {k:"Web",     ja:"ウェブサイト", v:"shokei.me", href:"https://shokei.me/"}
+  ],
+  works:[
+    {t:"メディア事業",         en:"Media",      body:"職人の人生・思想・技術を、ドキュメンタリー映像や記事として記録し、国内外へ発信します。"},
+    {t:"EC物販事業",           en:"Store",      body:"取材を通して出会った職人の作品を、背景にある物語とともに紹介・販売します。"},
+    {t:"文化体験イベント事業", en:"Experience", body:"職人や文化人を講師に迎え、自治体・学校・企業などと連携した文化体験プログラムを企画します。"}
+  ],
+  buzz:"BUZZBASE MEETUP では、公式サイトと申込フォームの構築・運用を担当しています。"
+};
 const PARTNERS = [
   {kind:"Partner", name:"STREET PV", ja:"映像制作パートナー", logo:null, url:"https://www.instagram.com/streetpv.03/"},
   {kind:"Sponsor", name:"TOPICO",    ja:"株式会社TOPICO",     logo:null, url:"https://topico.co.jp/"},
@@ -2841,6 +2875,57 @@ ${pageHero("09","Thank You","応募ありがとうございます",[
   </div>
 </div>`;
 
+PAGES["/company"] = () => `
+${pageHero("07","Company","会社概要",[
+  COMPANY.lead,
+  "BUZZBASE MEETUP の公式サイトと申込まわりは、紹継が担当しています。"])}
+${shot(SHOT_ABOUT,"BUZZBASE MEETUP の会場")}
+<section class="pad" aria-label="事業体の概要">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Overview","概要","left")}
+    <p class="co-tag rv">${esc(COMPANY.tagline)}</p>
+    <ul class="rows mt-md">
+      ${COMPANY.rows.map(r=>`<li class="rv">
+        <span class="k"><span class="en">${esc(r.k)}</span><span class="ja">${esc(r.ja)}</span></span>
+        <span class="v">${r.href
+          ? `<a href="${esc(r.href)}" target="_blank" rel="noopener noreferrer">${esc(r.v)} ${ARROW}</a>`
+          : esc(r.v)}</span>
+      </li>`).join("")}
+    </ul>
+    <p class="lead-n rv" style="margin-top:20px">紹継は現在、法人設立の準備を進めています。法人格・所在地の詳細は、確定しだいこのページを更新します。</p>
+  </div>
+</section>
+
+<section class="pad" style="background:var(--mist)" aria-label="三つの事業">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Business","三つの事業","left")}
+    <ul class="cowork mt-lg">
+      ${COMPANY.works.map((w,i)=>`<li class="rv">
+        <span class="no">${String(i+1).padStart(2,"0")}</span>
+        <div>
+          <p class="label">${esc(w.en)}</p>
+          <h3>${esc(w.t)}</h3>
+          <p>${esc(w.body)}</p>
+        </div>
+      </li>`).join("")}
+    </ul>
+  </div>
+</section>
+
+<section class="pad" aria-label="このイベントとの関わり">
+  <div class="wrap" style="max-width:880px">
+    <div class="entry-lead rv">
+      <p class="label">BUZZBASE MEETUP</p>
+      <h2 class="lead-h">この夜を、かたちにしている人たち</h2>
+      <p class="lead-p">${esc(COMPANY.buzz)}主催は 半谷一太（HANKUN）と STREET PV。運営メンバーは CREW ページでご紹介しています。</p>
+      <div class="btn-row">
+        <a class="btn primary" href="#/crew">運営メンバーを見る ${ARROW}</a>
+        <a class="btn ghost" href="https://shokei.me/" target="_blank" rel="noopener noreferrer">紹継のサイトへ ${ARROW}</a>
+      </div>
+    </div>
+  </div>
+</section>`;
+
 PAGES["/privacy"] = () => `
 <header class="phero" aria-label="プライバシーポリシー">
   <span class="blob a" style="left:-6%;top:-30%;width:420px;height:420px;opacity:.45" aria-hidden="true"></span>
@@ -3011,6 +3096,7 @@ function render(){
     : path === "/404" ? "404 | BUZZBASE MEETUP"
     : path === "/privacy" ? "Privacy | BUZZBASE MEETUP"
     : path === "/thanks" ? "Thank You | BUZZBASE MEETUP"
+    : path === "/company" ? "Company | BUZZBASE MEETUP"
     : (NAV.find(n=>n.href===path)?.label || "") + " | BUZZBASE MEETUP";
   setupReveals(); setupCounters(); setupTeaser();
   if (path === "/entry") setupForm();
