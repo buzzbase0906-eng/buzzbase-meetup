@@ -3,7 +3,11 @@
 完全招待制イベント **BUZZBASE MEETUP VOL.03** の告知サイトです。
 `index.html` 1ファイルで完結しており、GitHub Pages でそのまま配信しています。
 
-公開URL: https://koki2130414.github.io/buzzbase-meetup/
+公開URL: **https://buzzbase.net/**
+
+独自ドメイン（お名前.com で取得）で配信しています。
+以前の `https://buzzbase0906-eng.github.io/buzzbase-meetup/` は、
+GitHub が自動で新URLへ転送するため、古いリンクを渡していても切れません。
 
 ---
 
@@ -47,9 +51,11 @@ Claude に頼むときは、こう言ってください。
 
 | ファイル | 内容 |
 | --- | --- |
-| `index.html` | サイト本体（HTML / CSS / JS / 画像をすべて内包・約680KB） |
+| `index.html` | サイト本体（HTML / CSS / JS / 画像をすべて内包・約700KB） |
 | `event.mp4` | ティザー映像（6.6MB・別ファイル） |
+| `shot-*.webp` | 各ページに載せている写真（4枚） |
 | `robots.txt` | 検索エンジン除け |
+| `CNAME` | 独自ドメイン（buzzbase.net）の指定。**消すとURLが元に戻ります** |
 
 ページ遷移は `#/numbers` のようなハッシュルーティングです。
 サーバー側の処理は一切ありません。静的HTMLだけで動いています。
@@ -96,8 +102,13 @@ const LINKS = { entryForm:"https://...", ... }
 
 以下は理由があってそうなっています。**変える前に必ず相談してください。**
 
+- **`CNAME` ファイル**
+  中身は `buzzbase.net` の1行だけです。消すと独自ドメインが外れ、
+  URL が `buzzbase0906-eng.github.io/buzzbase-meetup/` に戻ります。
 - **`noindex` の指定**（`<head>` 内）
   検索結果に出さないための設定です。外すと Google に載ります。
+  独自ドメインになったので `robots.txt` も正しく効くようになりました
+  （`https://buzzbase.net/robots.txt` がこのリポジトリの `robots.txt` です）。
 - **動画の遅延読み込み**（`preload="none"` と `data-src`）
   6.6MB の動画を最初から読むと、表示が20秒以上遅くなります。
   `preload="auto"` に戻さないでください。
@@ -127,7 +138,7 @@ const LINKS = { entryForm:"https://...", ... }
 
 このリポジトリにアクセスできる状態で、こう伝えてください。
 
-> koki2130414/buzzbase-meetup の README を読んで、index.html を編集して。
+> buzzbase0906-eng/buzzbase-meetup の README を読んで、index.html を編集して。
 > 変更したら GitHub にコミットまでして。
 
 README を読ませることで、上の「壊さないでほしいもの」も引き継がれます。
@@ -137,6 +148,7 @@ README を読ませることで、上の「壊さないでほしいもの」も�
 ## 限定公開について
 
 - すべてのページに `noindex, nofollow` を指定しています
+- `https://buzzbase.net/robots.txt` で全クローラーを拒否しています
 - どこからもリンクしていないため、**URL を知っている人だけ**が閲覧できます
 - GitHub の無料プランでは非公開リポジトリを Pages で配信できないため、
   リポジトリ自体は公開されています。**パスワードや個人情報は絶対に書かないでください。**
