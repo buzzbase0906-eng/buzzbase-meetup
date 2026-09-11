@@ -894,15 +894,10 @@ html.op-on,body.op-on{overflow:hidden}
 /* ---------- 会社概要 ---------- */
 .co-tag{margin:26px 0 0;font-family:var(--jp);font-weight:500;
   font-size:clamp(1.15rem,4.4vw,1.7rem);line-height:1.7;letter-spacing:.02em;color:var(--ink)}
-.cowork{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.cowork li{display:flex;gap:18px;align-items:flex-start;background:#fff;
-  border:1px solid var(--line);border-radius:5px;padding:24px 22px}
-.cowork .no{flex:none;font-family:var(--display);font-weight:500;font-size:13px;
-  letter-spacing:.2em;color:var(--red);padding-top:3px}
-.cowork h3{margin:6px 0 10px;font-family:var(--jp);font-weight:500;font-size:16px;letter-spacing:.02em;color:var(--ink)}
-.cowork .label{margin:0;color:var(--ink-faint)}
-.cowork p{margin:0;font-size:13px;line-height:2.05;color:var(--ink-soft)}
-@media(max-width:520px){.cowork li{gap:14px;padding:20px 18px}}
+.cochips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.cochips li{padding:13px 20px;border:1px solid var(--line);border-radius:999px;background:#fff;
+  font-family:var(--jp);font-size:13.5px;letter-spacing:.03em;color:var(--ink)}
+@media(max-width:520px){.cochips{gap:8px}.cochips li{padding:11px 16px;font-size:13px}}
 
 /* ---------- カウントダウン ---------- */
 .cdband{background:#0B0B0E;color:#fff;padding:26px 0}
@@ -2106,25 +2101,21 @@ const CREW = [
 /* 実際にサイトへ出すメンバー。show:false を外せばすぐ戻ります。 */
 const CREW_ON = CREW.filter(m => m.show !== false);
 /* 公式クレジット。ロゴ画像が届いたら logo にデータ URI を入れてください。 */
-/* 会社概要。紹継の公式サイト（shokei.me）に載っている内容に合わせています。
-   法人化されたら status と名称表記を更新してください。 */
+/* 会社概要。運営会社から提供された内容です。 */
 const COMPANY = {
-  name:"紹継", kana:"しょうけい", en:"SHŌKEI",
-  tagline:"日本の美を、次の時代へ。",
-  lead:"紹継は、人と技に宿る価値を見つけ、伝わる物語へ変え、未来へつなぐ事業体です。映像・デザイン・販売・体験を通して、日本文化が仕事として続いていく仕組みをつくります。",
+  name:"株式会社紹継",
+  tagline:"発信する力を、次の可能性へ。",
+  lead:"株式会社紹継は、日本文化事業・SNS事業を中心に、事業開発・企画・プロデュースを行う会社です。",
+  buzz:"BUZZBASE では、クリエイター・企業・学生など、新しい挑戦をする人たちがつながり、次の仕事や可能性へ進める場づくりを行っています。",
   rows:[
-    {k:"Name",    ja:"名称",         v:"紹継（しょうけい）／SHŌKEI"},
-    {k:"Founder", ja:"代表",         v:"乾 颯汰"},
-    {k:"Base",    ja:"所在地",       v:"東京都文京区"},
-    {k:"Status",  ja:"法人格",       v:"法人設立準備中"},
-    {k:"Web",     ja:"ウェブサイト", v:"shokei.me", href:"https://shokei.me/"}
+    {k:"Company",  ja:"会社名",     v:"株式会社紹継"},
+    {k:"CEO",      ja:"代表取締役", v:"乾 颯汰"},
+    {k:"Founded",  ja:"設立",       v:"2026年8月26日"},
+    {k:"Base",     ja:"所在地",     v:"東京都文京区"},
+    {k:"Business", ja:"運営事業",   v:"BUZZBASE"},
+    {k:"Web",      ja:"ウェブサイト", v:"shokei.me", href:"https://shokei.me/"}
   ],
-  works:[
-    {t:"メディア事業",         en:"Media",      body:"職人の人生・思想・技術を、ドキュメンタリー映像や記事として記録し、国内外へ発信します。"},
-    {t:"EC物販事業",           en:"Store",      body:"取材を通して出会った職人の作品を、背景にある物語とともに紹介・販売します。"},
-    {t:"文化体験イベント事業", en:"Experience", body:"職人や文化人を講師に迎え、自治体・学校・企業などと連携した文化体験プログラムを企画します。"}
-  ],
-  buzz:"BUZZBASE MEETUP では、公式サイトと申込フォームの構築・運用を担当しています。"
+  works:["日本文化事業","SNS事業","イベント企画","クリエイター支援","コンテンツ制作"]
 };
 const PARTNERS = [
   {kind:"Partner", name:"STREET PV", ja:"映像制作パートナー", logo:null, url:"https://www.instagram.com/streetpv.03/"},
@@ -2878,13 +2869,12 @@ ${pageHero("09","Thank You","応募ありがとうございます",[
 PAGES["/company"] = () => `
 ${pageHero("07","Company","会社概要",[
   COMPANY.lead,
-  "BUZZBASE MEETUP の公式サイトと申込まわりは、紹継が担当しています。"])}
+  COMPANY.buzz])}
 ${shot(SHOT_ABOUT,"BUZZBASE MEETUP の会場")}
-<section class="pad" aria-label="事業体の概要">
+<section class="pad" aria-label="運営会社">
   <div class="wrap" style="max-width:880px">
-    ${heading("Overview","概要","left")}
     <p class="co-tag rv">${esc(COMPANY.tagline)}</p>
-    <ul class="rows mt-md">
+    <ul class="rows mt-lg">
       ${COMPANY.rows.map(r=>`<li class="rv">
         <span class="k"><span class="en">${esc(r.k)}</span><span class="ja">${esc(r.ja)}</span></span>
         <span class="v">${r.href
@@ -2892,35 +2882,27 @@ ${shot(SHOT_ABOUT,"BUZZBASE MEETUP の会場")}
           : esc(r.v)}</span>
       </li>`).join("")}
     </ul>
-    <p class="lead-n rv" style="margin-top:20px">紹継は現在、法人設立の準備を進めています。法人格・所在地の詳細は、確定しだいこのページを更新します。</p>
   </div>
 </section>
 
-<section class="pad" style="background:var(--mist)" aria-label="三つの事業">
+<section class="pad" style="background:var(--mist)" aria-label="事業内容">
   <div class="wrap" style="max-width:880px">
-    ${heading("Business","三つの事業","left")}
-    <ul class="cowork mt-lg">
-      ${COMPANY.works.map((w,i)=>`<li class="rv">
-        <span class="no">${String(i+1).padStart(2,"0")}</span>
-        <div>
-          <p class="label">${esc(w.en)}</p>
-          <h3>${esc(w.t)}</h3>
-          <p>${esc(w.body)}</p>
-        </div>
-      </li>`).join("")}
+    ${heading("Business","事業内容","left")}
+    <ul class="cochips mt-lg rv">
+      ${COMPANY.works.map(w=>`<li>${esc(w)}</li>`).join("")}
     </ul>
   </div>
 </section>
 
-<section class="pad" aria-label="このイベントとの関わり">
+<section class="pad" aria-label="BUZZBASE について">
   <div class="wrap" style="max-width:880px">
     <div class="entry-lead rv">
       <p class="label">BUZZBASE MEETUP</p>
       <h2 class="lead-h">この夜を、かたちにしている人たち</h2>
-      <p class="lead-p">${esc(COMPANY.buzz)}主催は 半谷一太（HANKUN）と STREET PV。運営メンバーは CREW ページでご紹介しています。</p>
+      <p class="lead-p">${esc(COMPANY.buzz)}当日の運営メンバーは CREW ページでご紹介しています。</p>
       <div class="btn-row">
         <a class="btn primary" href="#/crew">運営メンバーを見る ${ARROW}</a>
-        <a class="btn ghost" href="https://shokei.me/" target="_blank" rel="noopener noreferrer">紹継のサイトへ ${ARROW}</a>
+        <a class="btn ghost" href="#/entry">参加申込へ ${ARROW}</a>
       </div>
     </div>
   </div>
