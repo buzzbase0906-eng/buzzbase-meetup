@@ -649,6 +649,28 @@ td.n{font-size:12px;line-height:1.9;color:var(--ink-soft)}
 .crew .role{margin:8px 0 0;font-family:var(--display);font-weight:500;font-size:11px;letter-spacing:.26em;color:var(--rose-deep);text-transform:uppercase}
 .crew .role-ja{margin:6px 0 0;font-size:11px;letter-spacing:.16em;color:var(--ink-faint)}
 .crew .bio{margin:12px 0 0;font-size:12px;line-height:2.1;color:var(--ink-soft)}
+/* ---------- guests（出演ゲストの一覧） ---------- */
+.guests{list-style:none;margin:0;padding:0;display:grid;gap:18px;
+  grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){.guests{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.guests{grid-template-columns:repeat(4,1fr);gap:22px}}
+@media(min-width:1200px){.guests{grid-template-columns:repeat(5,1fr)}}
+.guests .gcard{display:block;color:inherit;text-decoration:none}
+.guests .ph{position:relative;aspect-ratio:520/468;border-radius:4px;overflow:hidden;background:var(--mist-2);
+  display:flex;align-items:center;justify-content:center}
+.guests .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .7s var(--ease)}
+.guests .gcard:hover .ph img{transform:scale(1.05)}
+.guests .ph .ini{font-family:var(--display);font-weight:300;font-size:2rem;color:rgba(51,51,62,.16)}
+.guests .ph .wash{position:absolute;inset:0;background:var(--grad-soft);opacity:.5;pointer-events:none}
+.guests .gt{margin-top:11px}
+.guests h3{margin:0;font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:16px;line-height:1.15;letter-spacing:.03em;overflow-wrap:anywhere}
+.guests .gh{display:block;margin-top:5px;font-size:11px;letter-spacing:.04em;color:var(--ink-faint);
+  overflow-wrap:anywhere}
+.guests .gcard:hover h3{color:var(--red)}
+@media(max-width:559px){.guests h3{font-size:14px}.guests .gh{font-size:10.5px}}
+
 .crew-ig{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:7px 14px;border-radius:999px;
   border:1px solid var(--line-2);font-family:var(--display);font-weight:500;font-size:11px;letter-spacing:.12em;
   color:var(--ink-soft);transition:border-color .3s,color .3s,transform .3s var(--ease)}
@@ -2031,19 +2053,21 @@ const NAV = [
   {href:"/about",   label:"About",    ja:"イベントについて",    file:"02"},
   {href:"/program", label:"Program",  ja:"当日の流れ",         file:"03"},
   {href:"/crew",    label:"Crew",     ja:"主催・運営メンバー",  file:"04"},
+  {href:"/guests",  label:"Guests",   ja:"出演ゲスト",         file:"07"},
   {href:"/ticket",  label:"Ticket",   ja:"参加費",             file:"05"},
   {href:"/access",  label:"Access",   ja:"開催概要",           file:"06"},
-  {href:"/company", label:"Company",  ja:"会社概要",           file:"07"},
-  {href:"/entry",   label:"Entry",    ja:"参加申込",           file:"08"}
+  {href:"/company", label:"Company",  ja:"会社概要",           file:"08"},
+  {href:"/entry",   label:"Entry",    ja:"参加申込",           file:"09"}
 ];
 const FILES = [
   {file:"01",title:"Numbers",ja:"イベントデータ",href:"/numbers",sum:"総フォロワー数、招待人数、そして120分。この夜を数字で見てみます。"},
   {file:"02",title:"About",ja:"イベントについて",href:"/about",sum:"何のための場で、どなたをお招きしているのか。3つの視点からご紹介します。"},
   {file:"03",title:"Program",ja:"当日の流れ",href:"/program",sum:"21:00 の受付から 23:00 のクロージングまで、当日の流れをご案内します。"},
   {file:"04",title:"Crew",ja:"主催・運営メンバー",href:"/crew",sum:"この場をつくる主催者と運営チームを、担当ごとにご紹介します。"},
+  {file:"07",title:"Guests",ja:"出演ゲスト",href:"/guests",sum:"当日お会いできるゲストの皆さま。畑の違う顔ぶれが一夜に集まります。"},
   {file:"05",title:"Ticket",ja:"参加費",href:"/ticket",sum:"招待区分ごとの参加費と、お申込み前にご確認いただきたいこと。"},
   {file:"06",title:"Access",ja:"開催概要",href:"/access",sum:"開催日時と、会場のご案内方法・当日のお願いをまとめました。"},
-  {file:"07",title:"Company",ja:"会社概要",href:"/company",sum:"この夜をかたちにしている事業体について。紹継のなりたちと三つの事業をご紹介します。"}
+  {file:"08",title:"Company",ja:"会社概要",href:"/company",sum:"この夜をかたちにしている事業体について。紹継のなりたちと三つの事業をご紹介します。"}
 ];
 const STATS = [
   {label:"Total Followers",ja:"総フォロワー",value:5000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
@@ -2088,7 +2112,132 @@ const PROGRAM = [
 /* 過去回にご参加いただいた方。掲載のご了承をいただいた方のみをここに追加します。
    { vol:"VOL.02", name:"お名前", role:"肩書き / 活動", ig:"instagram_id", photo:null }
    写真がない場合は photo を省略すると、イニシャルの枠が出ます。 */
-const PAST_GUESTS = [];
+/* ゲスト一覧。写真は運営がつくったゲストカードから切り出したものです。
+   1人ふやすときは GUESTS に1行足し、GUEST_PHOTOS に同じ Instagram ID の写真を足してください。
+   写真がない人は GUEST_PHOTOS に足さなければ、頭文字のタイルで表示されます。
+   1人はずすときは、その行を消すだけで大丈夫です。 */
+const GUEST_PHOTOS = {
+  "a_i_927":"guest-a-i-927.webp",
+  "kimura._.aiko":"guest-kimura-aiko.webp",
+  "fitness.aki.w":"guest-fitness-aki-w.webp",
+  "daiki_fukaii212":"guest-daiki-fukaii212.webp",
+  "superuman55":"guest-superuman55.webp",
+  "danial_ahmadi_org":"guest-danial-ahmadi-org.webp",
+  "pyon.glow":"guest-pyon-glow.webp",
+  "harutin.dayo":"guest-harutin-dayo.webp",
+  "_03.hyt":"guest-03-hyt.webp",
+  "hibiki._.log":"guest-hibiki-log.webp",
+  "hiroaki_dayo_official":"guest-hiroaki-dayo-official.webp",
+  "tominaga_pingpong":"guest-tominaga-pingpong.webp",
+  "hanshinfan_issyo":"guest-hanshinfan-issyo.webp",
+  "itoman555":"guest-itoman555.webp",
+  "iwa__toooon":"guest-iwa-toooon.webp",
+  "jonahsan_desu":"guest-jonahsan-desu.webp",
+  "joseph_kantandoni":"guest-joseph-kantandoni.webp",
+  "saka_juri":"guest-saka-juri.webp",
+  "kamadadaini":"guest-kamadadaini.webp",
+  "onidabi_kebe":"guest-onidabi-kebe.webp",
+  "kimiko_chan84":"guest-kimiko-chan84.webp",
+  "pyypex_original":"guest-pyypex-original.webp",
+  "7mk_ll":"guest-7mk-ll.webp",
+  "kyohei.imaiki":"guest-kyohei-imaiki.webp",
+  "m01aito":"guest-m01aito.webp",
+  "nanbeiaruaru":"guest-nanbeiaruaru.webp",
+  "masaki.u.official":"guest-masaki-u-official.webp",
+  "96ki33ko":"guest-96ki33ko.webp",
+  "umiushi.mium":"guest-umiushi-mium.webp",
+  "moto.footballpub":"guest-moto-footballpub.webp",
+  "avante_lalala":"guest-avante-lalala.webp",
+  "nanako.nsjm":"guest-nanako-nsjm.webp",
+  "nanami.baseball":"guest-nanami-baseball.webp",
+  "ebok10969":"guest-ebok10969.webp",
+  "ri___ru00":"guest-ri-ru00.webp",
+  "rinki_gram_insta":"guest-rinki-gram-insta.webp",
+  "rukun9090":"guest-rukun9090.webp",
+  "namidabokuro__":"guest-namidabokuro.webp",
+  "ryoga_endo":"guest-ryoga-endo.webp",
+  "seiko_mii4":"guest-seiko-mii4.webp",
+  "shanmai_28":"guest-shanmai-28.webp",
+  "shin1_king":"guest-shin1-king.webp",
+  "ccshoma":"guest-ccshoma.webp",
+  "ezasho07":"guest-ezasho07.webp",
+  "tsukuba_buddy":"guest-tsukuba-buddy.webp",
+  "streetpv.03":"guest-streetpv-03.webp",
+  "s.k_0615":"guest-s-k-0615.webp",
+  "fire_.lax":"guest-fire-lax.webp",
+  "taisei_nagasawa":"guest-taisei-nagasawa.webp",
+  "yuki0507hotta":"guest-yuki0507hotta.webp",
+  "toichiro.848":"guest-toichiro-848.webp",
+  "to_ta_east1018":"guest-to-ta-east1018.webp",
+  "_sumi_cafe":"guest-sumi-cafe.webp",
+  "xlrnys0":"guest-xlrnys0.webp",
+  "yuki__o2":"guest-yuki-o2.webp",
+  "yuto_nukt_17":"guest-yuto-nukt-17.webp",
+  "el.yuuki":"guest-el-yuuki.webp",
+  "yuuki_mizushima08":"guest-yuuki-mizushima08.webp",
+  "yuya.lifevlog":"guest-yuya-lifevlog.webp"
+};
+const GUESTS = [
+  {name:"AGASHI", ig:"a_i_927"},
+  {name:"AIKO", ig:"kimura._.aiko"},
+  {name:"AKI", ig:"fitness.aki.w"},
+  {name:"DAIKI", ig:"daiki_fukaii212"},
+  {name:"DAIKI", ig:"superuman55"},
+  {name:"DANIAL", ig:"danial_ahmadi_org"},
+  {name:"HARU", ig:"pyon.glow"},
+  {name:"HARUTIN", ig:"harutin.dayo"},
+  {name:"HAYATO", ig:"_03.hyt"},
+  {name:"HIBIKI", ig:"hibiki._.log"},
+  {name:"HIROAKI", ig:"hiroaki_dayo_official"},
+  {name:"HYUMA", ig:"tominaga_pingpong"},
+  {name:"ISSYO", ig:"hanshinfan_issyo"},
+  {name:"ITOMAN", ig:"itoman555"},
+  {name:"IWATOOOON", ig:"iwa__toooon"},
+  {name:"JONAHSAN", ig:"jonahsan_desu"},
+  {name:"JOSEPH", ig:"joseph_kantandoni"},
+  {name:"JURI", ig:"saka_juri"},
+  {name:"KAMADA DAINI", ig:"kamadadaini"},
+  {name:"KEBE", ig:"onidabi_kebe"},
+  {name:"KIMIKO", ig:"kimiko_chan84"},
+  {name:"KIN", ig:"pyypex_original"},
+  {name:"KOHARU", ig:"7mk_ll"},
+  {name:"KYOHEI", ig:"kyohei.imaiki"},
+  {name:"MAITO", ig:"m01aito"},
+  {name:"MARIN BOB", ig:"nanbeiaruaru"},
+  {name:"MASAKI", ig:"masaki.u.official"},
+  {name:"MISAKO", ig:"96ki33ko"},
+  {name:"MIU", ig:"umiushi.mium"},
+  {name:"MOTO", ig:"moto.footballpub"},
+  {name:"NAGI", ig:"avante_lalala"},
+  {name:"NANAKO", ig:"nanako.nsjm"},
+  {name:"NANAMI", ig:"nanami.baseball"},
+  {name:"NORI", ig:"ebok10969"},
+  {name:"RIKO", ig:"ri___ru00"},
+  {name:"RINKI", ig:"rinki_gram_insta"},
+  {name:"RUKUN", ig:"rukun9090"},
+  {name:"RYO", ig:"namidabokuro__"},
+  {name:"RYOGA", ig:"ryoga_endo"},
+  {name:"SEIKO", ig:"seiko_mii4"},
+  {name:"SHANMAI", ig:"shanmai_28"},
+  {name:"SHINICHI", ig:"shin1_king"},
+  {name:"SHOMA", ig:"ccshoma"},
+  {name:"SHOUEI", ig:"ezasho07"},
+  {name:"SHUTA", ig:"tsukuba_buddy"},
+  {name:"STREET PV", ig:"streetpv.03"},
+  {name:"SUZUNA", ig:"s.k_0615"},
+  {name:"TAICHI", ig:"fire_.lax"},
+  {name:"TAISEI", ig:"taisei_nagasawa"},
+  {name:"TAKOKUN", ig:"yuki0507hotta"},
+  {name:"TOICHIRO", ig:"toichiro.848"},
+  {name:"TOTA", ig:"to_ta_east1018"},
+  {name:"TSUBASA", ig:"_sumi_cafe"},
+  {name:"YUITO", ig:"xlrnys0"},
+  {name:"YUKI", ig:"yuki__o2"},
+  {name:"YUTO", ig:"yuto_nukt_17"},
+  {name:"YUUKI", ig:"el.yuuki"},
+  {name:"YUUKI", ig:"yuuki_mizushima08"},
+  {name:"YUYA", ig:"yuya.lifevlog"}
+];
 const CREW = [
   /* 表示順は 半谷 / 乾・小西 / 新見・岩田・達城 のピラミッド。並べ替えたら code も振り直してください。
      show:false を付けたメンバーはサイトに出ません。再表示するときは、その行の show:false, を消すだけです。 */
@@ -2760,7 +2909,7 @@ ${shot(SHOT_ACCESS,"夜景に面した会場のフロア")}
 </section>`;
 
 PAGES["/entry"] = () => `
-${pageHero("08","Entry","参加申込",[
+${pageHero("09","Entry","参加申込",[
   "ご応募いただいた内容は、運営が一件ずつ拝見します。",
   "ご入力いただいた内容をもとに運営で確認し、ご参加が確定した方にのみ招待コードと会場情報をお送りします。"])}
 <div class="wrap pad">
@@ -2817,37 +2966,40 @@ ${pageHero("08","Entry","参加申込",[
 </div>`;
 
 PAGES["/guests"] = () => `
-${pageHero("07","Guests","参加者一覧",[
-  "これまでの BUZZBASE MEETUP にお越しいただいた方をご紹介します。",
-  "掲載は任意です。ご本人から掲載のご了承をいただいた方のみを、順次このページに追加しています。"])}
+${pageHero("07","Guests","出演ゲスト",[
+  "BUZZBASE MEETUP VOL.03 にお越しいただくゲストの皆さまです。",
+  "掲載はご本人の了承をいただいた方のみです。順次追加していきます。"])}
 <div class="wrap pad">
-  ${heading("Past Guests","過去回の参加者","left")}
-  ${PAST_GUESTS.length ? `
-  <ul class="crew mt-lg">
-    ${PAST_GUESTS.map(g=>`<li class="rv"><article>
-      <div class="ph">
-        ${g.photo ? `<img src="${g.photo}" alt="${esc(g.name)}のポートレート" loading="lazy" decoding="async">`
-                  : `<span class="ini" aria-hidden="true">${esc((g.name||"?").slice(0,2))}</span><span class="wash" aria-hidden="true"></span>`}
-        ${shatter(12)}
-        <span class="code">${esc(g.vol)}</span>
+  ${heading("Guest Lineup","当日お会いできる方々","left")}
+  <p class="lead-p rv" style="max-width:44em;margin-top:14px">スポーツ、フィットネス、カルチャー、ビジネス――畑の違う ${GUESTS.length} 名が、この夜ひとつの場に集まります。</p>
+  ${GUESTS.length ? `
+  <ul class="guests mt-lg">
+    ${GUESTS.map((g,i)=>{
+      const src = GUEST_PHOTOS[g.ig];
+      const inner = `<div class="ph">
+        ${src ? `<img src="${src}" alt="${esc(g.name)}" loading="lazy" decoding="async" width="520" height="468">`
+              : `<span class="ini" aria-hidden="true">${esc(g.name.slice(0,2))}</span><span class="wash" aria-hidden="true"></span>`}
       </div>
-      <div>
+      <div class="gt">
         <h3>${esc(g.name)}</h3>
-        <p class="role">${esc(g.role||"")}</p>
-        ${g.ig ? `<a class="crew-ig" href="https://www.instagram.com/${esc(g.ig)}/" target="_blank" rel="noopener noreferrer">
-            ${ICON.at}<span>@${esc(g.ig)}</span></a>` : ""}
-      </div></article></li>`).join("")}
+        ${g.ig ? `<span class="gh">@${esc(g.ig)}</span>` : ""}
+      </div>`;
+      return `<li class="rv" style="--d:${(i%12)*28}ms">${g.ig
+        ? `<a class="gcard" href="https://www.instagram.com/${esc(g.ig)}/" target="_blank" rel="noopener noreferrer">${inner}</a>`
+        : `<div class="gcard">${inner}</div>`}</li>`;
+    }).join("")}
   </ul>` : `
   <div class="entry-lead mt-lg rv">
     <p class="label">Coming Soon — 準備中</p>
     <h2 class="lead-h">掲載のご了承をいただいた方から公開します</h2>
-    <p class="lead-p">このページには、過去の BUZZBASE MEETUP にご参加いただいた方のお名前と SNS アカウントを掲載します。掲載は任意で、ご本人から了承をいただいた方のみを載せます。現在ご確認をお願いしているところです。</p>
-    <p class="lead-n">掲載を希望される方、または一度掲載した内容の取り下げをご希望の方は、<a href="mailto:${LINKS.email}">${LINKS.email}</a> または <a href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">Instagram ${LINKS.handle}</a> の DM よりご連絡ください。お預かりした情報の扱いは<a href="#/privacy">プライバシーポリシー</a>に記載しています。</p>
+    <p class="lead-p">このページには、BUZZBASE MEETUP にご参加いただく方のお名前と SNS アカウントを掲載します。掲載は任意で、ご本人から了承をいただいた方のみを載せます。</p>
   </div>`}
+
+  <p class="note rv mt-md">掲載の取り下げをご希望の方は、<a href="mailto:${LINKS.email}">${LINKS.email}</a> または <a href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">Instagram ${LINKS.handle}</a> の DM よりご連絡ください。お預かりした情報の扱いは<a href="#/privacy">プライバシーポリシー</a>に記載しています。</p>
 
   <div class="mt-lg rv">
     <p class="label">Guest Ratio — 参加者の内訳</p>
-    <p class="lead-p" style="margin-top:12px;max-width:44em">お名前の掲載とは別に、どのような方が集まる場なのかは NUMBERS ページの「参加者の内訳」でご確認いただけます。インフルエンサー・経営者・クリエイターの構成比と、それぞれの選定基準を掲載しています。</p>
+    <p class="lead-p" style="margin-top:12px;max-width:44em">どのような方が集まる場なのかは NUMBERS ページの「参加者の内訳」でご確認いただけます。インフルエンサー・経営者・クリエイターの構成比と、それぞれの選定基準を掲載しています。</p>
   </div>
 
   <div class="btn-row mt-md rv">
@@ -2857,7 +3009,7 @@ ${pageHero("07","Guests","参加者一覧",[
 </div>`;
 
 PAGES["/thanks"] = () => `
-${pageHero("09","Thank You","応募ありがとうございます",[
+${pageHero("10","Thank You","応募ありがとうございます",[
   "参加申込のご送信、ありがとうございました。",
   "内容は運営が一件ずつ拝見します。ご参加が確定した方には、追ってご連絡いたします。"])}
 <div class="wrap pad">
@@ -2875,7 +3027,7 @@ ${pageHero("09","Thank You","応募ありがとうございます",[
 </div>`;
 
 PAGES["/company"] = () => `
-${pageHero("07","Company","会社概要",[
+${pageHero("08","Company","会社概要",[
   COMPANY.lead,
   COMPANY.buzz])}
 <section class="pad" aria-label="運営会社">
