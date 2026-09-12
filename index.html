@@ -2119,7 +2119,6 @@ const PROGRAM = [
 const GUEST_PHOTOS = {
   "a_i_927":"guest-a-i-927.webp",
   "kimura._.aiko":"guest-kimura-aiko.webp",
-  "fitness.aki.w":"guest-fitness-aki-w.webp",
   "vlog6825":"guest-vlog6825.webp",
   "miyata_ayami":"guest-miyata-ayami.webp",
   "ma_azuu":"guest-ma-azuu.webp",
@@ -2140,7 +2139,7 @@ const GUEST_PHOTOS = {
   "iwa__toooon":"guest-iwa-toooon.webp",
   "jon_manji":"guest-jon-manji.webp",
   "jonahsan_desu":"guest-jonahsan-desu.webp",
-  "joseph_kantandoni":"guest-joseph-kantandoni.webp",
+  "joseph_kantandon":"guest-joseph-kantandon.webp",
   "saka_juri":"guest-saka-juri.webp",
   "kamadadaini":"guest-kamadadaini.webp",
   "onidabi_kebe":"guest-onidabi-kebe.webp",
@@ -2163,7 +2162,7 @@ const GUEST_PHOTOS = {
   "nanami.baseball":"guest-nanami-baseball.webp",
   "ebok10969":"guest-ebok10969.webp",
   "oto_mens.akanuke":"guest-oto-mens-akanuke.webp",
-  "ren_official.10":"guest-ren-official-10.webp",
+  "ren_football.10":"guest-ren-football-10.webp",
   "__remon3":"guest-remon3.webp",
   "ri___ru00":"guest-ri-ru00.webp",
   "rinki_gram_insta":"guest-rinki-gram-insta.webp",
@@ -2186,7 +2185,6 @@ const GUEST_PHOTOS = {
   "taisei_nagasawa":"guest-taisei-nagasawa.webp",
   "yuki0507hotta":"guest-yuki0507hotta.webp",
   "yume.tochu":"guest-yume-tochu.webp",
-  "toichiro.848":"guest-toichiro-848.webp",
   "tkhslog":"guest-tkhslog.webp",
   "to_ta_east1018":"guest-to-ta-east1018.webp",
   "_sumi_cafe":"guest-sumi-cafe.webp",
@@ -2205,8 +2203,7 @@ const GUEST_PHOTOS = {
 const GUESTS = [
   {name:"AGASHI", ig:"a_i_927"},
   {name:"AIKO", ig:"kimura._.aiko"},
-  {name:"AKI", ig:"fitness.aki.w"},
-  {name:"AKIMON", ig:"vlog6825", link:false},
+  {name:"AKIMON", ig:"vlog6825", sns:"tiktok"},
   {name:"AYAMI", ig:"miyata_ayami"},
   {name:"CHIHIRO", ig:"ma_azuu"},
   {name:"CHUNO", ig:"chunoronaldo7"},
@@ -2226,7 +2223,7 @@ const GUESTS = [
   {name:"IWATOOOON", ig:"iwa__toooon"},
   {name:"JON", ig:"jon_manji"},
   {name:"JONAHSAN", ig:"jonahsan_desu"},
-  {name:"JOSEPH", ig:"joseph_kantandoni", link:false},
+  {name:"JOSEPH", ig:"joseph_kantandon"},
   {name:"JURI", ig:"saka_juri"},
   {name:"KAMADA DAINI", ig:"kamadadaini"},
   {name:"KEBE", ig:"onidabi_kebe"},
@@ -2247,9 +2244,9 @@ const GUESTS = [
   {name:"NAGI", ig:"avante_lalala"},
   {name:"NANAKO", ig:"nanako.nsjm"},
   {name:"NANAMI", ig:"nanami.baseball"},
-  {name:"NORI", ig:"ebok10969", link:false},
+  {name:"NORI", ig:"ebok10969", sns:"tiktok"},
   {name:"OTO", ig:"oto_mens.akanuke"},
-  {name:"REN", ig:"ren_official.10"},
+  {name:"REN", ig:"ren_football.10", sns:"tiktok"},
   {name:"RENON", ig:"__remon3"},
   {name:"RIKO", ig:"ri___ru00"},
   {name:"RINKI", ig:"rinki_gram_insta"},
@@ -2272,11 +2269,10 @@ const GUESTS = [
   {name:"TAISEI", ig:"taisei_nagasawa"},
   {name:"TAKOKUN", ig:"yuki0507hotta"},
   {name:"TAKUTO", ig:"yume.tochu"},
-  {name:"TOICHIRO", ig:"toichiro.848"},
   {name:"TOMOKI", ig:"tkhslog"},
   {name:"TOTA", ig:"to_ta_east1018"},
   {name:"TSUBASA", ig:"_sumi_cafe"},
-  {name:"USSHI", ig:"calorie_usshi", link:false},
+  {name:"USSHI", ig:"calorie_usshi", sns:"tiktok"},
   {name:"YOSEI", ig:"yo___se_i0418"},
   {name:"YOTA", ig:"yota._.miki"},
   {name:"YUITO", ig:"xlrnys0"},
@@ -3026,6 +3022,11 @@ ${pageHero("07","Guests","出演ゲスト",[
   <ul class="guests mt-lg">
     ${GUESTS.map((g,i)=>{
       const src = GUEST_PHOTOS[g.ig];
+      /* sns:"tiktok" を付けた人は TikTok へ飛ばします（付けなければ Instagram）。 */
+      const site = g.sns === "tiktok" ? "TikTok" : "Instagram";
+      const href = g.sns === "tiktok"
+        ? `https://www.tiktok.com/@${encodeURIComponent(g.ig)}`
+        : `https://www.instagram.com/${encodeURIComponent(g.ig)}/`;
       const inner = `<div class="ph">
         ${src ? `<img src="${src}" alt="${esc(g.name)}" loading="lazy" decoding="async" width="520" height="468">`
               : `<span class="ini" aria-hidden="true">${esc(g.name.slice(0,2))}</span><span class="wash" aria-hidden="true"></span>`}
@@ -3035,9 +3036,9 @@ ${pageHero("07","Guests","出演ゲスト",[
         ${g.ig ? `<span class="gh">@${esc(g.ig)}</span>` : ""}
       </div>`;
       /* link:false を付けた人は、アカウントが確認できていないのでリンクにしません。
-         確認できたら link:false を消すだけで、写真がインスタへのリンクに戻ります。 */
+         確認できたら link:false を消すだけで、写真がリンクに戻ります。 */
       return `<li class="rv" style="--d:${(i%12)*28}ms">${(g.ig && g.link !== false)
-        ? `<a class="gcard" href="https://www.instagram.com/${esc(g.ig)}/" target="_blank" rel="noopener noreferrer" aria-label="${esc(g.name)} の Instagram を開く">${inner}</a>`
+        ? `<a class="gcard" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${esc(g.name)} の ${site} を開く">${inner}</a>`
         : `<div class="gcard">${inner}</div>`}</li>`;
     }).join("")}
   </ul>` : `
