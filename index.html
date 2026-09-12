@@ -2195,7 +2195,7 @@ const GUEST_PHOTOS = {
   "yota._.miki":"guest-yota-miki.webp",
   "xlrnys0":"guest-xlrnys0.webp",
   "yuki__o2":"guest-yuki-o2.webp",
-  "golf_kono0701":"guest-golf-kono0701.webp",
+  "golf_kon0701":"guest-golf-kon0701.webp",
   "yusakuito92":"guest-yusakuito92.webp",
   "yuto_nukt_17":"guest-yuto-nukt-17.webp",
   "el.yuuki":"guest-el-yuuki.webp",
@@ -2206,7 +2206,7 @@ const GUESTS = [
   {name:"AGASHI", ig:"a_i_927"},
   {name:"AIKO", ig:"kimura._.aiko"},
   {name:"AKI", ig:"fitness.aki.w"},
-  {name:"AKIMON", ig:"vlog6825"},
+  {name:"AKIMON", ig:"vlog6825", link:false},
   {name:"AYAMI", ig:"miyata_ayami"},
   {name:"CHIHIRO", ig:"ma_azuu"},
   {name:"CHUNO", ig:"chunoronaldo7"},
@@ -2226,7 +2226,7 @@ const GUESTS = [
   {name:"IWATOOOON", ig:"iwa__toooon"},
   {name:"JON", ig:"jon_manji"},
   {name:"JONAHSAN", ig:"jonahsan_desu"},
-  {name:"JOSEPH", ig:"joseph_kantandoni"},
+  {name:"JOSEPH", ig:"joseph_kantandoni", link:false},
   {name:"JURI", ig:"saka_juri"},
   {name:"KAMADA DAINI", ig:"kamadadaini"},
   {name:"KEBE", ig:"onidabi_kebe"},
@@ -2247,7 +2247,7 @@ const GUESTS = [
   {name:"NAGI", ig:"avante_lalala"},
   {name:"NANAKO", ig:"nanako.nsjm"},
   {name:"NANAMI", ig:"nanami.baseball"},
-  {name:"NORI", ig:"ebok10969"},
+  {name:"NORI", ig:"ebok10969", link:false},
   {name:"OTO", ig:"oto_mens.akanuke"},
   {name:"REN", ig:"ren_official.10"},
   {name:"RENON", ig:"__remon3"},
@@ -2276,12 +2276,12 @@ const GUESTS = [
   {name:"TOMOKI", ig:"tkhslog"},
   {name:"TOTA", ig:"to_ta_east1018"},
   {name:"TSUBASA", ig:"_sumi_cafe"},
-  {name:"USSHI", ig:"calorie_usshi"},
+  {name:"USSHI", ig:"calorie_usshi", link:false},
   {name:"YOSEI", ig:"yo___se_i0418"},
   {name:"YOTA", ig:"yota._.miki"},
   {name:"YUITO", ig:"xlrnys0"},
   {name:"YUKI", ig:"yuki__o2"},
-  {name:"YUNA", ig:"golf_kono0701"},
+  {name:"YUNA", ig:"golf_kon0701"},
   {name:"YUSAKU", ig:"yusakuito92"},
   {name:"YUTO", ig:"yuto_nukt_17"},
   {name:"YUUKI", ig:"el.yuuki"},
@@ -3034,8 +3034,10 @@ ${pageHero("07","Guests","出演ゲスト",[
         <h3>${esc(g.name)}</h3>
         ${g.ig ? `<span class="gh">@${esc(g.ig)}</span>` : ""}
       </div>`;
-      return `<li class="rv" style="--d:${(i%12)*28}ms">${g.ig
-        ? `<a class="gcard" href="https://www.instagram.com/${esc(g.ig)}/" target="_blank" rel="noopener noreferrer">${inner}</a>`
+      /* link:false を付けた人は、アカウントが確認できていないのでリンクにしません。
+         確認できたら link:false を消すだけで、写真がインスタへのリンクに戻ります。 */
+      return `<li class="rv" style="--d:${(i%12)*28}ms">${(g.ig && g.link !== false)
+        ? `<a class="gcard" href="https://www.instagram.com/${esc(g.ig)}/" target="_blank" rel="noopener noreferrer" aria-label="${esc(g.name)} の Instagram を開く">${inner}</a>`
         : `<div class="gcard">${inner}</div>`}</li>`;
     }).join("")}
   </ul>` : `
