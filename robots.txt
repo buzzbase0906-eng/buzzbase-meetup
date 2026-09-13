@@ -1,3 +1,6 @@
-# このサイトは限定公開です。検索エンジンへの登録を希望しません。
+# BUZZBASE MEETUP — 検索エンジンの巡回を許可しています。
+# 非公開に戻したいときは、下の Allow: / を Disallow: / に書き換えてください。
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://buzzbase.net/sitemap.xml
