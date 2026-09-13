@@ -2287,7 +2287,7 @@ const GUESTS = [
   {name:"YUUKI", ig:"el.yuuki"},
   {name:"YUUKI", ig:"yuuki_mizushima08"},
   {name:"YUYA", ig:"yuya.lifevlog"},
-  {name:"TOA", ig:"toa_39", sns:"tiktok"},
+  {name:"TOA", ig:"toa_39", url:"https://lit.link/toa_39"},
   {name:"はせゆり", ig:"haseyuri__"},
   {name:"スパイダー遠藤龍之介マン", ig:"ryu46nokke", sns:"tiktok"},
   {name:"トミー", ig:"iam_tommy30"},
@@ -3040,11 +3040,13 @@ ${pageHero("07","Guests","出演ゲスト",[
   <ul class="guests mt-lg">
     ${GUESTS.map((g,i)=>{
       const src = GUEST_PHOTOS[g.ig];
-      /* sns:"tiktok" を付けた人は TikTok へ飛ばします（付けなければ Instagram）。 */
-      const site = g.sns === "tiktok" ? "TikTok" : "Instagram";
-      const href = g.sns === "tiktok"
-        ? `https://www.tiktok.com/@${encodeURIComponent(g.ig)}`
-        : `https://www.instagram.com/${encodeURIComponent(g.ig)}/`;
+      /* リンク先の決め方。url を書けばそのURLへ、sns:"tiktok" なら TikTok、
+         どちらもなければ Instagram の @ig へ飛びます。 */
+      const site = g.url ? "プロフィール" : (g.sns === "tiktok" ? "TikTok" : "Instagram");
+      const href = g.url ? g.url
+        : (g.sns === "tiktok"
+            ? `https://www.tiktok.com/@${encodeURIComponent(g.ig)}`
+            : `https://www.instagram.com/${encodeURIComponent(g.ig)}/`);
       const inner = `<div class="ph">
         ${src ? `<img src="${src}" alt="${esc(g.name)}" loading="lazy" decoding="async" width="520" height="468">`
               : `<span class="ini" aria-hidden="true">${esc(g.name.slice(0,2))}</span><span class="wash" aria-hidden="true"></span>`}
