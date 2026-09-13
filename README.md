@@ -54,7 +54,10 @@ Claude に頼むときは、こう言ってください。
 | `index.html` | サイト本体（HTML / CSS / JS / 画像をすべて内包・約700KB） |
 | `event.mp4` | ティザー映像（6.6MB・別ファイル） |
 | `shot-*.webp` | 各ページに載せている写真（4枚） |
-| `robots.txt` | 検索エンジン除け |
+| `robots.txt` | クローラーへの指示（いまは巡回を許可） |
+| `sitemap.xml` | 検索エンジンに渡すページ一覧 |
+| `ogp.jpg` | SNSでシェアしたときに出る画像（1200×630） |
+| `guest-*.webp` | 出演ゲストの写真 |
 | `CNAME` | 独自ドメイン（buzzbase.net）の指定。**消すとURLが元に戻ります** |
 
 ページ遷移は `#/numbers` のようなハッシュルーティングです。
@@ -79,7 +82,8 @@ Claude に頼むときは、こう言ってください。
 | `STATS` | NUMBERS ページの数字 |
 | `FAQ` | よくある質問 |
 | `SHOW` | 各セクションの表示ON/OFF（`past` / `voice` / `sponsors`） |
-| `PAST_GUESTS` | 参加者一覧ページの掲載者 |
+| `GUESTS` | 出演ゲスト（`show:false` で非表示、`sns:"tiktok"` や `url:` でリンク先を変更） |
+| `GUEST_PHOTOS` | 出演ゲストの写真（Instagram ID がキー） |
 
 ### よくある編集の例
 
@@ -105,10 +109,9 @@ const LINKS = { entryForm:"https://...", ... }
 - **`CNAME` ファイル**
   中身は `buzzbase.net` の1行だけです。消すと独自ドメインが外れ、
   URL が `buzzbase0906-eng.github.io/buzzbase-meetup/` に戻ります。
-- **`noindex` の指定**（`<head>` 内）
-  検索結果に出さないための設定です。外すと Google に載ります。
-  独自ドメインになったので `robots.txt` も正しく効くようになりました
-  （`https://buzzbase.net/robots.txt` がこのリポジトリの `robots.txt` です）。
+- **`<head>` の検索まわり一式**（title / description / OGP / JSON-LD）
+  検索結果とSNSシェアの見え方を決めています。消すと検索に出にくくなります。
+  非公開に戻す手順は、このファイルのいちばん下に書いてあります。
 - **動画の遅延読み込み**（`preload="none"` と `data-src`）
   6.6MB の動画を最初から読むと、表示が20秒以上遅くなります。
   `preload="auto"` に戻さないでください。
@@ -128,7 +131,7 @@ const LINKS = { entryForm:"https://...", ... }
 | 項目 | 状況 |
 | --- | --- |
 | クルー | 半谷一太のみ表示。他5名は `show:false` で保留中 |
-| 参加者一覧 | 掲載同意が取れた方から追加（現在は準備中の表示） |
+| 出演ゲスト | 89名を掲載（写真あり84／なし5）。経営者9名は `show:false` で非表示 |
 | 過去開催 / 参加者の声 / 協賛 | `SHOW` で非表示中（実データが揃うまで） |
 | パートナーのロゴ | にいみ農園のみ。STREET PV と TOPICO は文字表記 |
 
@@ -145,10 +148,20 @@ README を読ませることで、上の「壊さないでほしいもの」も�
 
 ---
 
-## 限定公開について
+## 検索エンジンへの公開について
 
-- すべてのページに `noindex, nofollow` を指定しています
-- `https://buzzbase.net/robots.txt` で全クローラーを拒否しています
-- どこからもリンクしていないため、**URL を知っている人だけ**が閲覧できます
-- GitHub の無料プランでは非公開リポジトリを Pages で配信できないため、
-  リポジトリ自体は公開されています。**パスワードや個人情報は絶対に書かないでください。**
+**このサイトは検索結果に出る設定になっています。**
+
+- `index.html` の `<head>` に、タイトル・説明文・OGP・イベントの構造化データ（JSON-LD）を入れています
+- `robots.txt` は `Allow: /`、`sitemap.xml` も置いています
+- シェア用の画像は `ogp.jpg`（1200×630）
+
+**非公開に戻したいとき**は2か所を直します。
+
+1. `index.html` の `<meta name="robots" content="index, follow, ...">` を
+   `<meta name="robots" content="noindex, nofollow">` に
+2. `robots.txt` の `Allow: /` を `Disallow: /` に
+
+会場名は載せない方針です。構造化データにも「東京・渋谷」までしか書いていません。
+
+**リポジトリは公開されています。パスワードや応募者の個人情報は絶対に書かないでください。**
