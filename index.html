@@ -2286,7 +2286,21 @@ const GUESTS = [
   {name:"YUTO", ig:"yuto_nukt_17"},
   {name:"YUUKI", ig:"el.yuuki"},
   {name:"YUUKI", ig:"yuuki_mizushima08"},
-  {name:"YUYA", ig:"yuya.lifevlog"}
+  {name:"YUYA", ig:"yuya.lifevlog"},
+  {name:"TOA", ig:"toa_39", sns:"tiktok"},
+  {name:"はせゆり", ig:"haseyuri__"},
+  {name:"スパイダー遠藤龍之介マン", ig:"ryu46nokke", sns:"tiktok"},
+  {name:"トミー", ig:"iam_tommy30"},
+  {name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
+  {name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
+  {name:"扇山 直斗", sub:"株式会社WAO 取締役"},
+  {name:"早川 千鶴", ig:"chiduru_gram"},
+  {name:"星 智也", sub:"FwC株式会社 副部長"},
+  {name:"池田 莞爾", sub:"株式会社VOICE 代表取締役"},
+  {name:"芳賀 雅彦", sub:"Nucleate Japan External Advisor"},
+  {name:"達城 良香", sub:"Tatsushiro Co.,Ltd. 代表取締役"},
+  {name:"野田 泰佑", sub:"一般社団法人日本チャリティスポーツ推奨機構 理事"},
+  {name:"麻生 広美", sub:"株式会社麻生塗工所 代表取締役"}
 ];
 const CREW = [
   /* 表示順は 半谷 / 乾・小西 / 新見・岩田・達城 のピラミッド。並べ替えたら code も振り直してください。
@@ -3037,7 +3051,8 @@ ${pageHero("07","Guests","出演ゲスト",[
       </div>
       <div class="gt">
         <h3>${esc(g.name)}</h3>
-        ${g.ig ? `<span class="gh">@${esc(g.ig)}</span>` : ""}
+        ${g.ig ? `<span class="gh">@${esc(g.ig)}</span>`
+               : (g.sub ? `<span class="gh">${esc(g.sub)}</span>` : "")}
       </div>`;
       /* link:false を付けた人は、アカウントが確認できていないのでリンクにしません。
          確認できたら link:false を消すだけで、写真がリンクに戻ります。 */
