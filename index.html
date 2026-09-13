@@ -2291,17 +2291,19 @@ const GUESTS = [
   {name:"はせゆり", ig:"haseyuri__"},
   {name:"スパイダー遠藤龍之介マン", ig:"ryu46nokke", sns:"tiktok"},
   {name:"トミー", ig:"iam_tommy30"},
-  {name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
-  {name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
-  {name:"扇山 直斗", sub:"株式会社WAO 取締役"},
+  {show:false, name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
+  {show:false, name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
+  {show:false, name:"扇山 直斗", sub:"株式会社WAO 取締役"},
   {name:"早川 千鶴", ig:"chiduru_gram"},
-  {name:"星 智也", sub:"FwC株式会社 副部長"},
-  {name:"池田 莞爾", sub:"株式会社VOICE 代表取締役"},
-  {name:"芳賀 雅彦", sub:"Nucleate Japan External Advisor"},
-  {name:"達城 良香", sub:"Tatsushiro Co.,Ltd. 代表取締役"},
-  {name:"野田 泰佑", sub:"一般社団法人日本チャリティスポーツ推奨機構 理事"},
-  {name:"麻生 広美", sub:"株式会社麻生塗工所 代表取締役"}
+  {show:false, name:"星 智也", sub:"FwC株式会社 副部長"},
+  {show:false, name:"池田 莞爾", sub:"株式会社VOICE 代表取締役"},
+  {show:false, name:"芳賀 雅彦", sub:"Nucleate Japan External Advisor"},
+  {show:false, name:"達城 良香", sub:"Tatsushiro Co.,Ltd. 代表取締役"},
+  {show:false, name:"野田 泰佑", sub:"一般社団法人日本チャリティスポーツ推奨機構 理事"},
+  {show:false, name:"麻生 広美", sub:"株式会社麻生塗工所 代表取締役"}
 ];
+/* show:false を付けた人はサイトに出ません。出したくなったら、その行の show:false, を消すだけです。 */
+const GUESTS_ON = GUESTS.filter(g => g.show !== false);
 const CREW = [
   /* 表示順は 半谷 / 乾・小西 / 新見・岩田・達城 のピラミッド。並べ替えたら code も振り直してください。
      show:false を付けたメンバーはサイトに出ません。再表示するときは、その行の show:false, を消すだけです。 */
@@ -3035,10 +3037,10 @@ ${pageHero("07","Guests","出演ゲスト",[
   "掲載はご本人の了承をいただいた方のみです。順次追加していきます。"])}
 <div class="wrap pad">
   ${heading("Guest Lineup","当日お会いできる方々","left")}
-  <p class="lead-p rv" style="max-width:44em;margin-top:14px">スポーツ、フィットネス、カルチャー、ビジネス――畑の違う ${GUESTS.length} 名が、この夜ひとつの場に集まります。</p>
-  ${GUESTS.length ? `
+  <p class="lead-p rv" style="max-width:44em;margin-top:14px">スポーツ、フィットネス、カルチャー、ビジネス――畑の違う ${GUESTS_ON.length} 名が、この夜ひとつの場に集まります。</p>
+  ${GUESTS_ON.length ? `
   <ul class="guests mt-lg">
-    ${GUESTS.map((g,i)=>{
+    ${GUESTS_ON.map((g,i)=>{
       const src = GUEST_PHOTOS[g.ig];
       /* リンク先の決め方。url を書けばそのURLへ、sns:"tiktok" なら TikTok、
          どちらもなければ Instagram の @ig へ飛びます。 */
