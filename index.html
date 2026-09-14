@@ -2098,6 +2098,9 @@ const NEWS = [
   {date:"2026.08.01", text:"第3回「BUZZBASE MEETUP VOL.03」の開催が決定しました。", href:"#/about"},
   ...(ENTRY_OPEN ? [{date:"2026.08.15", text:"参加申込の受付を開始しました。ご応募をお待ちしております。", href:"#/entry"}] : [])
 ];
+/* 出演ゲストのページを出すかどうか。false にするとナビと目次から消えます。
+   ゲストのデータと #/guests のURLは残るので、true に戻すだけで復活します。 */
+const GUESTS_VISIBLE = false;
 const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
   {href:"/numbers", label:"Numbers",  ja:"イベントデータ",      file:"01"},
@@ -2109,7 +2112,10 @@ const NAV = [
   {href:"/access",  label:"Access",   ja:"開催概要",           file:"06"},
   {href:"/company", label:"Company",  ja:"会社概要",           file:"08"},
   {href:"/entry",   label:"Entry",    ja:"参加申込",           file:"09"}
-];
+].filter(n => GUESTS_VISIBLE || n.href !== "/guests");
+/* File 番号はナビの並び順から自動で振ります。ページを隠しても番号が飛びません。 */
+NAV.filter(n => n.file).forEach((n,i) => { n.file = String(i+1).padStart(2,"0"); });
+const FILE_NO = Object.fromEntries(NAV.filter(n => n.file).map(n => [n.href, n.file]));
 const FILES = [
   {file:"01",title:"Numbers",ja:"イベントデータ",href:"/numbers",sum:"総フォロワー数、招待人数、そして120分。この夜を数字で見てみます。"},
   {file:"02",title:"About",ja:"イベントについて",href:"/about",sum:"何のための場で、どなたをお招きしているのか。3つの視点からご紹介します。"},
@@ -2119,9 +2125,9 @@ const FILES = [
   {file:"05",title:"Ticket",ja:"参加費",href:"/ticket",sum:"招待区分ごとの参加費と、お申込み前にご確認いただきたいこと。"},
   {file:"06",title:"Access",ja:"開催概要",href:"/access",sum:"開催日時と、会場のご案内方法・当日のお願いをまとめました。"},
   {file:"08",title:"Company",ja:"会社概要",href:"/company",sum:"この夜をかたちにしている事業体について。紹継のなりたちと三つの事業をご紹介します。"}
-];
+].filter(f => GUESTS_VISIBLE || f.href !== "/guests").map(f => ({...f, file: FILE_NO[f.href] || f.file}));
 const STATS = [
-  {label:"Total Followers",ja:"総フォロワー",value:5000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
+  {label:"Total Followers",ja:"総フォロワー",value:9000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
   {label:"Invited Guests",ja:"招待者",value:100,suffix:"名",note:"ご招待した方だけが参加できる、少人数のクローズドな会です。"},
   {label:"Contents",ja:"コンテンツ",value:6,suffix:" Files",note:"当日の進行は、受付からクロージングまで6つのパートで構成しています。"},
   {label:"Running Time",ja:"開催時間",value:120,suffix:" Min",note:"21:00から23:00まで。短い時間に、出会いを凝縮しています。"}
@@ -2530,6 +2536,8 @@ function heading(en,kana,align){
     <span class="kana">${esc(kana)}</span><span class="hairline" aria-hidden="true"></span></div>`;
 }
 function pageHero(no,en,kana,lede){
+  /* 番号はナビの並びから引く。一覧に出ないページ（thanks など）は引数の値のまま。 */
+  no = FILE_NO[currentPath()] || no;
   return `<header class="phero">
     <span class="blob a" style="left:-6%;top:-30%;width:420px;height:420px;opacity:.5" aria-hidden="true"></span>
     <span class="blob d" style="right:-8%;bottom:-40%;width:420px;height:420px;opacity:.45" aria-hidden="true"></span>
