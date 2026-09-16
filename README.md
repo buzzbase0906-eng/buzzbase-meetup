@@ -74,7 +74,7 @@ Claude に頼むときは、こう言ってください。
 | --- | --- |
 | `EVENT` | 開催日・時間・会場・定員 |
 | `SITE` | サイト名・キャッチコピー・主催表記 |
-| `LINKS` | 申込フォームURL・Instagram・連絡先メール |
+| `LINKS` | 申込フォームURL・Instagram・連絡先メール・運営会社サイト（`company`） |
 | `CREW` | 運営メンバー（`show:false` で非表示にできる） |
 | `PARTNERS` | パートナー・協賛（`logo` と `url`） |
 | `NEWS` | お知らせ |

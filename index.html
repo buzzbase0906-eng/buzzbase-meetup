@@ -2091,7 +2091,10 @@ const LINKS = {
   entryForm:"https://shokei.me/buzzbase/entry.html",
   instagram:"https://www.instagram.com/buzzbase.05.22/",
   handle:"@buzzbase.05.22",
-  email:"buzzbase0906@gmail.com"
+  email:"buzzbase0906@gmail.com",
+  /* 運営会社（株式会社紹継）の公式サイト。
+     会社概要ページの「ウェブサイト」欄と、全ページのフッターから飛びます。 */
+  company:"https://at.shokei.me/"
 };
 const ENTRY_OPEN = !!LINKS.entryForm;
 const NEWS = [
@@ -2394,7 +2397,7 @@ const COMPANY = {
     {k:"Founded",  ja:"設立",       v:"2026年8月26日"},
     {k:"Base",     ja:"所在地",     v:"東京都文京区"},
     {k:"Business", ja:"運営事業",   v:"BUZZBASE"},
-    {k:"Web",      ja:"ウェブサイト", v:"shokei.me", href:"https://shokei.me/"}
+    {k:"Web",      ja:"ウェブサイト", v:"at.shokei.me", href:LINKS.company}
   ],
   works:["日本文化事業","SNS事業","イベント企画","クリエイター支援","コンテンツ制作"]
 };
@@ -3317,7 +3320,8 @@ $("#footContact").innerHTML = `
   <li><a href="mailto:${LINKS.email}"><span style="color:var(--rose-deep)">${ICON.mail}</span><span class="fname">${LINKS.email}</span></a></li>
   <li><a href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer"><span style="color:var(--rose-deep)">${ICON.at}</span><span class="fname">${LINKS.handle}</span></a></li>
   <li><a href="#/entry"><span style="color:var(--rose-deep)">${ICON.mail}</span><span class="fname">Entry Form</span></a></li>
-  <li><a href="#/privacy"><span style="color:var(--rose-deep)">${ICON.lock}</span><span class="fname">Privacy Policy</span></a></li>`;
+  <li><a href="#/privacy"><span style="color:var(--rose-deep)">${ICON.lock}</span><span class="fname">Privacy Policy</span></a></li>
+  <li><a href="${LINKS.company}" target="_blank" rel="noopener noreferrer"><span style="color:var(--rose-deep)">${ICON.out}</span><span class="fname" style="font-family:var(--jp);font-size:13px;letter-spacing:.08em">${esc(COMPANY.name)}</span></a></li>`;
 $("#footMeta").innerHTML = `<div><dt>Date</dt><dd>${esc(EVENT.date)}</dd></div>
   <div><dt>Time</dt><dd>${esc(EVENT.time)}</dd></div>`;
 $("#footCopy").textContent = `© ${new Date().getFullYear()} ${SITE.name}. All rights reserved.`;
