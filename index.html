@@ -2103,7 +2103,7 @@ const NEWS = [
 ];
 /* 出演ゲストのページを出すかどうか。false にするとナビと目次から消えます。
    ゲストのデータと #/guests のURLは残るので、true に戻すだけで復活します。 */
-const GUESTS_VISIBLE = false;
+const GUESTS_VISIBLE = true;
 const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
   {href:"/numbers", label:"Numbers",  ja:"イベントデータ",      file:"01"},
@@ -2262,6 +2262,10 @@ const GUEST_PHOTOS = {
   "yuuki_mizushima08":"guest-yuuki-mizushima08.webp",
   "yuya.lifevlog":"guest-yuya-lifevlog.webp"
 };
+/* 掲載しない方には show:false を付けています。理由は2種類あります。
+   ・経営者枠（9名）— ご本人の希望で会社名・役職を出さないため
+   ・掲載NG（7名）— 運営から個別に「載せない」と指定された方
+   show:false を外すとすぐ表示に戻るので、外す前に必ず運営へ確認してください。 */
 const GUESTS = [
   {name:"AGASHI", ig:"a_i_927"},
   {name:"AIKO", ig:"kimura._.aiko"},
@@ -2276,7 +2280,7 @@ const GUESTS = [
   {name:"HARAKANA", ig:"kanata_vlog"},
   {name:"HARU", ig:"pyon.glow"},
   {name:"HARUTIN", ig:"harutin.dayo"},
-  {name:"HAYATO", ig:"_03.hyt"},
+  {show:false, name:"HAYATO", ig:"_03.hyt"},
   {name:"HIBIKI", ig:"hibiki._.log"},
   {name:"HIROAKI", ig:"hiroaki_dayo_official"},
   {name:"HYUMA", ig:"tominaga_pingpong"},
@@ -2287,7 +2291,7 @@ const GUESTS = [
   {name:"JONAHSAN", ig:"jonahsan_desu"},
   {name:"JOSEPH", ig:"joseph_kantandon"},
   {name:"JURI", ig:"saka_juri"},
-  {name:"KAMADA DAINI", ig:"kamadadaini"},
+  {show:false, name:"KAMADA DAINI", ig:"kamadadaini"},
   {name:"KEBE", ig:"onidabi_kebe"},
   {name:"KIMIKO", ig:"kimiko_chan84"},
   {name:"KIN", ig:"pyypex_original"},
@@ -2305,7 +2309,7 @@ const GUESTS = [
   {name:"MOTO", ig:"moto.footballpub"},
   {name:"MUSA", ig:"musax1002"},
   {name:"NAGI", ig:"avante_lalala"},
-  {name:"NANAKO", ig:"nanako.nsjm"},
+  {show:false, name:"NANAKO", ig:"nanako.nsjm"},
   {name:"NANAMI", ig:"nanami.baseball"},
   {name:"NOA", ig:"noa_from_hokkaido"},
   {name:"NORI", ig:"ebok10969", sns:"tiktok"},
@@ -2316,8 +2320,8 @@ const GUESTS = [
   {name:"RINKI", ig:"rinki_gram_insta"},
   {name:"RISA", ig:"ikaleee"},
   {name:"RUKUN", ig:"rukun9090"},
-  {name:"RYO", ig:"namidabokuro__"},
-  {name:"RYOGA", ig:"ryoga_endo"},
+  {show:false, name:"RYO", ig:"namidabokuro__"},
+  {show:false, name:"RYOGA", ig:"ryoga_endo"},
   {name:"SEIKO", ig:"seiko_mii4"},
   {name:"SHANMAI", ig:"shanmai_28"},
   {name:"SHINICHI", ig:"shin1_king"},
@@ -2348,9 +2352,9 @@ const GUESTS = [
   {name:"YUUKI", ig:"yuuki_mizushima08"},
   {name:"YUYA", ig:"yuya.lifevlog"},
   {name:"TOA", ig:"toa_39", url:"https://lit.link/toa_39"},
-  {name:"はせゆり", ig:"haseyuri__"},
+  {show:false, name:"はせゆり", ig:"haseyuri__"},
   {name:"スパイダー遠藤龍之介マン", ig:"ryu46nokke", sns:"tiktok"},
-  {name:"トミー", ig:"iam_tommy30"},
+  {show:false, name:"トミー", ig:"iam_tommy30"},
   {show:false, name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
   {show:false, name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
   {show:false, name:"扇山 直斗", sub:"株式会社WAO 取締役"},
