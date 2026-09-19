@@ -775,6 +775,11 @@ td.n{font-size:12px;line-height:1.9;color:var(--ink-soft)}
 .callout p{margin:0;font-size:12.5px;line-height:2.1;color:var(--ink-soft)}
 .notice{padding:24px;border-radius:4px;background:var(--mist);font-size:12px;line-height:2.1;color:var(--ink-soft)}
 
+/* ---------- 会場変更のお知らせ（変更前 → 変更後） ---------- */
+.rows.vc .v{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
+.rows.vc .was{color:var(--ink-faint);text-decoration:line-through;text-decoration-color:rgba(230,0,32,.5)}
+.rows.vc .arw{color:var(--red)}
+.rows.vc strong{font-weight:500;color:var(--ink)}
 /* ---------- form ---------- */
 .entry-grid{display:grid;grid-template-columns:1fr;gap:48px}
 @media(min-width:1000px){.entry-grid{grid-template-columns:1.2fr .8fr;gap:64px}}
@@ -2098,7 +2103,7 @@ const LINKS = {
 };
 const ENTRY_OPEN = !!LINKS.entryForm;
 const NEWS = [
-  {date:"2026.09.19", text:"【会場変更のお知らせ】お申込みが想定を上回り100名を超えたため、150名規模の会場へ変更となりました。開催時間は20:30〜23:00、入場は22:00まで（途中入場・途中退室可）。新会場はご招待の方へ個別にご案内しています。直前のご案内となり申し訳ございません。", href:"#/access"},
+  {date:"2026.09.19", text:"【会場変更のお知らせ】お申込みが想定を上回り100名を超えたため、150名規模の会場へ変更となりました。開催時間は20:30〜23:00、入場は22:00まで（途中入場・途中退室可）。新会場はご招待の方へ個別にご案内しています。直前のご案内となり申し訳ございません。", href:"#/notice"},
   {date:"2026.08.01", text:"第3回「BUZZBASE MEETUP VOL.03」の開催が決定しました。", href:"#/about"},
   ...(ENTRY_OPEN ? [{date:"2026.08.15", text:"参加申込の受付を開始しました。ご応募をお待ちしております。", href:"#/entry"}] : [])
 ];
@@ -3021,7 +3026,7 @@ ${pageHero("06","Access","開催概要",[
     </ul>
     <div class="callout rv" style="margin-top:34px">
       <span style="flex:none;color:var(--rose-deep)">${ICON.lock}</span>
-      <p>${esc(EVENT.venueNote)}お申込み多数のため150名規模の会場へ変更しました。新会場の場所は、ご招待の方へ個別にお送りしています。</p>
+      <p>${esc(EVENT.venueNote)}お申込み多数のため150名規模の会場へ変更しました。新会場の場所は、ご招待の方へ個別にお送りしています。<a href="#/notice" style="color:var(--rose-deep);text-decoration:underline;text-underline-offset:3px">会場変更のお知らせを見る →</a></p>
     </div>
   </div>
 </section>
@@ -3279,6 +3284,51 @@ PAGES["/privacy"] = () => `
   </div>
 </div>`;
 
+/* 会場変更のお知らせ。ナビには出さず、お知らせ欄と開催概要ページからだけリンクしています。
+   会場名・住所はこのページにも書きません（ご招待の方へ個別にご案内）。 */
+const VENUE_CHANGE = [
+  {k:"Venue",   ja:"会場",     before:"当初の会場（約100名規模）", after:"東京・渋谷の別会場（150名規模）"},
+  {k:"Time",    ja:"開催時間", before:"21:00 – 23:00", after:"20:30 – 23:00"},
+  {k:"Entry",   ja:"入場",     before:"20:45 受付開始", after:"20:30 – 22:00（途中入場・途中退室可）"},
+  {k:"Scale",   ja:"規模",     before:"約100名",      after:"約150名"}
+];
+PAGES["/notice"] = () => `
+<header class="phero" aria-label="会場変更のお知らせ">
+  <span class="blob a" style="left:-6%;top:-30%;width:420px;height:420px;opacity:.45" aria-hidden="true"></span>
+  <span class="blob d" style="right:-8%;bottom:-40%;width:420px;height:420px;opacity:.4" aria-hidden="true"></span>
+  ${vlabel("Invitation Only","l","top:16%")}
+  <div class="wrap" style="position:relative;z-index:3">
+    <p class="no">News — 2026.09.19</p>
+    <h1>Notice</h1>
+    <p class="kana">会場変更のお知らせ</p>
+    <span class="hairline" style="margin-top:22px" aria-hidden="true"></span>
+    <div class="lede"><p>9月25日（金）開催の BUZZBASE MEETUP VOL.03 について、お申込みが想定を上回り100名を超えたため、急遽150名規模の会場へ変更となりました。直前のご案内となってしまい、大変申し訳ございません。</p></div>
+  </div></header>
+<section class="pad"><div class="wrap">
+  <div class="rv">
+    ${heading("Changes","変更内容","left")}
+    <ul class="rows vc" style="margin-top:34px">
+      ${VENUE_CHANGE.map(r=>`<li>
+        <div class="k"><span class="en">${r.k}</span><span class="ja">${r.ja}</span></div>
+        <div class="v"><span class="was">${esc(r.before)}</span><span class="arw" aria-hidden="true">→</span><strong>${esc(r.after)}</strong></div>
+      </li>`).join("")}
+    </ul>
+  </div>
+  <div class="callout rv" style="margin-top:44px">
+    <span style="color:var(--rose-deep);flex:none">${ICON.alert}</span>
+    <div>
+      <p><strong>新しい会場の場所は、ご招待が確定した方へ個別にお送りしています。</strong>お手元の案内が以前の会場のままになっている場合や、ご案内が届いていない場合は、下記までお問い合わせください。</p>
+      <p style="margin-top:12px">お間違えのないよう、会場・時間をご確認のうえお越しください。急な変更となりご迷惑をおかけしますが、何卒よろしくお願いいたします。</p>
+    </div>
+  </div>
+  <div class="btn-row mt-lg rv">
+    <a class="btn primary" href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">DM で問い合わせる ${ARROW}</a>
+    <a class="btn ghost" href="mailto:${LINKS.email}">メールで問い合わせる ${ARROW}</a>
+    <a class="btn ghost" href="#/access">開催概要を見る ${ARROW}</a>
+  </div>
+  <p class="rv" style="margin:46px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint)">BUZZBASE MEETUP 運営事務局 ／ 2026.09.19</p>
+</div></section>`;
+
 PAGES["/404"] = () => `
 <section class="phero" style="padding-bottom:0" aria-label="ページが見つかりません">
   <span class="blob a" style="left:-6%;top:-30%;width:460px;height:460px;opacity:.5" aria-hidden="true"></span>
@@ -3389,6 +3439,7 @@ function render(){
     "/company": "会社概要 株式会社紹継｜BUZZBASE MEETUP",
     "/entry":   "参加申込｜BUZZBASE MEETUP VOL.03",
     "/privacy": "プライバシーポリシー｜BUZZBASE MEETUP",
+    "/notice":  "会場変更のお知らせ｜BUZZBASE MEETUP VOL.03",
     "/thanks":  "お申し込みありがとうございます｜BUZZBASE MEETUP",
     "/404":     "ページが見つかりません｜BUZZBASE MEETUP"
   };
