@@ -7,7 +7,7 @@
 <!-- ========= 検索まわりの設定 =========
      ここを noindex に戻すと、検索結果から消えます。 -->
 <title>BUZZBASE MEETUP VOL.03｜インフルエンサー×経営者の交流会（2026.9.25 東京・渋谷）</title>
-<meta name="description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。BUZZBASE MEETUP VOL.03 は2026年9月25日（金）21:00より東京・渋谷で開催。主催はハンくん（HANKUN）と STREET PV。出演ゲスト・当日の流れ・参加費・お申し込みはこちら。">
+<meta name="description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。BUZZBASE MEETUP VOL.03 は2026年9月25日（金）20:30より東京・渋谷で開催。主催はハンくん（HANKUN）と STREET PV。出演ゲスト・当日の流れ・参加費・お申し込みはこちら。">
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,渋谷,招待制">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
@@ -15,7 +15,7 @@
 
 <meta property="og:site_name" content="BUZZBASE MEETUP">
 <meta property="og:title" content="BUZZBASE MEETUP VOL.03｜インフルエンサー×経営者の交流会">
-<meta property="og:description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。2026年9月25日（金）21:00、東京・渋谷。">
+<meta property="og:description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。2026年9月25日（金）20:30、東京・渋谷。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://buzzbase.net/">
 <meta property="og:image" content="https://buzzbase.net/ogp.jpg">
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BUZZBASE MEETUP VOL.03｜インフルエンサー×経営者の交流会">
-<meta name="twitter:description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。2026年9月25日（金）21:00、東京・渋谷。">
+<meta name="twitter:description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。2026年9月25日（金）20:30、東京・渋谷。">
 <meta name="twitter:image" content="https://buzzbase.net/ogp.jpg">
 
 <script type="application/ld+json">
@@ -33,14 +33,14 @@
  "name":"BUZZBASE MEETUP VOL.03",
  "alternateName":"バズベース ミートアップ VOL.03",
  "description":"発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。肩書きを超え、価値観でつながる一夜。",
- "startDate":"2026-09-25T21:00:00+09:00",
+ "startDate":"2026-09-25T20:30:00+09:00",
  "endDate":"2026-09-25T23:00:00+09:00",
  "eventStatus":"https://schema.org/EventScheduled",
  "eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode",
  "image":["https://buzzbase.net/ogp.jpg"],
  "url":"https://buzzbase.net/",
  "inLanguage":"ja",
- "maximumAttendeeCapacity":100,
+ "maximumAttendeeCapacity":150,
  "isAccessibleForFree":false,
  "location":{"@type":"Place","name":"東京・渋谷（会場は参加確定者にご案内）",
    "address":{"@type":"PostalAddress","addressLocality":"渋谷区","addressRegion":"東京都","addressCountry":"JP"}},
@@ -2078,12 +2078,12 @@ const SITE = {
   invitation:"INVITATION ONLY — SELECTED INFLUENCERS & EXECUTIVES"
 };
 const EVENT = {
-  date:"2026.09.25 FRI", time:"21:00 – 23:00",
+  date:"2026.09.25 FRI", time:"20:30 – 23:00",
   /* 会場名はサイトに出しません。エリア（東京・渋谷）までの表記にとどめ、
      具体的な場所は招待が確定した方へ個別にご案内します。 */
   venue:"東京・渋谷",
   venueNote:"詳しい住所・フロア・入館方法は、ご招待が確定した方へ個別にご案内いたします。",
-  guests:"約100名", access:"INVITATION ONLY"
+  guests:"約150名", access:"INVITATION ONLY"
 };
 const LINKS = {
   /* Google フォームの URL が決まったら、ここに貼るだけで
@@ -2098,6 +2098,7 @@ const LINKS = {
 };
 const ENTRY_OPEN = !!LINKS.entryForm;
 const NEWS = [
+  {date:"2026.09.19", text:"【会場変更】お申込みが想定を上回ったため、150名規模の会場へ変更しました。開催時間は20:30〜23:00（入場は22:00まで・途中入退室可）です。新会場はご招待の方へ個別にご案内しています。", href:"#/access"},
   {date:"2026.08.01", text:"第3回「BUZZBASE MEETUP VOL.03」の開催が決定しました。", href:"#/about"},
   ...(ENTRY_OPEN ? [{date:"2026.08.15", text:"参加申込の受付を開始しました。ご応募をお待ちしております。", href:"#/entry"}] : [])
 ];
@@ -2120,9 +2121,9 @@ const NAV = [
 NAV.filter(n => n.file).forEach((n,i) => { n.file = String(i+1).padStart(2,"0"); });
 const FILE_NO = Object.fromEntries(NAV.filter(n => n.file).map(n => [n.href, n.file]));
 const FILES = [
-  {file:"01",title:"Numbers",ja:"イベントデータ",href:"/numbers",sum:"総フォロワー数、招待人数、そして120分。この夜を数字で見てみます。"},
+  {file:"01",title:"Numbers",ja:"イベントデータ",href:"/numbers",sum:"総フォロワー数、招待人数、そして150分。この夜を数字で見てみます。"},
   {file:"02",title:"About",ja:"イベントについて",href:"/about",sum:"何のための場で、どなたをお招きしているのか。3つの視点からご紹介します。"},
-  {file:"03",title:"Program",ja:"当日の流れ",href:"/program",sum:"21:00 の受付から 23:00 のクロージングまで、当日の流れをご案内します。"},
+  {file:"03",title:"Program",ja:"当日の流れ",href:"/program",sum:"20:30 の開場から 23:00 のクロージングまで、当日の流れをご案内します。"},
   {file:"04",title:"Crew",ja:"主催・運営メンバー",href:"/crew",sum:"この場をつくる主催者と運営チームを、担当ごとにご紹介します。"},
   {file:"07",title:"Guests",ja:"出演ゲスト",href:"/guests",sum:"当日お会いできるゲストの皆さま。畑の違う顔ぶれが一夜に集まります。"},
   {file:"05",title:"Ticket",ja:"参加費",href:"/ticket",sum:"招待区分ごとの参加費と、お申込み前にご確認いただきたいこと。"},
@@ -2131,9 +2132,9 @@ const FILES = [
 ].filter(f => GUESTS_VISIBLE || f.href !== "/guests").map(f => ({...f, file: FILE_NO[f.href] || f.file}));
 const STATS = [
   {label:"Total Followers",ja:"総フォロワー",value:9000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
-  {label:"Invited Guests",ja:"招待者",value:100,suffix:"名",note:"ご招待した方だけが参加できる、少人数のクローズドな会です。"},
+  {label:"Invited Guests",ja:"招待者",value:150,suffix:"名",note:"お申込みが想定を上回ったため、150名規模に拡大しました。ご招待した方だけが参加できるクローズドな会です。"},
   {label:"Contents",ja:"コンテンツ",value:6,suffix:" Files",note:"当日の進行は、受付からクロージングまで6つのパートで構成しています。"},
-  {label:"Running Time",ja:"開催時間",value:120,suffix:" Min",note:"21:00から23:00まで。短い時間に、出会いを凝縮しています。"}
+  {label:"Running Time",ja:"開催時間",value:150,suffix:" Min",note:"20:30から23:00まで。入場は22:00まで、途中入場・途中退室もできます。"}
 ];
 const BREAKDOWN = [
   {label:"Influencer",value:"約60名",note:"SNS総フォロワー1万人以上を目安に選出"},
@@ -2161,7 +2162,7 @@ const MISSIONS = [
   "サッカー系インフルエンサーと写真をとれ。"
 ];
 const PROGRAM = [
-  {time:"20:45",title:"Reception",ja:"受付・入場",tag:"Open",body:"20:45 に受付を開始します。招待コードの確認後、ゲストは順次入場。エントランスでウェルカムドリンクとネームタグをお渡しします。21:00 のオープニングまでにお越しください。"},
+  {time:"20:30",title:"Reception",ja:"開場・受付",tag:"Open",body:"20:30 に開場します。招待コードの確認後、ゲストは順次入場。エントランスでウェルカムドリンクとネームタグをお渡しします。入場は22:00まで、途中入場・途中退室もできます。"},
   {time:"21:15",title:"Opening",ja:"オープニング",tag:"Stage",body:"主催によるオープニングアナウンス。この夜のルールと、参加者同士のつながり方を共有します。"},
   {time:"21:30",title:"Cross Session",ja:"クロスセッション",tag:"Main",body:"インフルエンサーと経営者を組み合わせた少人数グループでのトークセッション。運営がテーマと導線を設計します。"},
   {time:"22:05",title:"Free Networking",ja:"フリーネットワーキング",tag:"Main",body:"フロア全体を開放。気になる相手へ自由に声をかけられる時間。運営クルーが紹介のサポートに入ります。この時間までにミッションを進めておいてください。"},
@@ -2428,9 +2429,9 @@ const TICKET_NOTES = [
 ];
 const ACCESS_ROWS = [
   {k:"Date",ja:"開催日",v:"2026.09.25 FRI"},
-  {k:"Time",ja:"時間",v:"21:00 – 23:00（20:45 受付開始）"},
+  {k:"Time",ja:"時間",v:"20:30 – 23:00（入場は22:00まで・途中入退室可）"},
   {k:"Area",ja:"エリア",v:"東京・渋谷"},
-  {k:"Guests",ja:"定員",v:"約100名（招待制）"},
+  {k:"Guests",ja:"定員",v:"約150名（招待制）"},
   {k:"Dress Code",ja:"ドレスコード",v:"BLACK / RED を一点"}
 ];
 const ACCESS_STEPS = [
@@ -2875,7 +2876,7 @@ ${shot(SHOT_ABOUT,"肩書きを越えて話しはじめた参加者")}
 
 PAGES["/program"] = () => `
 ${pageHero("03","Program","当日の流れ",[
-  "120分は短い。だからこそ、時間ごとに役割を決めています。",
+  "150分は短い。だからこそ、時間ごとに役割を決めています。",
   EVENT.time + "。はじめての方でも自然に話しはじめられるように、当日の流れを組んでいます。"])}
 ${shot(SHOT_PROGRAM,"前回のフロアの様子")}
 <section class="pad" aria-label="タイムライン">
