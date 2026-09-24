@@ -53,7 +53,7 @@ Claude に頼むときは、こう言ってください。
 | --- | --- |
 | `index.html` | サイト本体（HTML / CSS / JS / 画像をすべて内包・約700KB） |
 | `event.mp4` | ティザー映像（6.6MB・別ファイル） |
-| `shot-*.webp` | 各ページに載せている写真（4枚） |
+| `shot-*.webp` | 各ページに載せている写真（ABOUT / PROGRAM の2枚。NUMBERS と ACCESS の分は使っていません） |
 | `robots.txt` | クローラーへの指示（いまは巡回を許可） |
 | `sitemap.xml` | 検索エンジンに渡すページ一覧 |
 | `ogp.jpg` | SNSでシェアしたときに出る画像（1200×630） |
