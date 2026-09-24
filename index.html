@@ -780,6 +780,11 @@ td.n{font-size:12px;line-height:1.9;color:var(--ink-soft)}
 .rows.vc .was{color:var(--ink-faint);text-decoration:line-through;text-decoration-color:rgba(230,0,32,.5)}
 .rows.vc .arw{color:var(--red)}
 .rows.vc strong{font-weight:500;color:var(--ink)}
+/* ---------- キャンセルポリシー ---------- */
+.rows.cp .k .en{font-family:var(--jp);font-size:13px;letter-spacing:.06em;text-transform:none;color:var(--ink)}
+.rows.cp .v{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.rows.cp .rate{font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:.04em;color:var(--red);min-width:74px}
+.rows.cp .cpn{font-size:11.5px;line-height:1.9;color:var(--ink-soft)}
 /* ---------- form ---------- */
 .entry-grid{display:grid;grid-template-columns:1fr;gap:48px}
 @media(min-width:1000px){.entry-grid{grid-template-columns:1.2fr .8fr;gap:64px}}
@@ -2422,11 +2427,18 @@ const PLANS = [
   {code:"T-03",name:"Partner",ja:"協賛・パートナー枠",price:"Ask",pn:"内容に応じてご相談",
    inc:["入場（最大3名）","会場内でのブランド掲出","オフィシャル撮影データ","事後レポートの共有"],cond:"お問い合わせいただいた後、個別にご提案いたします。"}
 ];
+/* キャンセルポリシー。開催日（2026.09.25）から逆算した日付で判定します。
+   料率を変えるときは、ここの rate と when の両方を直してください。 */
+const CANCEL_POLICY = [
+  {when:"開催4日前まで",     ja:"2026.09.21 まで", rate:"無償",  note:"ご連絡いただければ費用はかかりません。"},
+  {when:"開催3日前〜2日前",  ja:"2026.09.22 – 23", rate:"50%",   note:"会場・お飲み物の手配が確定するためご負担をお願いしています。"},
+  {when:"前日・当日",        ja:"2026.09.24 – 25", rate:"100%",  note:"ご連絡なしでの不参加も同じ扱いとなります。"}
+];
 const TICKET_NOTES = [
   "本イベントは完全招待制です。お申込み後、運営による確認をもってご参加が確定します。",
   "参加費のお支払い方法は、ご招待確定後に個別でご案内いたします。",
   "お申込み内容に事実と異なる記載があった場合、ご参加をお断りすることがあります。",
-  "キャンセルは、会場をご案内する開催3日前の前日までは無償で承ります。開催3日前以降のキャンセルについては、参加費の全額をご負担いただきます。",
+  "キャンセルのご連絡は、公式LINEまたは Instagram の DM で承ります。ご負担いただく金額は下記のキャンセルポリシーのとおりです。",
   "PARTNER 枠のキャンセルについては、個別のお取り決めによります。",
   "会場内は20歳未満の方および酒気を帯びた状態での入場をお断りしております。"
 ];
@@ -2997,6 +3009,20 @@ ${pageHero("05","Ticket","参加費",[
         <p class="cond">${esc(p.cond)}</p>
       </article></li>`).join("")}
     </ul>
+  </div>
+</section>
+<section class="pad" aria-label="キャンセルポリシー">
+  <div class="wrap">
+    ${heading("Cancellation","キャンセルポリシー")}
+    <ul class="rows cp mt-lg">
+      ${CANCEL_POLICY.map(c=>`<li class="rv">
+        <div class="k"><span class="en">${esc(c.when)}</span><span class="ja">${esc(c.ja)}</span></div>
+        <div class="v"><strong class="rate">${esc(c.rate)}</strong><span class="cpn">${esc(c.note)}</span></div>
+      </li>`).join("")}
+    </ul>
+    <p class="rv" style="margin:22px 0 0;font-size:11.5px;line-height:2;color:var(--ink-faint)">
+      キャンセル料は参加費に対する割合です。お支払い済みの場合は差額をご返金し、未払いの場合は後日お支払いのご案内をお送りします。
+      PARTNER 枠のキャンセルは個別のお取り決めによります。</p>
   </div>
 </section>
 <section class="pad" style="background:var(--mist)" aria-label="注意事項">
