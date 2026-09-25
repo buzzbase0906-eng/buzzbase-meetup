@@ -44,7 +44,7 @@
  "isAccessibleForFree":false,
  "location":{"@type":"Place","name":"東京・渋谷（会場は参加確定者にご案内）",
    "address":{"@type":"PostalAddress","addressLocality":"渋谷区","addressRegion":"東京都","addressCountry":"JP"}},
- "organizer":{"@type":"Organization","name":"株式会社紹継","url":"https://shokei.me/"},
+ "organizer":{"@type":"Organization","name":"株式会社紹継","url":"https://at.shokei.me/"},
  "performer":[
    {"@type":"Person","name":"HANKUN（半谷一太）","sameAs":["https://www.instagram.com/h13i_14/"]},
    {"@type":"Organization","name":"STREET PV","sameAs":["https://www.instagram.com/streetpv.03/"]}],
@@ -3283,7 +3283,7 @@ PAGES["/privacy"] = () => `
         <li>会場・受付情報など、当日のご案内の送付</li>
         <li>当日の受付照合および運営</li>
         <li>次回以降の BUZZBASE MEETUP のご案内</li>
-        <li>ご同意いただいた方について、公式サイトの「参加者一覧」への掲載</li>
+        <li>ご同意いただいた方について、公式サイトの「出演ゲスト」への掲載</li>
       </ul></section>
 
     <section><h2>3. 保存期間</h2>
@@ -3298,7 +3298,7 @@ PAGES["/privacy"] = () => `
       <p class="n">掲載の可否にかかわらず、ご参加いただいた方にはご自身が写ったオフィシャル撮影データをお渡しします。</p></section>
 
     <section><h2>6. お名前・SNS アカウントの掲載について</h2>
-      <p>公式サイトの「参加者一覧」ページに、ご参加いただいた方のお名前・肩書き・SNS アカウント・お写真を掲載することがあります。掲載は任意で、<strong>参加申込時に掲載への同意をいただいた方のみ</strong>を対象とします。同意されない場合でも、選考やご参加に影響することはありません。</p>
+      <p>公式サイトの「出演ゲスト」ページに、ご参加いただいた方のお名前・肩書き・SNS アカウント・お写真を掲載することがあります。掲載は任意で、<strong>参加申込時に掲載への同意をいただいた方のみ</strong>を対象とします。同意されない場合でも、選考やご参加に影響することはありません。</p>
       <p>掲載後の取り下げは、下記のお問い合わせ窓口までご連絡いただければ速やかに対応します。</p></section>
 
     <section><h2>7. 開示・訂正・削除のご請求</h2>
@@ -3441,6 +3441,9 @@ function currentPath(){
   const h = location.hash.replace(/^#/,"");
   const p = (h.split("?")[0] || "/").replace(/\/+$/,"") || "/";
   if (PAGES[p]) return p;
+  /* ページのURLは必ず "/" で始まります（#/about など）。
+     "#main" のようなページ内リンクを 404 扱いにしないための判定です。 */
+  if (h && !h.startsWith("/")) return null;
   return h ? "/404" : "/";
 }
 function renderPageNav(path){
@@ -3455,6 +3458,8 @@ function renderPageNav(path){
 }
 function render(){
   const path = currentPath();
+  /* ページ内リンク（#main など）のときは描き直さない */
+  if (!path) return;
   $("#main").innerHTML = PAGES[path]();
   renderPageNav(path);
   $$("[data-nav]").forEach(a => {
@@ -3539,6 +3544,18 @@ function setupDraw(){
   });
 }
 window.addEventListener("hashchange", () => FX.transition(render));
+
+/* 「本文へスキップ」— URL を変えずに本文へ移動してフォーカスを当てる */
+{
+  const skip = document.querySelector(".skip-link");
+  const main = $("#main");
+  if (skip && main) skip.addEventListener("click", e => {
+    e.preventDefault();
+    main.setAttribute("tabindex","-1");
+    main.focus({preventScroll:true});
+    main.scrollIntoView({behavior: reduced() ? "auto" : "smooth", block:"start"});
+  });
+}
 
 /* ==================================================================
    6. REVEAL / COUNTER
