@@ -80,7 +80,8 @@ Claude に頼むときは、こう言ってください。
 | `SITE` | サイト名・キャッチコピー・主催表記 |
 | `LINKS` | 申込フォームURL・Instagram・連絡先メール・運営会社サイト（`company`） |
 | `CREW` | 運営メンバー（`show:false` で非表示にできる） |
-| `PARTNERS` | パートナー・協賛（`logo` と `url`） |
+| `PARTNERS` | パートナー・協賛のロゴ一覧（`logo` と `url`。`logo:null` なら社名が文字で出ます） |
+| `PARTNER_FEATURES` | パートナーの紹介文（CREW ページ下部。上から順に表示） |
 | `NEWS` | お知らせ |
 | `PROGRAM` | 当日のタイムテーブル |
 | `STATS` | NUMBERS ページの数字 |
@@ -137,7 +138,7 @@ const LINKS = { entryForm:"https://...", ... }
 | クルー | 半谷一太のみ表示。他5名は `show:false` で保留中 |
 | 出演ゲスト | 81名を掲載。残り17名は `show:false`（経営者9名＋掲載NG8名）。**NG の方を表示に戻すときは必ず運営へ確認** |
 | 過去開催 / 参加者の声 / 協賛 | `SHOW` で非表示中（実データが揃うまで） |
-| パートナーのロゴ | にいみ農園のみ。STREET PV と TOPICO は文字表記 |
+| パートナーのロゴ | にいみ農園・STREET PV・TOPICO は画像。**Traum（メインスポンサー）はロゴ未着で文字表記**。届いたら `LOGO_TRAUM` を作って `PARTNERS[0].logo` と `PARTNER_FEATURES[0].logo` に入れる |
 
 ---
 
