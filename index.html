@@ -2121,6 +2121,9 @@ const NEWS = [
 ];
 /* 出演ゲストのページを出すかどうか。false にするとナビと目次から消えます。
    ゲストのデータと #/guests のURLは残るので、true に戻すだけで復活します。 */
+/* 開催までのカウントダウンを出すかどうか。false で帯ごと消えます。
+   仕組みは残してあるので、次回開催のときは true に戻すだけで使えます。 */
+const COUNTDOWN_VISIBLE = false;
 const GUESTS_VISIBLE = true;
 const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
@@ -2648,7 +2651,7 @@ PAGES["/"] = () => `
   </nav>
 </section>
 
-<section class="cdband" aria-label="開催までの残り時間">
+${COUNTDOWN_VISIBLE ? `<section class="cdband" aria-label="開催までの残り時間">
   <div class="wrap cd-in">
     <p class="label">Countdown</p>
     <div class="cd" id="cdown" role="timer" aria-live="off">
@@ -2662,7 +2665,7 @@ PAGES["/"] = () => `
     </div>
     <p class="cd-meta">${esc(EVENT.date)}　${esc(EVENT.time)}　/　${esc(EVENT.venue)}</p>
   </div>
-</section>
+</section>` : ""}
 
 <section class="pad-sm" aria-label="ティザー映像">
   <div class="movie rv">
