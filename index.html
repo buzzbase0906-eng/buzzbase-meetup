@@ -762,6 +762,8 @@ td.n{font-size:12px;line-height:1.9;color:var(--ink-soft)}
 @media(min-width:760px){.pfeat{grid-template-columns:200px 1fr;gap:34px;padding:34px 32px;align-items:start}}
 .pfeat-logo{display:flex;justify-content:center}
 .pfeat-logo img{display:block;width:100%;max-width:170px;height:auto;border-radius:6px}
+/* 横長のロゴは枠いっぱいまで使います */
+.pfeat-logo.wide img{max-width:100%}
 /* ロゴ画像がないパートナーは社名を枠付きで出します */
 .pfeat-wordmark{display:flex;align-items:center;justify-content:center;width:100%;max-width:170px;
   min-height:96px;padding:14px 16px;border:1px solid var(--line);border-radius:6px;background:#fff;
@@ -877,7 +879,7 @@ form.entry{display:flex;flex-direction:column;gap:32px}
 .partners .label{margin:0;color:var(--red)}
 .partners .nm{margin:14px 0 0;font-family:var(--display);font-weight:700;text-transform:uppercase;
   font-size:clamp(1.5rem,4vw,2rem);letter-spacing:.02em;color:var(--ink);line-height:1.1}
-.partners img{display:block;max-height:70px;width:auto;margin:14px auto 0;border-radius:6px}
+.partners img{display:block;max-height:70px;max-width:100%;width:auto;margin:14px auto 0;border-radius:6px}
 .partners .pt-link img{max-height:150px}
 
 /* ==================================================================
@@ -2069,6 +2071,7 @@ const PHOTO_INUI = "img-photo-inui.webp";
 const PHOTO_TATSUKI = "img-photo-tatsuki.webp";
 const PHOTO_IWATA = "img-photo-iwata.webp";
 const PHOTO_KONISHI = "img-photo-konishi.webp";
+const LOGO_TRAUM = "img-logo-traum.webp";
 const LOGO_TOPICO = "img-logo-topico.webp";
 const LOGO_STREETPV = "img-logo-streetpv.webp";
 const LOGO_NIIMI = "img-logo-niimi.webp";
@@ -2431,9 +2434,9 @@ const PARTNER_FEATURES = [
     lead:"TikTok LIVE 専門のライバー事務所",
     url:"https://traum-live.com/",
     anchor:"ライバー事務所 Traum の公式サイト（TikTok LIVE 専門／株式会社Buhne 運営）",
-    /* ロゴ画像はまだお預かりしていません。届いたら LOGO_TRAUM を作って
-       下の PARTNER_FEATURES[0].logo に入れてください。null のあいだは社名が文字で出ます。 */
-    logo:null,
+    logo:null,   /* 下で LOGO_TRAUM を入れています */
+    /* 横長のロゴなので、読み込み前の場所取り用に実寸を持たせています（正方形のロゴは省略可） */
+    lw:660, lh:256,
     body:["Traum（トラウム）は、TikTok LIVE を専門にするライバー事務所です。社名はドイツ語で「夢」。ライバーとリスナーが一緒に夢を追いかけられる場所にしたい、という思いから付けられています。",
           "投げ銭総額1億円を超えたトップライバーが立ち上げた事務所で、担当マネージャーによる配信サポート、顧問弁護士によるトラブル対応、税理士への相談まで、配信のまわりをまとめて支える体制をとっています。ノルマはありません。",
           "BUZZBASE MEETUP VOL.03 には、メインスポンサーとしてご参加いただいています。"],
@@ -2479,12 +2482,12 @@ const PARTNER_FEATURES = [
   }
 ];
 const PARTNERS = [
-  /* Traum のロゴはまだお預かりしていないため logo:null（社名が文字で出ます）。 */
-  {kind:"Main Sponsor", name:"Traum", ja:"TikTok LIVE専門ライバー事務所", logo:null, url:"https://traum-live.com/"},
+  {kind:"Main Sponsor", name:"Traum", ja:"TikTok LIVE専門ライバー事務所", logo:LOGO_TRAUM, url:"https://traum-live.com/"},
   {kind:"Partner", name:"STREET PV", ja:"映像制作パートナー", logo:LOGO_STREETPV, url:"https://www.instagram.com/streetpv.03/"},
   {kind:"Sponsor", name:"TOPICO",    ja:"TOPICO株式会社",     logo:LOGO_TOPICO, url:"https://topico.co.jp/"},
   {kind:"Partner", name:"にいみ農園", ja:"栃木・下野の米農家", logo:LOGO_NIIMI, url:"https://213nouen.com/"}
 ];
+PARTNER_FEATURES[0].logo = LOGO_TRAUM;
 PARTNER_FEATURES[1].logo = LOGO_TOPICO;
 PARTNER_FEATURES[2].logo = LOGO_NIIMI;
 const PLANS = [
@@ -3052,11 +3055,11 @@ ${pageHero("04","Crew","主催・運営メンバー",[
 
     ${PARTNER_FEATURES.map((f,n)=>`
     <article class="pfeat rv" aria-labelledby="pfeat-${n}">
-      <div class="pfeat-logo">
+      <div class="pfeat-logo${f.lw && f.lw > f.lh*1.6 ? " wide" : ""}">
         <a href="${esc(f.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(f.anchor)}">
           ${f.logo
             ? `<img src="${f.logo}" alt="${esc(f.name)}（${esc(f.lead)}）のロゴ"
-                 loading="lazy" decoding="async" width="320" height="320">`
+                 loading="lazy" decoding="async" width="${f.lw||320}" height="${f.lh||320}">`
             /* ロゴ画像がないときは社名を枠に入れて出します（他社のロゴを勝手に持ってこないため） */
             : `<span class="pfeat-wordmark">${esc(f.name)}</span>`}
         </a>

@@ -138,7 +138,7 @@ const LINKS = { entryForm:"https://...", ... }
 | クルー | 半谷一太のみ表示。他5名は `show:false` で保留中 |
 | 出演ゲスト | 81名を掲載。残り17名は `show:false`（経営者9名＋掲載NG8名）。**NG の方を表示に戻すときは必ず運営へ確認** |
 | 過去開催 / 参加者の声 / 協賛 | `SHOW` で非表示中（実データが揃うまで） |
-| パートナーのロゴ | にいみ農園・STREET PV・TOPICO は画像。**Traum（メインスポンサー）はロゴ未着で文字表記**。届いたら `LOGO_TRAUM` を作って `PARTNERS[0].logo` と `PARTNER_FEATURES[0].logo` に入れる |
+| パートナーのロゴ | Traum（メインスポンサー）・にいみ農園・STREET PV・TOPICO の4社とも画像を掲載済み |
 
 ---
 
