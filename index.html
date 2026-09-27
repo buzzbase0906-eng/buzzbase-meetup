@@ -2127,7 +2127,7 @@ const ENTRY_OPEN = !EVENT_ENDED && !!LINKS.entryForm;
 /* 申込ボタンの文言。開催後は申込へ誘導しません。 */
 const ENTRY_CTA = EVENT_ENDED ? "VOL.03 について" : "参加申込へ";
 const NEWS = [
-  {date:"2026.09.25", text:"BUZZBASE MEETUP VOL.03 は終了しました。ご参加いただいたみなさま、ご協賛・ご協力いただいたみなさま、ありがとうございました。VOL.04 については決まりしだいお知らせします。", href:"#/about"},
+  {date:"2026.09.25", text:"BUZZBASE MEETUP VOL.03 は終了しました。ご参加いただいたみなさま、ご協賛・ご協力いただいたみなさま、ありがとうございました。VOL.04 については決まりしだいお知らせします。", href:"#/report"},
   {date:"2026.09.19", text:"【会場変更のお知らせ】お申込みが想定を上回り100名を超えたため、150名規模の会場へ変更となりました。開催時間は20:30〜23:00、入場は22:00まで（途中入場・途中退室可）。新会場はご招待の方へ個別にご案内しています。直前のご案内となり申し訳ございません。", href:"#/notice"},
   {date:"2026.08.01", text:"第3回「BUZZBASE MEETUP VOL.03」の開催が決定しました。", href:"#/about"},
   ...(ENTRY_OPEN ? [{date:"2026.08.15", text:"参加申込の受付を開始しました。ご応募をお待ちしております。", href:"#/entry"}] : [])
@@ -2142,6 +2142,8 @@ const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
   {href:"/numbers", label:"Numbers",  ja:"イベントデータ",      file:"01"},
   {href:"/about",   label:"About",    ja:"イベントについて",    file:"02"},
+  /* 開催レポート。開催後だけナビに出します（EVENT_ENDED が false のときは消えます）。 */
+  {href:"/report",  label:"Report",   ja:"開催レポート",        file:"R1"},
   {href:"/program", label:"Program",  ja:"当日の流れ",         file:"03"},
   {href:"/crew",    label:"Crew",     ja:"主催・運営メンバー",  file:"04"},
   {href:"/guests",  label:"Guests",   ja:"出演ゲスト",         file:"07"},
@@ -2149,20 +2151,24 @@ const NAV = [
   {href:"/access",  label:"Access",   ja:"開催概要",           file:"06"},
   {href:"/company", label:"Company",  ja:"会社概要",           file:"08"},
   {href:"/entry",   label:"Entry",    ja:"参加申込",           file:"09"}
-].filter(n => GUESTS_VISIBLE || n.href !== "/guests");
+].filter(n => GUESTS_VISIBLE || n.href !== "/guests")
+ .filter(n => EVENT_ENDED || n.href !== "/report");
 /* File 番号はナビの並び順から自動で振ります。ページを隠しても番号が飛びません。 */
 NAV.filter(n => n.file).forEach((n,i) => { n.file = String(i+1).padStart(2,"0"); });
 const FILE_NO = Object.fromEntries(NAV.filter(n => n.file).map(n => [n.href, n.file]));
 const FILES = [
   {file:"01",title:"Numbers",ja:"イベントデータ",href:"/numbers",sum:"総フォロワー数、招待人数、そして150分。この夜を数字で見てみます。"},
   {file:"02",title:"About",ja:"イベントについて",href:"/about",sum:"何のための場で、どなたをお招きしているのか。3つの視点からご紹介します。"},
+  {file:"R1",title:"Report",ja:"開催レポート",href:"/report",sum:"2026年9月25日の夜に何が起きたのか。当日の様子をふりかえります。"},
   {file:"03",title:"Program",ja:"当日の流れ",href:"/program",sum:"20:30 の開場から 23:00 のクロージングまで、当日の流れをご案内します。"},
   {file:"04",title:"Crew",ja:"主催・運営メンバー",href:"/crew",sum:"この場をつくる主催者と運営チームを、担当ごとにご紹介します。"},
   {file:"07",title:"Guests",ja:"出演ゲスト",href:"/guests",sum:"当日お会いできるゲストの皆さま。畑の違う顔ぶれが一夜に集まります。"},
   {file:"05",title:"Ticket",ja:"参加費",href:"/ticket",sum:"招待区分ごとの参加費と、お申込み前にご確認いただきたいこと。"},
   {file:"06",title:"Access",ja:"開催概要",href:"/access",sum:"開催日時と、会場のご案内方法・当日のお願いをまとめました。"},
   {file:"08",title:"Company",ja:"会社概要",href:"/company",sum:"この夜をかたちにしている事業体について。紹継のなりたちと三つの事業をご紹介します。"}
-].filter(f => GUESTS_VISIBLE || f.href !== "/guests").map(f => ({...f, file: FILE_NO[f.href] || f.file}));
+].filter(f => GUESTS_VISIBLE || f.href !== "/guests")
+ .filter(f => EVENT_ENDED || f.href !== "/report")
+ .map(f => ({...f, file: FILE_NO[f.href] || f.file}));
 const STATS = [
   {label:"Total Followers",ja:"総フォロワー",value:10000000,suffix:"+",grouped:true,note:"これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"},
   {label:"Invited Guests",ja:"招待者",value:150,suffix:"名",note:"お申込みが想定を上回ったため、150名規模に拡大しました。ご招待した方だけが参加できるクローズドな会です。"},
@@ -2726,7 +2732,7 @@ PAGES["/"] = () => `
         <p class="jp">VOL.03 は、盛況のうちに終了しました。<br class="brw">肩書きを超えて、発信する人と、事業をつくる人が同じ場所に集まった一夜。ご参加・ご協賛いただいたみなさま、ありがとうございました。</p>
         <p class="sub">${esc(EVENT.date)} 開催　／　${esc(EVENT.venue)}　／　${esc(EVENT.guests)}</p>
         <div class="cta">
-          <a class="red" href="#/about">当日の様子を見る ${ARROW}</a>
+          <a class="red" href="#/report">当日の様子を見る ${ARROW}</a>
           <a class="line" href="${esc(LINKS.instagram)}" target="_blank" rel="noopener noreferrer">次回の案内を受け取る ${ARROW}</a>
         </div>` : `
         <p class="jp">肩書きを超え、価値観でつながる一夜。<br class="brw">発信力を持つインフルエンサーと、事業を動かす経営者・役員が集う、完全招待制のプライベート交流会（ミートアップ）です。</p>
@@ -3533,6 +3539,105 @@ PAGES["/notice"] = () => `
   <p class="rv" style="margin:46px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint)">BUZZBASE MEETUP 運営事務局 ／ 2026.09.19</p>
 </div></section>`;
 
+PAGES["/report"] = () => `
+${pageHero("R1","Report","開催レポート",[
+  "2026年9月25日（金）、東京・渋谷で BUZZBASE MEETUP VOL.03 を開催しました。",
+  "発信力のあるインフルエンサーと、事業を動かす経営者。ふだんは交わらない二つの世界を、ひと晩だけ同じフロアに置いてみる。VOL.01 から変えていない設計で、3回目を迎えました。"])}
+
+<section class="pad-sm" aria-label="当日の様子">
+  <div class="wrap">
+    <figure class="groupshot rv" style="margin-top:0">
+      <img src="${PHOTO_GROUP}" alt="BUZZBASE MEETUP VOL.03 の会場で撮影した参加者の集合写真" loading="lazy" decoding="async" width="1400" height="1050">
+      <figcaption>BUZZBASE MEETUP VOL.03 — 2026年9月25日（金）東京・渋谷</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="pad" aria-label="この夜の設計">
+  <div class="wrap" style="max-width:880px">
+    ${heading("The Night","肩書きではなく、価値観でつながる","left")}
+    <p class="lead-p rv" style="max-width:44em;margin-top:18px">BUZZBASE MEETUP は完全招待制です。名刺交換の数を競う場ではなく、「この人ともう一度話したい」と思える相手が一人でも見つかることを目的にしています。今回はお申込みが想定を上回り、開催の直前に会場と規模を見直して、当初の100名から約150名規模での開催となりました。</p>
+    <p class="lead-p rv" style="max-width:44em">そのために、当日はこんな時間の設計にしました。</p>
+    <ol class="tl mt-lg">
+      <span class="spine" aria-hidden="true"></span>
+      ${PROGRAM.map(p=>`<li class="rv">
+        <span class="time" aria-hidden="true">${p.time}</span>
+        <span class="dot" aria-hidden="true"><i></i></span>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+          <span class="m-time">${p.time}</span>
+          <span class="tag label ${p.tag==="Main"?"main":p.tag==="Special"?"secret":""}">${p.tag}</span>
+        </div>
+        <h2>${esc(p.title)}</h2>
+        <p class="ja">${esc(p.ja)}</p>
+      </li>`).join("")}
+    </ol>
+    <p class="lead-p rv" style="max-width:44em;margin-top:34px">入場は22:00まで、途中入場・途中退室も自由にしました。金曜の夜に予定が重なりやすい方でも、来られる時間だけ参加できるようにするためです。</p>
+  </div>
+</section>
+
+<section class="pad" style="background:var(--mist)" aria-label="クエスト">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Quest","「この中にスパイがいます」","left")}
+    <p class="lead-p rv" style="max-width:44em;margin-top:18px">今回いちばん反応が大きかったのが、当日お配りしたクエストカードでした。</p>
+    <p class="lead-p rv" style="max-width:44em">受付で全員にカードを1枚ずつお渡しします。カードにはQRコードが印刷されていて、読み取るとその人だけのミッションが3つ表示される。会場を歩き回らないと達成できない内容です。</p>
+    <p class="lead-p rv" style="max-width:44em">ただし——6種類あるカードのうち、1種類だけは<strong>スパイのカード</strong>でした。ある時間になると、そのカードのミッションだけが別の内容に切り替わります。引いた本人にしか分かりません。そして22:45、全員での投票。「この中にいるスパイを見つけられましたか」。</p>
+    <div class="callout rv" style="margin-top:34px">
+      <span style="color:var(--rose-deep);flex:none">${ICON.alert}</span>
+      <div>
+        <p>初対面同士だと、どうしても「何をされている方ですか」から会話が始まります。そこを飛ばして、いきなり「あなた、怪しくないですか？」から始められる。このためだけに用意した仕掛けでしたが、狙いどおりフロアの温度が一段変わりました。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pad" aria-label="数字">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Numbers","数字で見る VOL.03","left")}
+    <ul class="rows mt-lg">
+      ${[["Invited Guests","招待者","約150名","完全招待制。お申込みのうち、運営で確認した方のみをご招待しました。"],
+         ["Guest Lineup","出演ゲスト","98名","掲載を承諾いただいた方を公式サイトに掲載しています。"],
+         ["Total Followers","総フォロワー","1,000万+","これまでの BUZZBASE MEETUP にご参加いただいたインフルエンサーのSNS総リーチ数（複数プラットフォーム合算）。"],
+         ["Running Time","開催時間","150分","20:30から23:00まで。入場は22:00まで、途中入退室可。"]]
+        .map(([k,ja,v,note])=>`<li class="rv">
+          <div class="k"><span class="en">${esc(k)}</span><span class="ja">${esc(ja)}</span></div>
+          <div class="v"><strong>${esc(v)}</strong><span class="n">${esc(note)}</span></div>
+        </li>`).join("")}
+    </ul>
+  </div>
+</section>
+
+<section class="pad" style="background:var(--mist)" aria-label="謝辞">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Thanks","支えてくださったみなさん","left")}
+    <ul class="rows mt-lg">
+      ${PARTNER_FEATURES.map(f=>`<li class="rv">
+        <div class="k"><span class="en">${esc(f.kind.split(" — ")[0])}</span><span class="ja">${esc(f.kind.split(" — ")[1]||"")}</span></div>
+        <div class="v">
+          <strong>${esc(f.name)}</strong>
+          <span class="n">${esc(f.lead)}</span>
+          <a class="pfeat-link" href="${esc(f.url)}" target="_blank" rel="noopener noreferrer" style="margin-top:8px;display:inline-block">${esc(f.url.replace(/^https?:\/\//,"").replace(/\/$/,""))} ${ARROW}</a>
+        </div>
+      </li>`).join("")}
+    </ul>
+    <p class="lead-p rv" style="max-width:44em;margin-top:30px">ご参加いただいたみなさま、ご協賛・ご協力いただいたみなさま、本当にありがとうございました。</p>
+    <div class="btn-row mt-md rv">
+      <a class="btn ghost" href="#/crew">運営メンバーとパートナーを見る ${ARROW}</a>
+    </div>
+  </div>
+</section>
+
+<section class="pad" aria-label="次回について">
+  <div class="wrap" style="max-width:880px">
+    ${heading("Next","次回について","left")}
+    <p class="lead-p rv" style="max-width:44em;margin-top:18px">BUZZBASE MEETUP VOL.04 の開催については、決まりしだいこのサイトと Instagram でお知らせします。VOL.04 でまたお会いしましょう。</p>
+    <div class="btn-row mt-md rv">
+      <a class="btn primary" href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">Instagram をフォローする ${ARROW}</a>
+      <a class="btn ghost" href="#/guests">出演ゲストを見る ${ARROW}</a>
+    </div>
+    <p class="rv" style="margin:46px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-faint)">BUZZBASE MEETUP 運営事務局 ／ 2026.09.27</p>
+  </div>
+</section>`;
+
 PAGES["/404"] = () => `
 <section class="phero" style="padding-bottom:0" aria-label="ページが見つかりません">
   <span class="blob a" style="left:-6%;top:-30%;width:460px;height:460px;opacity:.5" aria-hidden="true"></span>
@@ -3649,6 +3754,7 @@ function render(){
     "/entry":   "参加申込｜BUZZBASE MEETUP VOL.03",
     "/privacy": "プライバシーポリシー｜BUZZBASE MEETUP",
     "/notice":  "会場変更のお知らせ｜BUZZBASE MEETUP VOL.03",
+    "/report":  "開催レポート（2026.9.25 東京・渋谷）｜BUZZBASE MEETUP VOL.03",
     "/thanks":  "お申し込みありがとうございます｜BUZZBASE MEETUP",
     "/404":     "ページが見つかりません｜BUZZBASE MEETUP"
   };
