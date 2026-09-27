@@ -2119,6 +2119,10 @@ const LINKS = {
 /* 開催が終わったら true。申込ボタンの文言や Status 表示が「終了しました」に切り替わります。
    VOL.04 の告知を始めるときは false に戻し、EVENT と NEWS を新しい内容にしてください。 */
 const EVENT_ENDED = true;
+/* ティザー映像を出すかどうか。false でトップの映像セクションと
+   申込後の映像（#/thanks）がまとめて消えます。仕組みは残してあるので
+   次回の映像ができたら VIDEO_SRC を差し替えて true に戻すだけです。 */
+const VIDEO_VISIBLE = false;
 const ENTRY_OPEN = !EVENT_ENDED && !!LINKS.entryForm;
 /* 申込ボタンの文言。開催後は申込へ誘導しません。 */
 const ENTRY_CTA = EVENT_ENDED ? "VOL.03 について" : "参加申込へ";
@@ -2710,20 +2714,27 @@ PAGES["/"] = () => `
       <span class="sweepflash" aria-hidden="true"><i></i></span>
       ${PHOTO_CHAR ? `<div class="charslot" aria-hidden="true"><img src="${PHOTO_CHAR}" alt="" loading="eager" fetchpriority="high" decoding="async"></div>` : ""}
       <div class="copy">
-        <p class="classbox">${esc(SITE.invitation)}</p>
-        <p class="eyebrow-red">${esc(SITE.catch)}</p>
+        <p class="classbox">${esc(EVENT_ENDED ? "THANK YOU — VOL.03 HAS ENDED" : SITE.invitation)}</p>
+        <p class="eyebrow-red">${esc(EVENT_ENDED ? "CREATIVE CULTURE EVENT — HELD ON 2026.09.25" : SITE.catch)}</p>
         <p class="presents">${esc(SITE.presenter)} ／ ${esc(SITE.volume)}</p>
         <h1 id="heroTitle" class="wordmark" aria-label="BUZZBASE MEETUP">
           <span class="ln logomark"><svg viewBox="0 0 2166 660" aria-hidden="true"><use href="#bbLogo"/></svg></span>
           <span class="ln meet" aria-hidden="true">${splitChars("MEETUP", 8)}</span>
         </h1>
         <p class="en-tag">${esc(SITE.tagline)}</p>
+        ${EVENT_ENDED ? `
+        <p class="jp">VOL.03 は、盛況のうちに終了しました。<br class="brw">肩書きを超えて、発信する人と、事業をつくる人が同じ場所に集まった一夜。ご参加・ご協賛いただいたみなさま、ありがとうございました。</p>
+        <p class="sub">${esc(EVENT.date)} 開催　／　${esc(EVENT.venue)}　／　${esc(EVENT.guests)}</p>
+        <div class="cta">
+          <a class="red" href="#/about">当日の様子を見る ${ARROW}</a>
+          <a class="line" href="${esc(LINKS.instagram)}" target="_blank" rel="noopener noreferrer">次回の案内を受け取る ${ARROW}</a>
+        </div>` : `
         <p class="jp">肩書きを超え、価値観でつながる一夜。<br class="brw">発信力を持つインフルエンサーと、事業を動かす経営者・役員が集う、完全招待制のプライベート交流会（ミートアップ）です。</p>
         <p class="sub">${esc(EVENT.date)}　${esc(EVENT.time)}</p>
         <div class="cta">
-          <a class="red" href="#/entry">${EVENT_ENDED?"VOL.03 について":"参加申込"} ${ARROW}</a>
+          <a class="red" href="#/entry">参加申込 ${ARROW}</a>
           <a class="line" href="#/about">詳細を見る ${ARROW}</a>
-        </div>
+        </div>`}
       </div>
     </div>
     <span class="ghosttype b" aria-hidden="true">Buzzbase</span>
@@ -2753,6 +2764,7 @@ ${COUNTDOWN_VISIBLE ? `<section class="cdband" aria-label="開催までの残り
   </div>
 </section>` : ""}
 
+${VIDEO_VISIBLE ? `
 <section class="pad-sm" aria-label="ティザー映像">
   <div class="movie rv">
     <div class="frame">
@@ -2769,7 +2781,17 @@ ${COUNTDOWN_VISIBLE ? `<section class="cdband" aria-label="開催までの残り
       <p>1分57秒。自動再生は音を消した状態ではじまります。</p>
     </div>
   </div>
-</section>
+</section>` : ""}
+
+${EVENT_ENDED ? `
+<section class="pad-sm" aria-label="当日の様子">
+  <div class="wrap">
+    <figure class="groupshot rv" style="margin-top:0">
+      <img src="${PHOTO_GROUP}" alt="BUZZBASE MEETUP VOL.03 の会場で撮影した参加者の集合写真" loading="lazy" decoding="async" width="1400" height="1050">
+      <figcaption>BUZZBASE MEETUP VOL.03 — 2026年9月25日（金）東京・渋谷</figcaption>
+    </figure>
+  </div>
+</section>` : ""}
 
 <section class="pad-sm" aria-label="ニュース">
   <div class="newsband">
@@ -3225,6 +3247,7 @@ ${EVENT_ENDED
         </div>
         <p class="lead-n">ご協賛・ご出展のご相談は、引き続き<a href="mailto:${LINKS.email}">メール</a>で承っています。</p>
       </div>
+      ${VIDEO_VISIBLE ? `
       <div class="entry-lead mt-md rv">
         <p class="label">Teaser — ティザー映像</p>
         <h2 class="lead-h">VOL.03 のティザー映像</h2>
@@ -3232,7 +3255,7 @@ ${EVENT_ENDED
         <div class="btn-row">
           <button class="btn primary" type="button" data-play-thanks>映像を見る ${ARROW}</button>
         </div>
-      </div>` : LINKS.entryForm ? `
+      </div>` : ""}` : LINKS.entryForm ? `
       <div class="entry-lead">
         <p class="label">Application — 参加申込</p>
         <h2 class="lead-h">応募フォームへお進みください</h2>
@@ -3243,6 +3266,7 @@ ${EVENT_ENDED
         </div>
         <p class="lead-n">送信いただいた時点で、<a href="#/privacy">プライバシーポリシー</a>にご同意いただいたものとして取り扱います。運営より原則5営業日以内にご連絡いたします。</p>
       </div>
+      ${VIDEO_VISIBLE ? `
       <div class="entry-lead mt-md rv">
         <p class="label">After Submitting — 送信が終わったら</p>
         <h2 class="lead-h">VOL.03 のティザー映像をご覧いただけます</h2>
@@ -3250,7 +3274,7 @@ ${EVENT_ENDED
         <div class="btn-row">
           <button class="btn primary" type="button" data-play-thanks>送信しました — 映像を見る ${ARROW}</button>
         </div>
-      </div>` : `
+      </div>` : ""}` : `
       <div class="entry-lead">
         <p class="label">Application — 参加申込</p>
         <h2 class="lead-h">申込フォームを準備しています</h2>
@@ -3348,8 +3372,8 @@ ${pageHero("10","Thank You","応募ありがとうございます",[
   </div>
 
   <div class="btn-row mt-md rv">
-    <button class="btn primary" type="button" data-play-thanks>ティザー映像をもう一度見る ${ARROW}</button>
-    <a class="btn ghost" href="#/">トップへ戻る ${ARROW}</a>
+    ${VIDEO_VISIBLE ? `<button class="btn primary" type="button" data-play-thanks>ティザー映像をもう一度見る ${ARROW}</button>` : ""}
+    <a class="btn ${VIDEO_VISIBLE ? "ghost" : "primary"}" href="#/">トップへ戻る ${ARROW}</a>
   </div>
 </div>`;
 
