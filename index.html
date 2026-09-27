@@ -762,6 +762,12 @@ td.n{font-size:12px;line-height:1.9;color:var(--ink-soft)}
 @media(min-width:760px){.pfeat{grid-template-columns:200px 1fr;gap:34px;padding:34px 32px;align-items:start}}
 .pfeat-logo{display:flex;justify-content:center}
 .pfeat-logo img{display:block;width:100%;max-width:170px;height:auto;border-radius:6px}
+/* 開催後に About へ出す集合写真 */
+.groupshot{margin:56px 0 0;padding:0}
+.groupshot img{display:block;width:100%;height:auto;border-radius:6px}
+.groupshot figcaption{margin:12px 0 0;font-size:12px;letter-spacing:.08em;color:var(--ink-faint);text-align:center}
+@media(max-width:639px){.groupshot{margin-top:40px}}
+
 /* 横長のロゴは枠いっぱいまで使います */
 .pfeat-logo.wide img{max-width:100%}
 /* ロゴ画像がないパートナーは社名を枠付きで出します */
@@ -2071,6 +2077,7 @@ const PHOTO_INUI = "img-photo-inui.webp";
 const PHOTO_TATSUKI = "img-photo-tatsuki.webp";
 const PHOTO_IWATA = "img-photo-iwata.webp";
 const PHOTO_KONISHI = "img-photo-konishi.webp";
+const PHOTO_GROUP = "img-photo-group.webp";
 const LOGO_TRAUM = "img-logo-traum.webp";
 const LOGO_TOPICO = "img-logo-topico.webp";
 const LOGO_STREETPV = "img-logo-streetpv.webp";
@@ -2109,8 +2116,14 @@ const LINKS = {
      会社概要ページの「ウェブサイト」欄と、全ページのフッターから飛びます。 */
   company:"https://at.shokei.me/"
 };
-const ENTRY_OPEN = !!LINKS.entryForm;
+/* 開催が終わったら true。申込ボタンの文言や Status 表示が「終了しました」に切り替わります。
+   VOL.04 の告知を始めるときは false に戻し、EVENT と NEWS を新しい内容にしてください。 */
+const EVENT_ENDED = true;
+const ENTRY_OPEN = !EVENT_ENDED && !!LINKS.entryForm;
+/* 申込ボタンの文言。開催後は申込へ誘導しません。 */
+const ENTRY_CTA = EVENT_ENDED ? "VOL.03 について" : "参加申込へ";
 const NEWS = [
+  {date:"2026.09.25", text:"BUZZBASE MEETUP VOL.03 は終了しました。ご参加いただいたみなさま、ご協賛・ご協力いただいたみなさま、ありがとうございました。VOL.04 については決まりしだいお知らせします。", href:"#/about"},
   {date:"2026.09.19", text:"【会場変更のお知らせ】お申込みが想定を上回り100名を超えたため、150名規模の会場へ変更となりました。開催時間は20:30〜23:00、入場は22:00まで（途中入場・途中退室可）。新会場はご招待の方へ個別にご案内しています。直前のご案内となり申し訳ございません。", href:"#/notice"},
   {date:"2026.08.01", text:"第3回「BUZZBASE MEETUP VOL.03」の開催が決定しました。", href:"#/about"},
   ...(ENTRY_OPEN ? [{date:"2026.08.15", text:"参加申込の受付を開始しました。ご応募をお待ちしております。", href:"#/entry"}] : [])
@@ -2708,7 +2721,7 @@ PAGES["/"] = () => `
         <p class="jp">肩書きを超え、価値観でつながる一夜。<br class="brw">発信力を持つインフルエンサーと、事業を動かす経営者・役員が集う、完全招待制のプライベート交流会（ミートアップ）です。</p>
         <p class="sub">${esc(EVENT.date)}　${esc(EVENT.time)}</p>
         <div class="cta">
-          <a class="red" href="#/entry">参加申込 ${ARROW}</a>
+          <a class="red" href="#/entry">${EVENT_ENDED?"VOL.03 について":"参加申込"} ${ARROW}</a>
           <a class="line" href="#/about">詳細を見る ${ARROW}</a>
         </div>
       </div>
@@ -2784,7 +2797,7 @@ ${COUNTDOWN_VISIBLE ? `<section class="cdband" aria-label="開催までの残り
     ${heading("Information","インフォメーション")}
     <ul class="info">
       ${[["Date",EVENT.date,null,false],["Time",EVENT.time,null,false],["Venue",EVENT.venue,EVENT.venueNote,true],
-         ["Guests",EVENT.guests,null,true],["Access",EVENT.access,null,false],["Status", ENTRY_OPEN?"Entry Open":"Coming Soon", ENTRY_OPEN?"申込受付中":"受付準備中", false]]
+         ["Guests",EVENT.guests,null,true],["Access",EVENT.access,null,false],["Status", EVENT_ENDED?"Closed":(ENTRY_OPEN?"Entry Open":"Coming Soon"), EVENT_ENDED?"開催終了":(ENTRY_OPEN?"申込受付中":"受付準備中"), false]]
         .map(([k,v,n,jp])=>`<li class="rv">
           <p class="k" style="margin:0"><i aria-hidden="true"></i><span class="label">${esc(k)}</span></p>
           <p class="v${jp?" jp":""}">${esc(v)}</p>${n?`<p class="n">${esc(n)}</p>`:""}</li>`).join("")}
@@ -2900,16 +2913,20 @@ ${bigdrift("Buzz the Culture", 0.14, true)}
 
 <section class="reg pad" aria-labelledby="regHead">
   ${floaters([{t:"card",x:4,y:22,sp:.18,ph:1.1},{t:"chip",x:92,y:64,sp:-.14,ph:3.3,sm:1}])}
-  ${vlabel(ENTRY_OPEN?"Entry Open":"Coming Soon","l","top:20%")}
+  ${vlabel(EVENT_ENDED?"Thank You":(ENTRY_OPEN?"Entry Open":"Coming Soon"),"l","top:20%")}
   <div class="wrap" style="position:relative;z-index:3">
     <div class="panel rv">
       <span class="ghosttype" aria-hidden="true">Registration</span>
       <div class="inner">
         <p class="label" style="color:var(--on-grad-soft);margin:0">Registration</p>
-        <h2 id="regHead">次のコラボも、新しいビジネスも、人生を変える出会いも。<br class="brw">その始まりは、この夜かもしれない。</h2>
-        <p class="body">本イベントは完全招待制です。ご参加を希望されるインフルエンサー様・企業様は、申込フォームよりご応募ください。</p>
+        <h2 id="regHead">${EVENT_ENDED
+          ? `VOL.03 は終了しました。<br class="brw">またこの場所で、お会いしましょう。`
+          : `次のコラボも、新しいビジネスも、人生を変える出会いも。<br class="brw">その始まりは、この夜かもしれない。`}</h2>
+        <p class="body">${EVENT_ENDED
+          ? `2026年9月25日、たくさんの方にお集まりいただきました。ありがとうございました。次回 VOL.04 については、決まりしだいこのサイトと Instagram でお知らせします。`
+          : `本イベントは完全招待制です。ご参加を希望されるインフルエンサー様・企業様は、申込フォームよりご応募ください。`}</p>
         <div class="btn-row">
-          <a class="btn primary" href="#/entry">${ENTRY_OPEN?"申込フォームへ":"参加申込について"} ${ARROW}</a>
+          <a class="btn primary" href="#/entry">${EVENT_ENDED?"VOL.03 について":(ENTRY_OPEN?"申込フォームへ":"参加申込について")} ${ARROW}</a>
           <a class="btn ghost" href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">質問はDMで ${ARROW}</a>
         </div>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px">
@@ -2970,9 +2987,14 @@ ${pageHero("02","About","イベントについて",[
       </div>
     </section>`).join("")}
   </div>
+  ${EVENT_ENDED ? `
+  <figure class="groupshot rv">
+    <img src="${PHOTO_GROUP}" alt="BUZZBASE MEETUP VOL.03 の会場で撮影した参加者の集合写真" loading="lazy" decoding="async" width="1400" height="1050">
+    <figcaption>BUZZBASE MEETUP VOL.03 — 2026年9月25日（金）東京・渋谷</figcaption>
+  </figure>` : ""}
   <div class="btn-row mt-lg rv">
     <a class="btn primary" href="#/program">当日の流れを見る ${ARROW}</a>
-    <a class="btn ghost" href="#/entry">参加申込へ ${ARROW}</a>
+    <a class="btn ghost" href="#/entry">${ENTRY_CTA} ${ARROW}</a>
   </div>
 </div>`;
 
@@ -3098,7 +3120,7 @@ ${pageHero("04","Crew","主催・運営メンバー",[
   <div class="wrap">
     <div class="btn-row rv">
       <a class="btn primary" href="#/ticket">参加費を確認する ${ARROW}</a>
-      <a class="btn ghost" href="#/entry">参加申込へ ${ARROW}</a>
+      <a class="btn ghost" href="#/entry">${ENTRY_CTA} ${ARROW}</a>
     </div>
   </div>
 </section>`;
@@ -3144,7 +3166,7 @@ ${pageHero("05","Ticket","参加費",[
     <ul class="notes mt-lg">
       ${TICKET_NOTES.map(n=>`<li class="rv"><span class="ic">${ICON.alert}</span><span>${esc(n)}</span></li>`).join("")}
     </ul>
-    <div class="mt-md rv"><a class="btn primary" href="#/entry">${ENTRY_OPEN?"申込フォームへ":"参加申込について"} ${ARROW}</a></div>
+    <div class="mt-md rv"><a class="btn primary" href="#/entry">${EVENT_ENDED?"VOL.03 について":(ENTRY_OPEN?"申込フォームへ":"参加申込について")} ${ARROW}</a></div>
   </div>
 </section>`;
 
@@ -3176,18 +3198,41 @@ ${pageHero("06","Access","開催概要",[
     <ul class="notes" style="margin-top:52px">
       ${ACCESS_NOTES.map(n=>`<li class="rv"><span class="ic">${ICON.alert}</span><span>${esc(n)}</span></li>`).join("")}
     </ul>
-    <div class="mt-md rv"><a class="btn primary" href="#/entry">参加申込へ進む ${ARROW}</a></div>
+    <div class="mt-md rv"><a class="btn primary" href="#/entry">${ENTRY_CTA} ${ARROW}</a></div>
   </div>
 </section>`;
 
 PAGES["/entry"] = () => `
-${pageHero("09","Entry","参加申込",[
-  "ご応募いただいた内容は、運営が一件ずつ拝見します。",
-  "ご入力いただいた内容をもとに運営で確認し、ご参加が確定した方にのみ招待コードと会場情報をお送りします。"])}
+${EVENT_ENDED
+  ? pageHero("09","Entry","参加申込",[
+      "VOL.03 の参加申込は終了しました。",
+      "次回 VOL.04 の開催については、決まりしだいこのサイトと Instagram でお知らせします。"])
+  : pageHero("09","Entry","参加申込",[
+      "ご応募いただいた内容は、運営が一件ずつ拝見します。",
+      "ご入力いただいた内容をもとに運営で確認し、ご参加が確定した方にのみ招待コードと会場情報をお送りします。"])}
 <div class="wrap pad">
   <div class="entry-grid">
     <div id="entrySlot">
-      ${LINKS.entryForm ? `
+      ${EVENT_ENDED ? `
+      <div class="entry-lead">
+        <p class="label">Closed — 受付終了</p>
+        <h2 class="lead-h">VOL.03 の参加申込は終了しました</h2>
+        <p class="lead-p">2026年9月25日（金）の BUZZBASE MEETUP VOL.03 は、盛況のうちに終了いたしました。ご参加いただいたみなさま、ご協賛・ご協力いただいたみなさま、ありがとうございました。</p>
+        <p class="lead-p">次回 VOL.04 の開催については、決まりしだいこのサイトと Instagram でお知らせします。ご案内を希望される方は、Instagram のフォローか DM からご連絡ください。</p>
+        <div class="btn-row">
+          <a class="btn primary" href="${LINKS.instagram}" target="_blank" rel="noopener noreferrer">Instagram をフォローする ${ARROW}</a>
+          <a class="btn ghost" href="#/about">VOL.03 について見る ${ARROW}</a>
+        </div>
+        <p class="lead-n">ご協賛・ご出展のご相談は、引き続き<a href="mailto:${LINKS.email}">メール</a>で承っています。</p>
+      </div>
+      <div class="entry-lead mt-md rv">
+        <p class="label">Teaser — ティザー映像</p>
+        <h2 class="lead-h">VOL.03 のティザー映像</h2>
+        <p class="lead-p">当日の空気が伝わる映像です。全画面で再生します。</p>
+        <div class="btn-row">
+          <button class="btn primary" type="button" data-play-thanks>映像を見る ${ARROW}</button>
+        </div>
+      </div>` : LINKS.entryForm ? `
       <div class="entry-lead">
         <p class="label">Application — 参加申込</p>
         <h2 class="lead-h">応募フォームへお進みください</h2>
@@ -3286,7 +3331,7 @@ ${pageHero("07","Guests","出演ゲスト",[
 
   <div class="btn-row mt-md rv">
     <a class="btn ghost" href="#/numbers">参加者の内訳を見る ${ARROW}</a>
-    <a class="btn primary" href="#/entry">${ENTRY_OPEN?"申込フォームへ":"参加申込について"} ${ARROW}</a>
+    <a class="btn primary" href="#/entry">${EVENT_ENDED?"VOL.03 について":(ENTRY_OPEN?"申込フォームへ":"参加申込について")} ${ARROW}</a>
   </div>
 </div>`;
 
@@ -3343,7 +3388,7 @@ ${pageHero("08","Company","会社概要",[
       <p class="lead-p">${esc(COMPANY.buzz)}当日の運営メンバーは CREW ページでご紹介しています。</p>
       <div class="btn-row">
         <a class="btn primary" href="#/crew">運営メンバーを見る ${ARROW}</a>
-        <a class="btn ghost" href="#/entry">参加申込へ ${ARROW}</a>
+        <a class="btn ghost" href="#/entry">${ENTRY_CTA} ${ARROW}</a>
       </div>
     </div>
   </div>
@@ -3414,7 +3459,7 @@ PAGES["/privacy"] = () => `
     <p class="legal-date">最終更新日：2026.09.05</p>
   </div>
   <div class="btn-row mt-lg rv">
-    <a class="btn primary" href="#/entry">参加申込へ ${ARROW}</a>
+    <a class="btn primary" href="#/entry">${ENTRY_CTA} ${ARROW}</a>
     <a class="btn ghost" href="#/">ホームへ戻る ${ARROW}</a>
   </div>
 </div>`;
@@ -3488,7 +3533,7 @@ PAGES["/404"] = () => `
     </div>
     <div class="btn-row" style="margin-top:34px;justify-content:center">
       <a class="btn primary" href="#/">ホームへ戻る ${ARROW}</a>
-      <a class="btn ghost" href="#/entry">参加申込へ ${ARROW}</a>
+      <a class="btn ghost" href="#/entry">${ENTRY_CTA} ${ARROW}</a>
     </div>
   </div>
 </section>`;
@@ -3645,6 +3690,12 @@ function setupDraw(){
   });
 }
 window.addEventListener("hashchange", () => FX.transition(render));
+
+/* 開催後は、モバイルメニューの申込ボタンの文言も変えます（ここだけ静的HTMLのため） */
+if (EVENT_ENDED) {
+  const dc = document.querySelector("#menu a.btn.primary");
+  if (dc) dc.innerHTML = 'VOL.03 について <span class="arw" aria-hidden="true">→</span>';
+}
 
 /* 「本文へスキップ」— URL を変えずに本文へ移動してフォーカスを当てる */
 {
