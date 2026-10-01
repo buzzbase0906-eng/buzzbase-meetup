@@ -90,6 +90,7 @@ Claude に頼むときは、こう言ってください。
 | `EVENT_ENDED` | 開催が終わったら `true`。申込ボタンの文言・Status・ENTRY ページ・トップが「終了しました」表示に一括で切り替わります |
 | `VIDEO_VISIBLE` | ティザー映像を出すかどうか。`false` でトップの映像と申込後の映像がまとめて消えます |
 | `REPORT_VISIBLE` | 開催レポートのページ（`#/report`）をナビに出すかどうか |
+| `HALLOWEEN` | ハロウィン仕様のON/OFF。`false` に戻すと配色（オレンジ×紫）もコウモリの飾りも消え、元の赤×黒に戻ります |
 | `GUESTS` | 出演ゲスト（`show:false` で非表示、`sns:"tiktok"` や `url:` でリンク先を変更） |
 | `GUEST_PHOTOS` | 出演ゲストの写真（Instagram ID がキー） |
 
