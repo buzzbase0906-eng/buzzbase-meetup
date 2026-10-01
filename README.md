@@ -1,6 +1,6 @@
-# BUZZBASE MEETUP VOL.03 — 告知サイト
+# BUZZBASE MEETUP — 告知サイト
 
-完全招待制イベント **BUZZBASE MEETUP VOL.03** の告知サイトです。
+完全招待制イベント **BUZZBASE MEETUP** の告知サイトです。いまは **VOL.04（2026年10月30日・ハロウィン回）** の告知を出しています。
 `index.html` 1ファイルで完結しており、GitHub Pages でそのまま配信しています。
 
 公開URL: **https://buzzbase.net/**
@@ -87,6 +87,9 @@ Claude に頼むときは、こう言ってください。
 | `STATS` | NUMBERS ページの数字 |
 | `FAQ` | よくある質問 |
 | `SHOW` | 各セクションの表示ON/OFF（`past` / `voice` / `sponsors`） |
+| `EVENT_ENDED` | 開催が終わったら `true`。申込ボタンの文言・Status・ENTRY ページ・トップが「終了しました」表示に一括で切り替わります |
+| `VIDEO_VISIBLE` | ティザー映像を出すかどうか。`false` でトップの映像と申込後の映像がまとめて消えます |
+| `REPORT_VISIBLE` | 開催レポートのページ（`#/report`）をナビに出すかどうか |
 | `GUESTS` | 出演ゲスト（`show:false` で非表示、`sns:"tiktok"` や `url:` でリンク先を変更） |
 | `GUEST_PHOTOS` | 出演ゲストの写真（Instagram ID がキー） |
 
@@ -136,7 +139,9 @@ const LINKS = { entryForm:"https://...", ... }
 | 項目 | 状況 |
 | --- | --- |
 | クルー | 半谷一太のみ表示。他5名は `show:false` で保留中 |
-| 出演ゲスト | 81名を掲載。残り17名は `show:false`（経営者9名＋掲載NG8名）。**NG の方を表示に戻すときは必ず運営へ確認** |
+| 出演ゲスト | **VOL.04 のゲストが揃うまで非表示**（`GUESTS_VISIBLE = false`）。中身は VOL.03 の81名のまま残してあります。**掲載NGの方を表示に戻すときは必ず運営へ確認** |
+| 開催レポート | VOL.03 の記録として `#/report` に残しています |
+| 定員・申込フォーム | VOL.04 は未確定。定員は「調整中」、フォームのURLは VOL.03 のものが入ったままです |
 | 過去開催 / 参加者の声 / 協賛 | `SHOW` で非表示中（実データが揃うまで） |
 | パートナーのロゴ | Traum（メインスポンサー）・にいみ農園・STREET PV・TOPICO の4社とも画像を掲載済み |
 
