@@ -1,0 +1,9 @@
+Contact: mailto:buzzbase0906@gmail.com
+Preferred-Languages: ja, en
+Canonical: https://buzzbase.net/security.txt
+Expires: 2027-10-31T00:00:00.000Z
+
+# BUZZBASE MEETUP
+# このサイトに脆弱性や、見えてはいけない情報の公開を見つけた方は
+# 上記アドレスまでご連絡ください。確認のうえ対応します。
+# If you find a vulnerability or exposed data on this site, please email the address above.

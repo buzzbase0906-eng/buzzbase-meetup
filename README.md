@@ -176,3 +176,45 @@ README を読ませることで、上の「壊さないでほしいもの」も�
 VOL.03 までは会場名を載せない方針でしたが、**VOL.04 から会場名と住所を出す方針に変えました**（BPM / 東京都世田谷区池尻2-31-24 信田ビル2F）。非公開に戻すときは `EVENT.venue` をエリア表記にして、構造化データの `location` も合わせて直してください。
 
 **リポジトリは公開されています。パスワードや応募者の個人情報は絶対に書かないでください。**
+
+---
+
+## セキュリティ
+
+### 自動で入るもの（触らなくていい）
+
+`build_gh.py` が、ビルドのたびに **CSP（Content-Security-Policy）** を計算して `index.html` の `<head>` に差し込みます。
+中身は「このファイルに書いてあるスクリプトそのもの」のハッシュで、外から差し込まれたスクリプトは動きません。
+
+```
+default-src 'none' …… 既定ではどこからも読み込まない
+script-src  sha256-… …… このファイルの中のスクリプトだけ
+style-src   'self' 'unsafe-inline' fonts.googleapis.com
+font-src    fonts.gstatic.com
+img-src     'self' data:
+connect-src 'self' …… 外部へのデータ送信を禁止
+```
+
+**やってはいけないこと**
+
+- `<meta http-equiv="content-security-policy" …>` を手で書き換える（ビルドで上書きされます）
+- HTML に `onclick=` `onload=` などのイベント属性を直接書く（CSP で動かなくなります）。
+  JavaScript は `<script>` の中にまとめて書いてください
+- 外部のスクリプト（解析タグ、広告タグなど）を貼る。
+  必要になったら `build_gh.py` の `CSP` に、そのドメインを足してから貼ってください
+
+### GitHub Pages では設定できないもの
+
+`X-Frame-Options`（他サイトへの埋め込み防止）と `Strict-Transport-Security` は
+HTTPヘッダーでしか設定できず、GitHub Pages では付けられません。
+これが必要になったら、Cloudflare を前に置くか、別のホスティングへ移す必要があります。
+
+### 連絡先
+
+脆弱性の報告先を `security.txt` に置いています（https://buzzbase.net/security.txt）。
+
+### リポジトリの運用
+
+- このリポジトリは **公開** です。鍵・トークン・パスワード・応募者の個人情報は置かないこと
+- 共同編集者には、必要な人だけを招待する
+- GitHub アカウントは2要素認証を有効にしておく

@@ -9,6 +9,12 @@
 <title>BUZZBASE MEETUP VOL.04｜インフルエンサー×経営者の交流会（2026.10.30 東京・池尻大橋 ハロウィン）</title>
 <meta name="description" content="発信力のあるインフルエンサーと、事業を動かす経営者が集まる招待制の交流会。BUZZBASE MEETUP VOL.04 は2026年10月30日（金）受付18:30・本編19:10より東京・池尻大橋の BPM で開催するハロウィン回。主催はハンくん（HANKUN）と STREET PV。当日の流れ・参加費・お申し込みはこちら。">
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
+<!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
+     中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-FvDZxdNo0kRmVNK1/7stIWixnc1868VZSeiyUuaUBq0=' 'sha256-YqaPtDLh4V3zcUIzZDIK/PL59EFqkHbZXYiTZPt00tY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-FvDZxdNo0kRmVNK1/7stIWixnc1868VZSeiyUuaUBq0=' 'sha256-YqaPtDLh4V3zcUIzZDIK/PL59EFqkHbZXYiTZPt00tY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-FvDZxdNo0kRmVNK1/7stIWixnc1868VZSeiyUuaUBq0=' 'sha256-YqaPtDLh4V3zcUIzZDIK/PL59EFqkHbZXYiTZPt00tY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
 <meta name="theme-color" content="#FFFFFF">
@@ -41,7 +47,7 @@
 <!-- Webフォントの読み込みで表示が止まらないようにする。
      media="print" のまま読み込み、届いたら all に切り替える書き方です。
      JavaScript が無効な環境では下の noscript が効きます。 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Parisienne&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" media="print" onload="this.media='all';this.onload=null">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Parisienne&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" media="print" data-font>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Parisienne&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap"></noscript>
 <style>
   :root { color-scheme: light; }
@@ -4024,6 +4030,10 @@ function setupDraw(){
   });
 }
 window.addEventListener("hashchange", () => FX.transition(render));
+
+/* Webフォントの読み込み。HTML側に onload を書かずにここで切り替えます
+   （インラインのイベント属性を無くして、CSP を厳しくできるようにするため） */
+document.querySelectorAll('link[data-font]').forEach(l => { l.media = 'all'; });
 
 /* 開催後は、モバイルメニューの申込ボタンの文言も変えます（ここだけ静的HTMLのため） */
 if (EVENT_ENDED) {
