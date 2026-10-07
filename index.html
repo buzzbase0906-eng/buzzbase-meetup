@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-FvDZxdNo0kRmVNK1/7stIWixnc1868VZSeiyUuaUBq0=' 'sha256-7CXcJeRAW62J3ir2LrcwsIcuJqNRParf0XJksn+LnBo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-FvDZxdNo0kRmVNK1/7stIWixnc1868VZSeiyUuaUBq0=' 'sha256-V6nEKHNzv1xmkOQwREbQ/1l5UQo6CP1wSj0HcNYbUSc='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
@@ -2304,7 +2304,7 @@ const NEWS = [
 const COUNTDOWN_VISIBLE = false;
 /* 出演ゲストのページ。いま入っているのは VOL.03 の顔ぶれなので、
    VOL.04 のゲストが揃うまで非表示にしています。データは消していません。 */
-const GUESTS_VISIBLE = false;
+const GUESTS_VISIBLE = true;
 const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
   {href:"/numbers", label:"Numbers",  ja:"イベントデータ",      file:"01"},
@@ -2488,7 +2488,7 @@ const GUESTS = [
   {name:"HARAKANA", ig:"kanata_vlog"},
   {name:"HARU", ig:"pyon.glow"},
   {name:"HARUTIN", ig:"harutin.dayo"},
-  {show:false, name:"HAYATO", ig:"_03.hyt"},
+  {name:"HAYATO", ig:"_03.hyt"},
   {name:"HIBIKI", ig:"hibiki._.log"},
   {name:"HIROAKI", ig:"hiroaki_dayo_official"},
   {name:"HYUMA", ig:"tominaga_pingpong"},
@@ -2499,7 +2499,7 @@ const GUESTS = [
   {name:"JONAHSAN", ig:"jonahsan_desu"},
   {name:"JOSEPH", ig:"joseph_kantandon"},
   {name:"JURI", ig:"saka_juri"},
-  {show:false, name:"KAMADA DAINI", ig:"kamadadaini"},
+  {name:"KAMADA DAINI", ig:"kamadadaini"},
   {name:"KEBE", ig:"onidabi_kebe"},
   {name:"KIMIKO", ig:"kimiko_chan84"},
   {name:"KIN", ig:"pyypex_original"},
@@ -2512,12 +2512,12 @@ const GUESTS = [
   {name:"MARIN BOB", ig:"nanbeiaruaru"},
   {name:"MASAKI", ig:"masaki.u.official"},
   {name:"MASAKI", ig:"soccer_x_businesses"},
-  {show:false, name:"MISAKO", ig:"96ki33ko"},
+  {name:"MISAKO", ig:"96ki33ko"},
   {name:"MIU", ig:"umiushi.mium"},
   {name:"MOTO", ig:"moto.footballpub"},
   {name:"MUSA", ig:"musax1002"},
   {name:"NAGI", ig:"avante_lalala"},
-  {show:false, name:"NANAKO", ig:"nanako.nsjm"},
+  {name:"NANAKO", ig:"nanako.nsjm"},
   {name:"NANAMI", ig:"nanami.baseball"},
   {name:"NOA", ig:"noa_from_hokkaido"},
   {name:"NORI", ig:"ebok10969", sns:"tiktok"},
@@ -2528,8 +2528,8 @@ const GUESTS = [
   {name:"RINKI", ig:"rinki_gram_insta"},
   {name:"RISA", ig:"ikaleee"},
   {name:"RUKUN", ig:"rukun9090"},
-  {show:false, name:"RYO", ig:"namidabokuro__"},
-  {show:false, name:"RYOGA", ig:"ryoga_endo"},
+  {name:"RYO", ig:"namidabokuro__"},
+  {name:"RYOGA", ig:"ryoga_endo"},
   {name:"SEIKO", ig:"seiko_mii4"},
   {name:"SHANMAI", ig:"shanmai_28"},
   {name:"SHINICHI", ig:"shin1_king"},
@@ -2560,22 +2560,27 @@ const GUESTS = [
   {name:"YUUKI", ig:"yuuki_mizushima08"},
   {name:"YUYA", ig:"yuya.lifevlog"},
   {name:"TOA", ig:"toa_39", url:"https://lit.link/toa_39"},
-  {show:false, name:"はせゆり", ig:"haseyuri__"},
+  {name:"はせゆり", ig:"haseyuri__"},
   {name:"スパイダー遠藤龍之介マン", ig:"ryu46nokke", sns:"tiktok"},
-  {show:false, name:"トミー", ig:"iam_tommy30"},
-  {show:false, name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
-  {show:false, name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
-  {show:false, name:"扇山 直斗", sub:"株式会社WAO 取締役"},
+  {name:"トミー", ig:"iam_tommy30"},
+  {name:"吉田 憶人", sub:"株式会社リズム 代表取締役"},
+  {name:"徳丸 海斗", sub:"株式会社BAFIX 代表取締役"},
+  {name:"扇山 直斗", sub:"株式会社WAO 取締役"},
   {name:"早川 千鶴", ig:"chiduru_gram"},
-  {show:false, name:"星 智也", sub:"FwC株式会社 副部長"},
-  {show:false, name:"池田 莞爾", sub:"株式会社VOICE 代表取締役"},
-  {show:false, name:"芳賀 雅彦", sub:"Nucleate Japan External Advisor"},
-  {show:false, name:"達城 良香", sub:"Tatsushiro Co.,Ltd. 代表取締役"},
-  {show:false, name:"野田 泰佑", sub:"一般社団法人日本チャリティスポーツ推奨機構 理事"},
-  {show:false, name:"麻生 広美", sub:"株式会社麻生塗工所 代表取締役"}
+  {name:"星 智也", sub:"FwC株式会社 副部長"},
+  {name:"池田 莞爾", sub:"株式会社VOICE 代表取締役"},
+  {name:"芳賀 雅彦", sub:"Nucleate Japan External Advisor"},
+  {name:"達城 良香", sub:"Tatsushiro Co.,Ltd. 代表取締役"},
+  {name:"野田 泰佑", sub:"一般社団法人日本チャリティスポーツ推奨機構 理事"},
+  {name:"麻生 広美", sub:"株式会社麻生塗工所 代表取締役"}
 ];
-/* show:false を付けた人はサイトに出ません。出したくなったら、その行の show:false, を消すだけです。 */
-const GUESTS_ON = GUESTS.filter(g => g.show !== false);
+/* ここに入れた人はサイトに出ません。Instagram ID（無い人は氏名）で指定します。
+   この行は管理ツール（guests-admin.html）が書き出したものを貼り付けて差し替えます。
+   手で直してもかまいません。 */
+const GUEST_HIDDEN = ["_03.hyt", "kamadadaini", "96ki33ko", "nanako.nsjm", "namidabokuro__", "ryoga_endo", "haseyuri__", "iam_tommy30", "吉田 憶人", "徳丸 海斗", "扇山 直斗", "星 智也", "池田 莞爾", "芳賀 雅彦", "達城 良香", "野田 泰佑", "麻生 広美"];
+/* 一覧に出す人。GUEST_HIDDEN に入っていない人だけが残ります。 */
+const guestKey = g => g.ig || g.name;
+const GUESTS_ON = GUESTS.filter(g => g.show !== false && !GUEST_HIDDEN.includes(guestKey(g)));
 const CREW = [
   /* 表示順は 半谷 / 乾・小西 / 新見・岩田・達城 のピラミッド。並べ替えたら code も振り直してください。
      show:false を付けたメンバーはサイトに出ません。再表示するときは、その行の show:false, を消すだけです。 */
@@ -3522,11 +3527,11 @@ ${EVENT_ENDED
 
 PAGES["/guests"] = () => `
 ${pageHero("07","Guests","出演ゲスト",[
-  "BUZZBASE MEETUP VOL.03 にお越しいただくゲストの皆さまです。",
-  "ご参加が確定した方を運営で確認のうえ掲載しています。掲載を希望されない場合はご連絡ください。"])}
+  "これまでの BUZZBASE MEETUP にご出演いただいたゲストの皆さまです。",
+  "運営で確認のうえ掲載しています。掲載を希望されない場合はご連絡ください。"])}
 <div class="wrap pad">
-  ${heading("Guest Lineup","当日お会いできる方々","left")}
-  <p class="lead-p rv" style="max-width:44em;margin-top:14px">スポーツ、フィットネス、カルチャー、ビジネス――畑の違う ${GUESTS_ON.length} 名が、この夜ひとつの場に集まります。</p>
+  ${heading("Guest Lineup","これまでお越しいただいた方々","left")}
+  <p class="lead-p rv" style="max-width:44em;margin-top:14px">スポーツ、フィットネス、カルチャー、ビジネス――畑の違う ${GUESTS_ON.length} 名に、これまでご参加いただきました。VOL.04 の顔ぶれは、確定しだい入れ替えます。</p>
   ${GUESTS_ON.length ? `
   <ul class="guests mt-lg">
     ${GUESTS_ON.map((g,i)=>{
