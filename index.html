@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-Vixg2/LoVgFKwQgSijk5c5hk0mwsbMG7N8eOvaZsBIM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-wj1IWdegArIvsO32/ufET0L8FvUD1WeT87Mr2xpyXGI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
@@ -2732,9 +2732,9 @@ const GROUP_RATES = [
 /* キャンセルポリシー。開催日（2026.10.30）から逆算した日付で判定します。
    料率を変えるときは、ここの rate と when の両方を直してください。 */
 const CANCEL_POLICY = [
-  {when:"開催4日前まで",     ja:"2026.10.26 まで", rate:"無償",  note:"ご連絡いただければ費用はかかりません。"},
-  {when:"開催3日前〜2日前",  ja:"2026.10.27 – 28", rate:"50%",   note:"会場・お飲み物の手配が確定するためご負担をお願いしています。"},
-  {when:"前日・当日",        ja:"2026.10.29 – 30", rate:"100%",  note:"ご連絡なしでの不参加も同じ扱いとなります。"}
+  {when:"開催3日前まで",  ja:"2026.10.27 まで", rate:"無償",  note:"ご連絡いただければ費用はかかりません。"},
+  {when:"開催2日前",      ja:"2026.10.28",      rate:"50%",   note:"会場・お飲み物の手配が確定するためご負担をお願いしています。"},
+  {when:"前日・当日",     ja:"2026.10.29 – 30", rate:"100%",  note:"ご連絡なしでの不参加も同じ扱いとなります。"}
 ];
 const TICKET_NOTES = [
   "本イベントは完全招待制です。お申込み後、運営による確認をもってご参加が確定します。",
