@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-eeq1vpLOSdEDrVWFWAV5+xQqUPRJUsrpqlvfJC3e51E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-PV55NgoSCJ0WJNcSGf7a+0j0yHGYiW9TcZVTL3sFxr8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
@@ -1402,6 +1402,64 @@ footer.site .bot{display:flex;flex-direction:column;gap:14px;border-top:1px soli
   .brief p{opacity:1;filter:none;transform:none}
   .brief .bar{width:240px}
 }
+/* ── 流れる帯（マーキー）──────────────────────────────────────────
+   同じ内容を2つ並べ、片方ぶんだけ動かして途切れないループにしています。
+   動きを減らす設定の端末では止まります。マウスを乗せても止まります。 */
+.mq{position:relative;overflow:hidden;background:var(--paper);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:15px 0;--mq-sec:38s}
+.mq.grad{background:var(--grad);border-color:transparent}
+.mq.dark{background:var(--aqua);border-color:transparent}
+.mq-t{display:flex;width:max-content;animation:mqslide var(--mq-sec) linear infinite}
+.mq:hover .mq-t{animation-play-state:paused}
+.mq-g{display:flex;align-items:center;flex:none}
+.mq-i{display:inline-flex;align-items:baseline;gap:14px;padding:0 20px;
+  font-family:var(--display);font-weight:500;font-size:15px;letter-spacing:.17em;
+  text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.mq-i .ja{font-family:var(--jp);font-weight:500;font-size:12px;letter-spacing:.06em;
+  text-transform:none;color:var(--ink-faint)}
+.mq-i.hot{color:var(--rose-deep)}
+.mq-s{flex:none;width:6px;height:6px;transform:rotate(45deg);
+  background:var(--rose-deep);opacity:.7}
+.mq.grad .mq-i,.mq.dark .mq-i{color:var(--on-grad)}
+.mq.grad .mq-i .ja,.mq.dark .mq-i .ja{color:var(--on-grad-soft)}
+.mq.grad .mq-i.hot{color:#fff}
+.mq.dark .mq-i.hot{color:var(--red-b)}
+.mq.grad .mq-s{background:#fff;opacity:.6}
+.mq.dark .mq-s{background:var(--red-b);opacity:.85}
+@keyframes mqslide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@media (prefers-reduced-motion:reduce){.mq-t{animation:none}}
+@media (max-width:700px){
+  .mq{padding:12px 0}
+  .mq-i{font-size:13px;letter-spacing:.13em;padding:0 14px;gap:10px}
+  .mq-i .ja{font-size:11px}
+}
+
+/* ── 参加表明の画像づくり ────────────────────────────────────────
+   入力した内容はこの端末の中だけで処理されます（どこにも送信しません）。 */
+.share{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);
+  gap:38px;align-items:start;margin-top:26px}
+.share .fld{display:block;margin-top:16px;max-width:440px}
+.share .fld span{display:block;font-family:var(--display);font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
+.share .fld input{width:100%;box-sizing:border-box;padding:12px 14px;
+  font-family:var(--jp);font-size:15px;color:var(--ink);background:var(--paper);
+  border:1px solid var(--line-2);border-radius:10px}
+.share .fld input:focus{outline:2px solid var(--rose-deep);outline-offset:1px;border-color:transparent}
+.share .seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.share .seg button{font-family:var(--display);font-size:13px;letter-spacing:.08em;
+  padding:9px 15px;border-radius:999px;border:1px solid var(--line-2);
+  background:var(--paper);color:var(--ink-soft);cursor:pointer}
+.share .seg button.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.share-prev{position:relative}
+.share-prev canvas{display:block;width:100%;height:auto;border-radius:14px;
+  border:1px solid var(--line);background:var(--mist)}
+.share-note{margin-top:12px}
+@media (max-width:860px){
+  .share{grid-template-columns:1fr;gap:26px}
+  .share-prev{order:-1;max-width:360px;margin:0 auto}
+}
+
 </style>
 
 <a class="skip-link label" href="#main">本文へスキップ</a>
@@ -2305,6 +2363,9 @@ const COUNTDOWN_VISIBLE = false;
 /* 出演ゲストのページ。いま入っているのは VOL.03 の顔ぶれなので、
    VOL.04 のゲストが揃うまで非表示にしています。データは消していません。 */
 const GUESTS_VISIBLE = true;
+/* 参加表明の画像づくり（#/entry の下部）を出すかどうか。
+   入力はその端末の中だけで使い、どこにも送信しません。 */
+const SHARE_VISIBLE = true;
 const NAV = [
   {href:"/",        label:"Home",     ja:"ホーム",             file:null},
   {href:"/numbers", label:"Numbers",  ja:"イベントデータ",      file:"01"},
@@ -2815,6 +2876,40 @@ function shot(src, alt){
     <img src="${src}" alt="${esc(alt)}" loading="lazy" decoding="async" width="1200" height="500">
   </figure></div>`;
 }
+/* 流れる帯をつくる。items は {en:"英字", ja:"日本語", hot:true} の配列。
+   opt.tone に "grad" を渡すと赤黒のグラデーション地になります。
+   opt.sec は1周にかける秒数（大きいほどゆっくり）。
+   読み上げには出しません（同じ内容がページ本文にあるため）。 */
+function marquee(items, opt){
+  opt = opt || {};
+  const one = items.map(it =>
+    `<span class="mq-i${it.hot ? " hot" : ""}">${esc(it.en)}` +
+    `${it.ja ? `<span class="ja">${esc(it.ja)}</span>` : ""}</span>` +
+    `<span class="mq-s" aria-hidden="true"></span>`
+  ).join("");
+  return `<div class="mq${opt.tone ? " " + opt.tone : ""}" style="--mq-sec:${opt.sec || 38}s" aria-hidden="true">
+    <div class="mq-t"><div class="mq-g">${one}</div><div class="mq-g">${one}</div></div>
+  </div>`;
+}
+/* 帯に流す内容。開催が終わったら文言が切り替わります。 */
+const MQ_FACTS = EVENT_ENDED ? [
+  {en:"BUZZBASE MEETUP", ja:"バズベース ミートアップ"},
+  {en:"Thank You", ja:"VOL.03 は終了しました", hot:true},
+  {en:"See You Next Time", ja:"次回の案内は Instagram で"}
+] : [
+  {en:"BUZZBASE MEETUP VOL.04", ja:"バズベース ミートアップ"},
+  {en:EVENT.date, ja:"ハロウィンの夜", hot:true},
+  {en:"Tokyo — Ikejiri-Ohashi", ja:"東京・池尻大橋 BPM"},
+  {en:"Invitation Only", ja:"完全招待制"},
+  {en:"Influencers × Executives", ja:"発信する人と、事業をつくる人"}
+];
+const MQ_CTA = [
+  {en:ENTRY_OPEN ? "Entry Open" : "Coming Soon", ja:ENTRY_OPEN ? "参加申込を受付中" : "準備中", hot:true},
+  {en:"Buzz the Culture", ja:"文化をざわつかせる"},
+  {en:"Base the Moment", ja:"その瞬間を置いていく"},
+  {en:"#BUZZBASE", ja:"投稿はこのタグで"}
+];
+
 function bigdrift(text, speed, fill){
   const line = `${text} — `.repeat(4);
   return `<div class="bigdrift${fill?" fill":""}" aria-hidden="true" data-drift="${speed}"><span>${esc(line)}</span></div>`;
@@ -2944,6 +3039,8 @@ PAGES["/"] = () => `
   </nav>
 </section>
 
+${marquee(MQ_FACTS, {sec:44})}
+
 ${COUNTDOWN_VISIBLE ? `<section class="cdband" aria-label="開催までの残り時間">
   <div class="wrap cd-in">
     <p class="label">Countdown</p>
@@ -2989,7 +3086,7 @@ ${false ? `
   </div>
 </section>` : ""}
 
-${HALLOWEEN && !EVENT_ENDED ? `
+${!EVENT_ENDED ? `
 <section class="pad-sm" aria-label="ハロウィンのご案内">
   <div class="wrap">
     <div class="callout rv">
@@ -3141,6 +3238,8 @@ ${bigdrift("Invitation Only", -0.16)}
 </div>
 
 ${bigdrift("Buzz the Culture", 0.14, true)}
+
+${marquee(MQ_CTA, {tone:"dark", sec:32})}
 
 <section class="reg pad" aria-labelledby="regHead">
   ${floaters([{t:"card",x:4,y:22,sp:.18,ph:1.1},{t:"chip",x:92,y:64,sp:-.14,ph:3.3,sm:1}])}
@@ -3536,7 +3635,33 @@ ${EVENT_ENDED
       </div>
     </aside>
   </div>
-</div>`;
+</div>
+${SHARE_VISIBLE && !EVENT_ENDED ? `
+<section class="pad-sm" style="background:var(--mist)" aria-label="参加表明の画像づくり">
+  <div class="wrap">
+    ${heading("I'm In","参加表明の画像をつくる","left")}
+    <div class="share">
+      <div class="share-form rv">
+        <p class="lead-p">お申し込みが済んだら、参加することを SNS で伝える画像をここでつくれます。入力した内容は<strong>この端末の中だけ</strong>で処理され、どこにも送信されません。</p>
+        <label class="fld"><span>お名前・活動名（任意）</span>
+          <input id="shName" type="text" maxlength="20" autocomplete="off" spellcheck="false" placeholder="例：HANKUN"></label>
+        <label class="fld"><span>Instagram ID（任意）</span>
+          <input id="shIg" type="text" maxlength="30" autocomplete="off" spellcheck="false" placeholder="例：buzzbase.05.22"></label>
+        <div class="seg" id="shareSeg" role="group" aria-label="画像のサイズ">
+          <button type="button" class="on" data-size="sq">正方形 1080×1080</button>
+          <button type="button" data-size="st">ストーリー 1080×1920</button>
+        </div>
+        <div class="btn-row" style="margin-top:20px">
+          <button class="btn primary" type="button" id="shDl">画像を保存する ${ARROW}</button>
+        </div>
+        <p class="lead-n share-note">保存した画像に <strong>#BUZZBASE</strong> を付けて投稿してください。入力欄を空のままにすれば、名前の入らない画像ができます。</p>
+      </div>
+      <div class="share-prev rv">
+        <canvas id="shCv" width="1080" height="1080" role="img" aria-label="参加表明画像のプレビュー"></canvas>
+      </div>
+    </div>
+  </div>
+</section>` : ""}`;
 
 PAGES["/guests"] = () => `
 ${pageHero("07","Guests","出演ゲスト",[
@@ -3990,8 +4115,145 @@ function render(){
   window.scrollTo(0,0); onScroll();
   if (typeof Motion !== "undefined") Motion.refresh();
   if (typeof FX !== "undefined") FX.afterRender();
-  setupCountdown(); setupDraw();
+  setupCountdown(); setupDraw(); setupShare();
   playThanksIntro(path);
+}
+
+/* ==================================================================
+   参加表明の画像づくり（#/entry）
+   入力された名前と Instagram ID は、この端末の canvas に描くためだけに
+   使います。サーバーへは送りません（CSP の connect-src も 'self' のまま）。
+   ================================================================== */
+const SH_EN = '"Jost","Century Gothic","Avenir Next",sans-serif';
+const SH_JP = '"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif';
+/* サイズごとの配置。数値はすべて 1080 幅の画像の中での座標です。 */
+const SH_LAYOUT = {
+  sq:{ w:1080, h:1080, eyebrow:188, logoY:232, logoW:452, meetY:468, ruleY:520,
+       bigY:672, bigSize:132, jpY:736, nameY:846, igY:892, footY:954, subY:998, charH:540 },
+  st:{ w:1080, h:1920, eyebrow:360, logoY:420, logoW:540, meetY:706, ruleY:768,
+       bigY:952, bigSize:152, jpY:1024, nameY:1168, igY:1218, footY:1316, subY:1364,
+       tagY:1792, charH:740 }
+};
+
+function setupShare(){
+  const cv = document.getElementById("shCv"); if (!cv) return;
+  const ctx = cv.getContext("2d");
+  const nameI = document.getElementById("shName");
+  const igI   = document.getElementById("shIg");
+  const dlBtn = document.getElementById("shDl");
+  const segs  = $$("#shareSeg button");
+  let size = "sq", logo = null, chara = null;
+
+  const loadImg = src => new Promise(res => {
+    if (!src) return res(null);
+    const i = new Image();
+    i.onload = () => res(i);
+    i.onerror = () => res(null);
+    i.src = src;
+  });
+  /* ページに埋め込んである BUZZBASE ロゴ（SVG）を、そのまま画像にして使います。 */
+  function logoSrc(){
+    const sym = document.getElementById("bbLogo");
+    if (!sym) return null;
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2166 660" width="1083" height="330">' +
+      sym.innerHTML + '</svg>');
+  }
+  const setLS = v => { try { ctx.letterSpacing = v; } catch(e){} };
+  function txt(str, x, y, font, color, ls){
+    ctx.save(); ctx.font = font; ctx.fillStyle = color;
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    setLS(ls || "0em");
+    ctx.fillText(str, x, y);
+    ctx.restore(); setLS("0em");
+  }
+
+  function draw(){
+    const L = SH_LAYOUT[size], W = L.w, H = L.h;
+    if (cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
+    /* 地の色と、赤の光 */
+    ctx.fillStyle = "#0C0A0C"; ctx.fillRect(0,0,W,H);
+    let g = ctx.createRadialGradient(W*0.80, H*0.13, 0, W*0.80, H*0.13, W*0.86);
+    g.addColorStop(0,  "rgba(230,0,32,.66)");
+    g.addColorStop(.5, "rgba(196,0,27,.20)");
+    g.addColorStop(1,  "rgba(12,10,12,0)");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    g = ctx.createRadialGradient(W*0.06, H*0.97, 0, W*0.06, H*0.97, W*0.66);
+    g.addColorStop(0, "rgba(255,22,56,.28)");
+    g.addColorStop(1, "rgba(12,10,12,0)");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+    const m = Math.round(W*0.055);          // 外側の余白
+    const x = m + Math.round(W*0.045);      // 文字の左端
+
+    /* キャラクター（右下） */
+    if (chara){
+      const ch = L.charH, cw = chara.width / chara.height * ch;
+      ctx.save(); ctx.globalAlpha = .95;
+      ctx.drawImage(chara, W - m - cw - Math.round(W*0.01), H - m - ch, cw, ch);
+      ctx.restore();
+    }
+    /* 細い枠 */
+    ctx.strokeStyle = "rgba(255,255,255,.20)"; ctx.lineWidth = 2;
+    ctx.strokeRect(m, m, W-m*2, H-m*2);
+
+    txt("INVITATION ONLY", x, L.eyebrow, "500 24px "+SH_EN, "rgba(255,255,255,.62)", "0.34em");
+
+    if (logo){
+      const lw = L.logoW, lh = Math.round(lw * 660/2166);
+      ctx.drawImage(logo, x, L.logoY, lw, lh);
+    } else {
+      txt("BUZZBASE", x, L.logoY+96, "600 96px "+SH_EN, "#F0EDE6", "0.02em");
+    }
+    txt("MEETUP", x, L.meetY, "500 44px "+SH_EN, "#FFFFFF", "0.40em");
+
+    ctx.fillStyle = "#E60020";
+    ctx.fillRect(x, L.ruleY, 132, 5);
+
+    txt("I'M IN.", x, L.bigY, "600 "+L.bigSize+"px "+SH_EN, "#FFFFFF", "-0.01em");
+    txt("この夜に参加します。", x, L.jpY, "600 32px "+SH_JP, "rgba(255,255,255,.80)", "0.04em");
+
+    const nm = (nameI && nameI.value || "").trim();
+    const ig = (igI && igI.value || "").replace(/^@+/,"").trim();
+    if (nm) txt(nm, x, L.nameY, "600 46px "+SH_JP, "#FFFFFF", "0.02em");
+    if (ig) txt("@"+ig, x, L.igY, "500 28px "+SH_EN, "rgba(255,255,255,.70)", "0.06em");
+
+    txt(EVENT.date + "   " + EVENT.time, x, L.footY, "500 27px "+SH_JP, "rgba(255,255,255,.88)", "0.04em");
+    txt(EVENT.venue + "   /   buzzbase.net", x, L.subY, "500 23px "+SH_JP, "rgba(255,255,255,.58)", "0.06em");
+    if (L.tagY) txt("#BUZZBASE", x, L.tagY, "600 34px "+SH_EN, "#FF1638", "0.14em");
+  }
+
+  /* 入力のたびに描き直すが、連打しても重くならないよう1フレームにまとめる */
+  let raf = 0;
+  const redraw = () => { if (raf) return; raf = requestAnimationFrame(()=>{ raf = 0; draw(); }); };
+
+  segs.forEach(b => b.addEventListener("click", () => {
+    size = b.dataset.size;
+    segs.forEach(o => o.classList.toggle("on", o === b));
+    draw();
+  }));
+  if (nameI) nameI.addEventListener("input", redraw);
+  if (igI)   igI.addEventListener("input", redraw);
+
+  if (dlBtn) dlBtn.addEventListener("click", () => {
+    draw();
+    cv.toBlob(blob => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "buzzbase-vol04-im-in-" + size + ".png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 2000);
+    }, "image/png");
+  });
+
+  /* 画像とフォントが揃ってから描く。揃う前にも一度描いて、白いままにしない。 */
+  draw();
+  Promise.all([loadImg(logoSrc()), loadImg(typeof PHOTO_CHAR !== "undefined" ? PHOTO_CHAR : null)])
+    .then(([l,c]) => { logo = l; chara = c; return (document.fonts && document.fonts.ready) || null; })
+    .then(()=>draw())
+    .catch(()=>{});
 }
 
 /* ==================================================================
