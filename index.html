@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-KoMcYpWY9kHOREfuBDuzbZgrQ1FHave5XjrhONDTfI4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-agJd88CTE1joPrSbG6rpNzoh5BrP3/regOPmca5mdlg=' 'sha256-eeq1vpLOSdEDrVWFWAV5+xQqUPRJUsrpqlvfJC3e51E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/">
@@ -2282,7 +2282,7 @@ const EVENT_ENDED = false;
 /* ハロウィン仕様のON/OFF。false に戻すと配色も飾りも元（赤×黒）に戻ります。
    仕組みはすべて html.hw というクラス1つに閉じてあるので、
    ハロウィンが終わったらこの行を false にするだけで済みます。 */
-const HALLOWEEN = true;
+const HALLOWEEN = false;
 if (HALLOWEEN) document.documentElement.classList.add("hw");
 /* ティザー映像を出すかどうか。false でトップの映像セクションと
    申込後の映像（#/thanks）がまとめて消えます。仕組みは残してあるので
