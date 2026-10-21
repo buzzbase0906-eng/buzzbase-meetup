@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-gkTtohZpvMDv9GNUaC58fX0wO7E4YSI9Oi9g0ukH1qo=' 'sha256-FYM7n5b1yreEYvZGh3z7z51+C0pLzC0WCii5pAS4FDc='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-gkTtohZpvMDv9GNUaC58fX0wO7E4YSI9Oi9g0ukH1qo=' 'sha256-s+lVIhoCvIQ4nlHnESz3vPgm6Mi8IR9tP4p2twxjej8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/report/">
@@ -2196,7 +2196,7 @@ M4823 633 c9 -2 23 -2 30 0 6 3 -1 5 -18 5 -16 0 -22 -2 -12 -5z M4403 623 c9
     <span class="blob a" style="left:-6%;top:-30%;width:420px;height:420px;opacity:.5" aria-hidden="true"></span>
     <span class="blob d" style="right:-8%;bottom:-40%;width:420px;height:420px;opacity:.45" aria-hidden="true"></span>
     <span class="halftone" style="right:4%;top:10%;width:240px;height:240px" aria-hidden="true"></span>
-    <div class="floaters" aria-hidden="true"><span class="fl card" style="--x: 8%; --y: 18%; transform: translate3d(0px, -21.3px, 0px) rotateX(6.9deg) rotateY(22.3deg) rotateZ(4.6deg);" data-sp="0.16" data-ph="0" data-sc="1"><i></i></span><span class="fl pass sm" style="--x: 84%; --y: 58%; transform: translate3d(0px, 8.8px, 0px) rotateX(4.8deg) rotateY(-16deg) rotateZ(7.1deg);" data-sp="-0.12" data-ph="1.7" data-sc="1"><i></i></span><span class="fl chip" style="--x: 76%; --y: 12%; transform: translate3d(0px, -12.8px, 0px) rotateX(-15.1deg) rotateY(-12.6deg) rotateZ(-4.3deg);" data-sp="0.09" data-ph="3.1" data-sc="1"><i></i></span></div>
+    <div class="floaters" aria-hidden="true"><span class="fl card" style="--x: 8%; --y: 18%; transform: translate3d(0px, -21.3px, 0px) rotateX(7.1deg) rotateY(21.9deg) rotateZ(4.7deg);" data-sp="0.16" data-ph="0" data-sc="1"><i></i></span><span class="fl pass sm" style="--x: 84%; --y: 58%; transform: translate3d(0px, 8.8px, 0px) rotateX(4.5deg) rotateY(-16.3deg) rotateZ(7deg);" data-sp="-0.12" data-ph="1.7" data-sc="1"><i></i></span><span class="fl chip" style="--x: 76%; --y: 12%; transform: translate3d(0px, -12.8px, 0px) rotateX(-15.4deg) rotateY(-12.3deg) rotateZ(-4.4deg);" data-sp="0.09" data-ph="3.1" data-sc="1"><i></i></span></div>
     <span class="vlabel l" style="top:16%" aria-hidden="true">Invitation Only</span>
     <span class="vlabel r" style="top:18%" aria-hidden="true">Vol.04 — Tokyo</span>
     <div class="wrap" style="position:relative;z-index:3">
@@ -4309,6 +4309,26 @@ function renderPageNav(path){
     (next?`<a class="next" href="${url(next.href)}"><span class="stack">
       <span class="label">Next${next.file?" — File "+next.file:""}</span><span class="t">${next.label}</span><span class="ja">${next.ja}</span></span>${CIRC}</a>`:'<span></span>');
 }
+/* ページごとの <title> と説明文。build_pages.js もここを読んで、
+   ページごとの HTML ファイルに書き込みます。片方だけ直すとズレるので、
+   文言を変えるときはこの表だけを直してください。 */
+const SEO = {
+  "/":         {title:"BUZZ BASE｜インフルエンサー×経営者の交流会 BUZZBASE MEETUP VOL.04（2026.10.30 東京・池尻大橋）", desc:"BUZZ BASE（バズベース）は、発信力のあるインフルエンサーと事業を動かす経営者が集まる招待制の交流会です。BUZZBASE MEETUP VOL.04 は2026年10月30日（金）受付18:30・本編19:10より東京・池尻大橋の BPM で開催。主催はハンくん（HANKUN）と STREET PV。当日の流れ・参加費・お申し込みはこちら。"},
+  "/numbers":  {title:"イベントデータ｜BUZZ BASE（BUZZBASE MEETUP）", desc:"BUZZ BASE の規模を数字で。参加者の累計フォロワー数、開催回数、1回あたりの人数と本編120分。インフルエンサーと経営者が集まる招待制交流会 BUZZBASE MEETUP のイベントデータです。"},
+  "/about":    {title:"BUZZ BASE とは｜インフルエンサーと経営者の交流会について", desc:"BUZZ BASE（バズベース）は、発信力のあるインフルエンサーと事業を動かす経営者・役員が集まる招待制の交流会です。2026年5月に東京で開始。何のための場で、どなたを招いているのかをご紹介します。"},
+  "/report":   {title:"開催レポート VOL.03（2026.9.25 東京・渋谷）｜BUZZ BASE", desc:"BUZZBASE MEETUP VOL.03 の開催レポート。2026年9月25日、東京・渋谷におよそ100名のインフルエンサーと経営者が集まった一夜を、当日の流れと仕掛けとあわせてふりかえります。"},
+  "/program":  {title:"当日の流れ｜BUZZ BASE（BUZZBASE MEETUP VOL.04）", desc:"受付18:30から21:10のクロージングまで、BUZZBASE MEETUP VOL.04 当日の流れ。交流型ビンゴ MONSTER BINGO を使った、はじめてでも輪に入れる120分の進行をご案内します。"},
+  "/crew":     {title:"主催・運営メンバーと協賛｜BUZZ BASE", desc:"BUZZ BASE を運営するクルーの紹介と、メインスポンサー Traum、共催の STREET PV、協賛の TOPICO・にいみ農園といったパートナーのご紹介です。"},
+  "/guests":   {title:"出演ゲスト｜BUZZ BASE（BUZZBASE MEETUP）", desc:"これまでの BUZZBASE MEETUP にご出演いただいたゲストの皆さま。スポーツ、フィットネス、カルチャー、ビジネスと、畑の違う顔ぶれが一夜に集まります。"},
+  "/ticket":   {title:"参加費・招待枠｜BUZZ BASE（BUZZBASE MEETUP VOL.04）", desc:"インフルエンサー枠と経営者・役員枠の参加費、人数で変わるグループ料金、キャンセルポリシーをまとめています。BUZZBASE MEETUP VOL.04 の参加をご検討の方へ。"},
+  "/access":   {title:"開催概要・アクセス（2026.10.30 東京・池尻大橋 BPM）｜BUZZ BASE", desc:"BUZZBASE MEETUP VOL.04 の開催日時と会場。2026年10月30日（金）受付18:30／本編19:10〜21:10、会場は BPM（東京都世田谷区池尻2-31-24 信田ビル2F、池尻大橋駅すぐ）です。"},
+  "/company":  {title:"会社概要 株式会社紹継｜BUZZ BASE", desc:"BUZZ BASE を運営する株式会社紹継の会社概要。日本文化事業・SNS事業・イベント企画・クリエイター支援・コンテンツ制作を手がけています。"},
+  "/entry":    {title:"参加申込｜BUZZ BASE（BUZZBASE MEETUP VOL.04）", desc:"BUZZBASE MEETUP VOL.04 の参加申込について。お申し込みは専用フォームから。ご参加が確定した方にのみ、招待コードと当日のご案内をお送りします。"},
+  "/privacy":  {title:"プライバシーポリシー｜BUZZ BASE", desc:"BUZZ BASE（BUZZBASE MEETUP 運営事務局）がお預かりする個人情報の取り扱いについて。"},
+  "/notice":   {title:"会場変更のお知らせ（VOL.03）｜BUZZ BASE", desc:"BUZZBASE MEETUP VOL.03 の会場変更についてのお知らせです。"},
+  "/thanks":   {title:"お申し込みありがとうございます｜BUZZ BASE", desc:"BUZZBASE MEETUP へのお申し込みありがとうございます。運営で確認のうえ、ご参加が確定した方にご連絡いたします。"},
+  "/404":      {title:"ページが見つかりません｜BUZZ BASE", desc:"お探しのページは見つかりませんでした。BUZZ BASE のトップページからお探しください。"}
+};
 function render(){
   const path = currentPath();
   /* ページ内リンク（#main など）のときは描き直さない */
@@ -4318,25 +4338,7 @@ function render(){
   $$("[data-nav]").forEach(a => {
     if (a.dataset.nav === path) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
-  /* ページごとのタイトル。検索結果とブラウザのタブに出ます。 */
-  const TITLES = {
-    "/":        "BUZZBASE MEETUP VOL.04｜インフルエンサー×経営者の交流会（2026.10.30 東京・池尻大橋 ハロウィン）",
-    "/numbers": "イベントデータ｜BUZZBASE MEETUP VOL.04",
-    "/about":   "イベントについて｜インフルエンサーと経営者の交流会 BUZZBASE MEETUP",
-    "/program": "当日の流れ｜BUZZBASE MEETUP VOL.04",
-    "/crew":    "主催・運営メンバー｜BUZZBASE MEETUP",
-    "/guests":  "出演ゲスト｜BUZZBASE MEETUP VOL.04",
-    "/ticket":  "参加費・招待枠｜BUZZBASE MEETUP VOL.04",
-    "/access":  "開催概要（2026.10.30 東京・池尻大橋 BPM）｜BUZZBASE MEETUP VOL.04",
-    "/company": "会社概要 株式会社紹継｜BUZZBASE MEETUP",
-    "/entry":   "参加申込｜BUZZBASE MEETUP VOL.04",
-    "/privacy": "プライバシーポリシー｜BUZZBASE MEETUP",
-    "/notice":  "会場変更のお知らせ｜BUZZBASE MEETUP VOL.03",
-    "/report":  "開催レポート（2026.9.25 東京・渋谷）｜BUZZBASE MEETUP VOL.03",
-    "/thanks":  "お申し込みありがとうございます｜BUZZBASE MEETUP",
-    "/404":     "ページが見つかりません｜BUZZBASE MEETUP"
-  };
-  document.title = TITLES[path] || ((NAV.find(n=>n.href===path)?.label || "") + "｜BUZZBASE MEETUP");
+  document.title = (SEO[path] || {}).title || ((NAV.find(n=>n.href===path)?.label || "") + "｜BUZZ BASE");
   setupReveals(); setupCounters(); setupTeaser();
   if (path === "/entry") setupForm();
   window.scrollTo(0,0); onScroll();
