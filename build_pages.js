@@ -25,44 +25,22 @@ const DIR = __dirname;
 const ORIGIN = "https://buzzbase.net";
 const SERVE = "http://127.0.0.1:8905";
 
-/* 書き出すページ。説明文はそのページの中身に合わせて書いてください。 */
+/* 書き出すページ（URL と置き場所）。
+   タイトルと説明文は index.html の SEO という表から読みます。
+   文言を変えるときは index.html の SEO だけを直してください。 */
 const PAGES = [
-  { route:"/numbers", dir:"numbers",
-    title:"イベントデータ｜BUZZ BASE（BUZZBASE MEETUP）",
-    desc:"BUZZ BASE の規模を数字で。参加者の累計フォロワー数、開催回数、1回あたりの人数と本編120分。インフルエンサーと経営者が集まる招待制交流会 BUZZBASE MEETUP のイベントデータです。" },
-  { route:"/about", dir:"about",
-    title:"BUZZ BASE とは｜インフルエンサーと経営者の交流会について",
-    desc:"BUZZ BASE（バズベース）は、発信力のあるインフルエンサーと事業を動かす経営者・役員が集まる招待制の交流会です。2026年5月に東京で開始。何のための場で、どなたを招いているのかをご紹介します。" },
-  { route:"/report", dir:"report",
-    title:"開催レポート VOL.03（2026.9.25 東京・渋谷）｜BUZZ BASE",
-    desc:"BUZZBASE MEETUP VOL.03 の開催レポート。2026年9月25日、東京・渋谷におよそ100名のインフルエンサーと経営者が集まった一夜を、当日の流れと仕掛けとあわせてふりかえります。" },
-  { route:"/program", dir:"program",
-    title:"当日の流れ｜BUZZ BASE（BUZZBASE MEETUP VOL.04）",
-    desc:"受付18:30から21:10のクロージングまで、BUZZBASE MEETUP VOL.04 当日の流れ。交流型ビンゴ MONSTER BINGO を使った、はじめてでも輪に入れる120分の進行をご案内します。" },
-  { route:"/crew", dir:"crew",
-    title:"主催・運営メンバーと協賛｜BUZZ BASE",
-    desc:"BUZZ BASE を運営するクルーの紹介と、メインスポンサー Traum、共催の STREET PV、協賛の TOPICO・にいみ農園といったパートナーのご紹介です。" },
-  { route:"/guests", dir:"guests",
-    title:"出演ゲスト｜BUZZ BASE（BUZZBASE MEETUP）",
-    desc:"これまでの BUZZBASE MEETUP にご出演いただいたゲストの皆さま。スポーツ、フィットネス、カルチャー、ビジネスと、畑の違う顔ぶれが一夜に集まります。" },
-  { route:"/ticket", dir:"ticket",
-    title:"参加費・招待枠｜BUZZ BASE（BUZZBASE MEETUP VOL.04）",
-    desc:"インフルエンサー枠と経営者・役員枠の参加費、人数で変わるグループ料金、キャンセルポリシーをまとめています。BUZZBASE MEETUP VOL.04 の参加をご検討の方へ。" },
-  { route:"/access", dir:"access",
-    title:"開催概要・アクセス（2026.10.30 東京・池尻大橋 BPM）｜BUZZ BASE",
-    desc:"BUZZBASE MEETUP VOL.04 の開催日時と会場。2026年10月30日（金）受付18:30／本編19:10〜21:10、会場は BPM（東京都世田谷区池尻2-31-24 信田ビル2F、池尻大橋駅すぐ）です。" },
-  { route:"/company", dir:"company",
-    title:"会社概要 株式会社紹継｜BUZZ BASE",
-    desc:"BUZZ BASE を運営する株式会社紹継の会社概要。日本文化事業・SNS事業・イベント企画・クリエイター支援・コンテンツ制作を手がけています。" },
-  { route:"/entry", dir:"entry",
-    title:"参加申込｜BUZZ BASE（BUZZBASE MEETUP VOL.04）",
-    desc:"BUZZBASE MEETUP VOL.04 の参加申込について。お申し込みは専用フォームから。ご参加が確定した方にのみ、招待コードと当日のご案内をお送りします。" },
-  { route:"/privacy", dir:"privacy",
-    title:"プライバシーポリシー｜BUZZ BASE",
-    desc:"BUZZ BASE（BUZZBASE MEETUP 運営事務局）がお預かりする個人情報の取り扱いについて。" },
-  { route:"/notice", dir:"notice",
-    title:"会場変更のお知らせ（VOL.03）｜BUZZ BASE",
-    desc:"BUZZBASE MEETUP VOL.03 の会場変更についてのお知らせです。" }
+  { route:"/numbers", dir:"numbers" },
+  { route:"/about",   dir:"about"   },
+  { route:"/report",  dir:"report"  },
+  { route:"/program", dir:"program" },
+  { route:"/crew",    dir:"crew"    },
+  { route:"/guests",  dir:"guests"  },
+  { route:"/ticket",  dir:"ticket"  },
+  { route:"/access",  dir:"access"  },
+  { route:"/company", dir:"company" },
+  { route:"/entry",   dir:"entry"   },
+  { route:"/privacy", dir:"privacy" },
+  { route:"/notice",  dir:"notice"  }
 ];
 
 /* トップ以外から外す構造化データ（イベントと協賛各社はトップにだけ置く） */
@@ -128,8 +106,11 @@ function pageGraph(html, route, title, desc){
     await tab.keyboard.press("Escape");
     await tab.waitForTimeout(2600);
     const main = await tab.evaluate(() => document.getElementById("main").innerHTML);
+    const seo = await tab.evaluate(r => SEO[r] || null, p.route);
     await tab.close();
     if (errs.length) { console.error("!! " + p.route + " で JS エラー:", errs[0]); process.exit(1); }
+    if (!seo) { console.error("!! index.html の SEO に " + p.route + " がありません"); process.exit(1); }
+    p.title = seo.title; p.desc = seo.desc;
     if (!main || main.length < 400) { console.error("!! " + p.route + " の中身が空です"); process.exit(1); }
 
     let html = base;
@@ -161,11 +142,12 @@ function pageGraph(html, route, title, desc){
     await tab.keyboard.press("Escape");
     await tab.waitForTimeout(2600);
     const main = await tab.evaluate(() => document.getElementById("main").innerHTML);
+    const seo404 = await tab.evaluate(() => SEO["/404"] || null);
     await tab.close();
     if (!main || main.length < 300) { console.error("!! " + extra.route + " の中身が空です"); process.exit(1); }
     let html = base.replace('<main id="main"></main>', '<main id="main">' + main + "</main>");
     if (extra.route === "/404") {
-      html = html.replace(/<title>[\s\S]*?<\/title>/, "<title>ページが見つかりません｜BUZZ BASE</title>");
+      html = html.replace(/<title>[\s\S]*?<\/title>/, "<title>" + (seo404 ? seo404.title : "ページが見つかりません｜BUZZ BASE") + "</title>");
       html = html.replace(/<meta name="robots" content="[^"]*">/,
                           '<meta name="robots" content="noindex, follow">');
     }
