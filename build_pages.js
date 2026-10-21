@@ -91,6 +91,27 @@ function pageGraph(html, route, title, desc){
     a + JSON.stringify({ "@context": "https://schema.org", "@graph": graph }) + c);
 }
 
+/* よくある質問を、検索エンジンが読める形（FAQPage）でトップに足します。
+   文面は index.html の FAQ から自動で拾うので、二重に書く必要はありません。 */
+function withFaq(html, faq){
+  if (!faq || !faq.length) return html;
+  const re = /(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/;
+  const m = html.match(re);
+  if (!m) return html;
+  const data = JSON.parse(m[2]);
+  data["@graph"] = data["@graph"].filter(n => n["@type"] !== "FAQPage");
+  data["@graph"].push({
+    "@type": "FAQPage",
+    "@id": ORIGIN + "/#faq",
+    "mainEntity": faq.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  });
+  return html.replace(re, (_, a, __, c) => a + JSON.stringify(data) + c);
+}
+
 (async () => {
   /* 前回の書き出しが入っていても、まっさらな状態から組み直します。 */
   const base = fs.readFileSync(path.join(DIR, "index.html"), "utf8")
@@ -125,6 +146,9 @@ function pageGraph(html, route, title, desc){
                         '<link rel="canonical" href="' + ORIGIN + p.route + '/">');
     html = pageGraph(html, p.route, p.title, p.desc);
     html = html.replace('<main id="main"></main>', '<main id="main">' + main + "</main>");
+    /* トップの大きな写真はこのページには出ないので、先読みを外します
+       （出ない画像を読みにいくと、本文の表示がそのぶん遅くなります）。 */
+    html = html.replace(/[ \t]*<link rel="preload" as="image"[^>]*>\n/g, "");
     html = csp(html);
 
     fs.mkdirSync(path.join(DIR, p.dir), { recursive: true });
@@ -143,10 +167,13 @@ function pageGraph(html, route, title, desc){
     await tab.waitForTimeout(2600);
     const main = await tab.evaluate(() => document.getElementById("main").innerHTML);
     const seo404 = await tab.evaluate(() => SEO["/404"] || null);
+    const faq = await tab.evaluate(() => (typeof FAQ !== "undefined" ? FAQ : []));
     await tab.close();
     if (!main || main.length < 300) { console.error("!! " + extra.route + " の中身が空です"); process.exit(1); }
     let html = base.replace('<main id="main"></main>', '<main id="main">' + main + "</main>");
+    if (extra.route === "/") html = withFaq(html, faq);
     if (extra.route === "/404") {
+      html = html.replace(/[ \t]*<link rel="preload" as="image"[^>]*>\n/g, "");
       html = html.replace(/<title>[\s\S]*?<\/title>/, "<title>" + (seo404 ? seo404.title : "ページが見つかりません｜BUZZ BASE") + "</title>");
       html = html.replace(/<meta name="robots" content="[^"]*">/,
                           '<meta name="robots" content="noindex, follow">');
