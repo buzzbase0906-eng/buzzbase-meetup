@@ -11,7 +11,7 @@
 <meta name="keywords" content="インフルエンサー交流会,経営者交流会,異業種交流会,交流会,イベント,ミートアップ,MEETUP,BUZZBASE,BUZZ BASE,バズベース,ハンくん,はんくん,HANKUN,インフルエンサー,経営者,東京,池尻大橋,世田谷,ハロウィン,招待制">
 <!-- セキュリティ設定。CSP（content-security-policy）は build_gh.py が
      中身のハッシュを計算して自動で差し込みます。手で書き換えないでください。 -->
-<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-dXAQhzwp1gCmFwkuAPWuWghBzIel2LAV8KpmjCC+HGY=' 'sha256-SbHqWa1F+OUBF6YI/85nlwAy56SiolJO99lpLUlBxMk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="content-security-policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; script-src 'sha256-dXAQhzwp1gCmFwkuAPWuWghBzIel2LAV8KpmjCC+HGY=' 'sha256-u15XnoAYDq+FlHenojFEDRcnclZthSChDEhCSmApT/E='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://buzzbase.net/privacy/">
@@ -2926,6 +2926,31 @@ const ICON = {
   mail:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
   ok:'<svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>'
 };
+/* ── クリックジャッキング対策 ───────────────────────────────────
+   他人のサイトの枠（iframe）の中にこのページを埋め込み、
+   本物に見せかけて誤操作させる手口への備えです。
+   GitHub Pages では X-Frame-Options や frame-ancestors を付けられないため、
+   JavaScript 側で「別のサイトに埋め込まれていたら自分で外に出る」ようにしています。
+   埋め込みを許可したくなったら FRAME_GUARD を false にしてください。 */
+const FRAME_GUARD = true;
+(function guardFrame(){
+  if (!FRAME_GUARD) return;
+  if (window.top === window.self) return;          // 埋め込まれていない
+  try {
+    if (window.top.location.origin === window.self.location.origin) return;  // 自分のページ同士
+  } catch (e) { /* 別オリジン。読めないので先へ進む */ }
+  try { window.top.location.replace(window.self.location.href); return; }
+  catch (e) { /* 上の階層を動かせない場合は、中身を見せない */ }
+  document.documentElement.setAttribute("data-framed", "1");
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.innerHTML =
+      '<div style="font-family:system-ui,sans-serif;padding:40px;text-align:center">' +
+      '<p style="margin:0 0 14px">このページは別のサイトの中に表示されています。</p>' +
+      '<p style="margin:0"><a href="https://buzzbase.net/" target="_top" rel="noopener">' +
+      'BUZZ BASE の公式サイトを開く</a></p></div>';
+  });
+})();
+
 const store = {
   get(k){ try{ return localStorage.getItem(k) }catch(e){ return null } },
   set(k,v){ try{ localStorage.setItem(k,v) }catch(e){} }
